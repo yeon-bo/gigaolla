@@ -20,7 +20,7 @@
 - vscode나 텍스트에디터에서 작업할 폴더로 들어가서
 - ⭐️ git clone + __fork해서 가져온 각자 자신의 레포지토리 gigaolla 주소__ (⚠️ kimchulyeon 레포 주소 아닙니다!)
 - git branch 확인
-- develop branch 없을 시 __git flow init__ (git flow init은 팀원 각자 입력해서 feature branch를 만드는 것)
+- develop branch 없을 시 __git flow init__ (git flow init은 팀원 각자 입력해서 develop branch를 만드는 것)
 - git flow init하면 [main] 나오면 enter [develop] 나오면 끝까지 다 enter를 누른다
 - __⭐️ git flow feature start + 이름__  ex) git flow feature start test
 - 각자 작업을 하고....
