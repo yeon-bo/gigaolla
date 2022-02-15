@@ -20,5 +20,5 @@
 - git commit 커밋 작성  
 - 커밋 페이지에서 i 누르면 작성 가능, 작성이 끝나면 esc를 누르고 :wq 입력해서 커밋 완료
 - __git flow feature finish + 이름__
-- 자동으로 develop branch로 merge된다 / feature branch는 자동으로 삭제됨
+- 자동으로 develop branch로 merge된다 그리고 feature branch는 자동으로 삭제됨
 - ⭐️ 수정사항이 생기면 되도록이면 git flow feature를 사용해서 수정하는게 좋다 (develop에 바로 수정을 지양하는게 좋다)
