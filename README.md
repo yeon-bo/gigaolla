@@ -13,7 +13,7 @@
 
 ## 🔥 git 협업
 
-#### 처음 fork해서 git flow로 작업해서 pull request 보내는 과정
+### 처음 fork해서 git flow로 작업해서 pull request 보내는 과정
 
 - 선택사항: ( Kimchulyeon 레포에서 issues 작성하는거 연습해도 좋을거 같습니다 )
 - gigaolla 레포지토리를 fork해서 자신의 github 레포로 가져간다.
@@ -38,7 +38,9 @@
 - develop -> develop으로 보낸다 ( main X )
 - - title이랑 comment 편한 방법으로 작성해서 create pull requset 버튼 클릭
 
-#### ⭐️ 팀원들이 pull request되어 수정된 코드를 내려 받을 때 (업데이트된 코드를 가져오기)
+---
+
+### 팀원들이 pull request되어 수정된 코드를 내려 받을 때 (업데이트된 코드를 가져오기)
 
 - kimchulyeon 레포에서 주소를 복사한다
 - __git remote add upstream + 복사한 주소__ ( kimchulyeon의 레포 주소를 upstream으로 설정 )
