@@ -1,70 +1,24 @@
-# Getting Started with Create React App
+#  📊 데이터 올라운더, ‘기가 올라'
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. 어떤 회사인가?
+- 스마트 캠퍼스 및 교육 컨텐츠 유통 플랫폼 구축사업을 전문으로 하는 회사
+2. 어떤 서비스인가?
+- 핵심성과지표 및 차트를 통해 직렬별 재학생의 학습 현황을 파악하고 효율적인 관리자 운영을 지원하는 서비스
+3. 어떤 점이 디자인적으로 기술적으로 어려움이 될 것 같은가?
+- 데이터를 시각적으로 보여주는 효과적인 그래프를 선택하기가 어려울 것 같다.
+- 필터 요구가 많음
+- 비포 애프터 그래프
+4. 가장 중요할 것 같은 기능은 무엇인가?
+- 데이터를 적재적소에 잘 배치하는 것
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 🔥 git 협업
+- git branch 확인
+- develop branch 없을 시 __git flow init__
+- __git flow feature start + 이름__  ex) git flow feature start test
+- 작업하고....
+- git add .  또는  git add 파일 명
+- git commit 커밋 작성  
+- 커밋 페이지에서 i 누르면 작성 가능, 작성이 끝나면 esc를 누르고 :wq 입력해서 커밋 완료
+- __git flow feature finish + 이름__
+- 자동으로 develop branch로 merge된다 / feature branch는 자동으로 삭제됨
+- ⭐️ 수정사항이 생기면 되도록이면 git flow feature를 사용해서 수정하는게 좋다 (develop에 바로 수정을 지양하는게 좋다)
