@@ -170,7 +170,7 @@ const OverviewCard = () => {
     <Cont>
       <ClassName>경찰직</ClassName>
       <IconCont>
-        <Icon src={PoliceIcon} alt="policeIcon" />
+        <Icon src={PoliceIcon} alt="policeIcon" fill="#FFF" />
       </IconCont>
       <StudentCounterCont>
         <StudentCounter>
