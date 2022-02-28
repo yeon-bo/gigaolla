@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
+//Class page 재학생, 응시생, 응시율... 카드
 const SummaryCard = ({ Title }) => {
+  // 전체 페이지 Wrap
   const Cont = styled.div`
     position: relative;
     padding: 2.38em 1.19em;
@@ -16,17 +18,20 @@ const SummaryCard = ({ Title }) => {
       margin-left: 1.88em;
     }
   `;
+  // 정렬 Wrap
   const TextCont = styled.div`
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
   `;
+  //'재학생', '응시생', '응시율'... Text
   const TextName = styled.span`
     font-size: 1.25em;
     line-height: 1.69rem;
     color: #8898aa;
   `;
+  // '00명', '+0명' Wrap
   const TextCountCont = styled.div`
     position: absolute;
     display: flex;
@@ -34,6 +39,7 @@ const SummaryCard = ({ Title }) => {
     right: 0;
     top: 2.38em;
   `;
+  // '00명' Wrap
   const TextCount = styled.div`
     display: flex;
     align-items: center;
@@ -41,12 +47,14 @@ const SummaryCard = ({ Title }) => {
     line-height: 1.38rem;
     color: #999999;
   `;
+  // '00명'의 숫자 Text
   const TextNumber = styled.span`
     font-weight: bold;
     font-size: 2em;
     line-height: 2.75rem;
     color: #050505;
   `;
+  // '+3명' Text
   const TextIncrease = styled.span`
     font-weight: bold;
     font-size: 0.94em;
