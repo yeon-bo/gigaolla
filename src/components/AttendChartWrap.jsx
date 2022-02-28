@@ -3,11 +3,12 @@ import styled from "styled-components";
 
 import CardTemplate from "./CardTemplate";
 
-const AverageChart = () => {
+const AttendChartWrap = () => {
+    // 응시율 Wrap
   const Cont = styled.div`
     width: 100%;
-    height: 100%;
   `;
+  // Element 대신 Chart를 넣어주시면 됩니다. MaxScore 참조
   const Element = styled.div`
     width: 90%;
     height: 23em;
@@ -16,9 +17,10 @@ const AverageChart = () => {
   `;
   return (
     <Cont>
+        {/* 카드 테두리 Components */}
       <CardTemplate
         Element={Element}
-        Name={"평균점수"}
+        Name={"응시율"}
         Count={"+ 2.1%"}
         Info={" 전달 대비 응시율"}
       />
@@ -26,4 +28,4 @@ const AverageChart = () => {
   );
 };
 
-export default AverageChart;
+export default AttendChartWrap;

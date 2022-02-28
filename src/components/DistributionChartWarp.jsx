@@ -3,11 +3,12 @@ import styled from "styled-components";
 
 import CardTemplate from "./CardTemplate";
 
-const AttendChart = () => {
+const DistributionChartWarp = () => {
+    //점수대별 인원 Wrap
   const Cont = styled.div`
     width: 100%;
-    height: 100%;
   `;
+  // Element 대신 Chart를 넣어주시면 됩니다. MaxScore 참조
   const Element = styled.div`
     width: 90%;
     height: 23em;
@@ -16,14 +17,10 @@ const AttendChart = () => {
   `;
   return (
     <Cont>
-      <CardTemplate
-        Element={Element}
-        Name={"응시율"}
-        Count={"+ 2.1%"}
-        Info={" 전달 대비 응시율"}
-      />
+      {/* 카드 테두리 Components */}
+      <CardTemplate Element={Element} Name={"점수대별 인원"} Info={"2022-02"} />
     </Cont>
   );
 };
 
-export default AttendChart;
+export default DistributionChartWarp;

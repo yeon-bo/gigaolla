@@ -5,14 +5,17 @@ import Navigation from "../components/Navigation";
 import OverviewCard from "../components/OverviewCard";
 
 const Home = () => {
+  // 전체 페이지 Wrap
   const Background = styled.div`
     width: 100%;
   `;
+  // 네비게이션 제외 내용 Wrap
   const Cont = styled.div`
     margin-top: 7.5em;
     margin-left: 19.69em;
     padding: 0 2.5em;
   `;
+  // OVERVIEW
   const Title = styled.span`
     display: flex;
     justify-content: flex-start;
@@ -24,12 +27,14 @@ const Home = () => {
     line-height: 1.61rem;
     color: #5d5fef;
   `;
+  // OverviewCard Wrap
   const CardCont = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 9.63em;
   `;
+  // Chart Wrap
   const ChartCont = styled.div`
     max-width: 82.5em;
     height: 37.25em;

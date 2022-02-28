@@ -6,6 +6,7 @@ import idIcon from "../image/Username.svg";
 import passwordIcon from "../image/Password.svg";
 
 const Login = () => {
+  // 전체 페이지 Wrap
   const Background = styled.div`
     position: relative;
     min-height: 100vh;
@@ -13,30 +14,36 @@ const Login = () => {
     align-items: center;
     justify-content: center;
   `;
+  // 로그인 wrap
   const Cont = styled.div`
     position: absolute;
     max-width: 20.5em;
     margin: 0 3em;
   `;
+  // Logo Img
   const LogoImg = styled.img`
     max-width: 100%;
   `;
+  // Login Wrap
   const LoginCont = styled.div`
     position: relative;
     max-width: 18.75em;
     height: 12.38em;
     margin: 3.48em auto 0;
   `;
+  // Input Wrap
   const InputCont = styled.div`
     + div {
       margin-top: 1.25em;
     }
   `;
+  // Icon
   const Icon = styled.img`
     position: absolute;
     margin-left: 0.75em;
     margin-top: 0.75em;
   `;
+  // Input
   const Input = styled.input`
     width: 100%;
     height: 2.81rem;
@@ -53,6 +60,7 @@ const Login = () => {
       text-transform: uppercase;
     }
   `;
+  // Button
   const Button = styled.button`
     position: absolute;
     bottom: 0;
