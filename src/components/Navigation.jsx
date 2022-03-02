@@ -396,7 +396,11 @@ function Navigation() {
                 onMouseOver={() => setAdminIconHover(true)}
                 onMouseOut={() => setAdminIconHover(false)}
               >
-                <Link to="/class" className="link admin" onClick={onClickAdmin}>
+                <Link
+                  to="/administration"
+                  className="link admin"
+                  onClick={onClickAdmin}
+                >
                   <img
                     src={adminIconHover ? adminColor : admin}
                     alt="menu"
