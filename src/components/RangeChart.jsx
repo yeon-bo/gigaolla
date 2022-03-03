@@ -95,21 +95,21 @@ const RangeChart = ({ year, month }) => {
         datasets: [
           {
             label: '경찰학',
-            data: policeRangeData.map((item) => item.COUNT),
+            data: [].map((item) => item.COUNT),
             borderColor: '#FBA869',
             backgroundColor: '#FBA869',
             pointBorderWidth: 4,
           },
           {
             label: '형사법',
-            data: criminalRangeData.map((item) => item.COUNT),
+            data: [].map((item) => item.COUNT),
             borderColor: '#42C366',
             backgroundColor: '#42C366',
             pointBorderWidth: 4,
           },
           {
             label: '헌법',
-            data: lawRangeData.map((item) => item.COUNT),
+            data: [].map((item) => item.COUNT),
             borderColor: '#70A6E8',
             backgroundColor: '#70A6E8',
             pointBorderWidth: 4,
