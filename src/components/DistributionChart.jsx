@@ -68,11 +68,8 @@ const labels = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, '100 (점)']
 //컴포..
 const DistributionChart = () => {
   const params = useParams()
-
-  const SUBJECT = params.subject
-  let CLASS = params.number
-
-  console.log(SUBJECT, CLASS)
+  const SERIES = params.subject
+  const CLASS = params.number
 
   const [policeSubjectData, setPoliceSubjectData] = useState([])
   const [criminalSubjectData, setCriminalSubjectData] = useState([])
@@ -80,7 +77,7 @@ const DistributionChart = () => {
 
   useEffect(() => {
     ;(async () => {
-      if (params.number === undefined) {
+      if (!params.number) {
         const response = await fetch(
           'https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=2021&mm=12&subject=경찰학'
         )
@@ -88,7 +85,7 @@ const DistributionChart = () => {
         setPoliceSubjectData(result)
       } else {
         const response = await fetch(
-          `https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=2021&mm=12&subject=경찰학&class=경찰&classn=${CLASS}`
+          `https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=2021&mm=12&subject=경찰학&class=${SERIES}&classn=${CLASS}`
         )
         const { result } = await response.json()
         setPoliceSubjectData(result)
@@ -97,20 +94,36 @@ const DistributionChart = () => {
   }, [])
   useEffect(() => {
     ;(async () => {
-      const response = await fetch(
-        'https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=2021&mm=12&subject=형사법'
-      )
-      const { result } = await response.json()
-      setCriminalSubjectData(result)
+      if (!params.number) {
+        const response = await fetch(
+          'https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=2021&mm=12&subject=형사법'
+        )
+        const { result } = await response.json()
+        setCriminalSubjectData(result)
+      } else {
+        const response = await fetch(
+          `https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=2021&mm=12&subject=형사법&class=${SERIES}&classn=${CLASS}`
+        )
+        const { result } = await response.json()
+        setCriminalSubjectData(result)
+      }
     })()
   }, [])
   useEffect(() => {
     ;(async () => {
-      const response = await fetch(
-        'https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=2021&mm=12&subject=헌법'
-      )
-      const { result } = await response.json()
-      setLawSubjectData(result)
+      if (!params.number) {
+        const response = await fetch(
+          'https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=2021&mm=12&subject=헌법'
+        )
+        const { result } = await response.json()
+        setLawSubjectData(result)
+      } else {
+        const response = await fetch(
+          `https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=2021&mm=12&subject=헌법&class=${SERIES}&classn=${CLASS}`
+        )
+        const { result } = await response.json()
+        setLawSubjectData(result)
+      }
     })()
   }, [])
 
