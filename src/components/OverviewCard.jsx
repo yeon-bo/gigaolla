@@ -8,17 +8,26 @@ const OverviewCard = ({ Class, Color }) => {
   const [totalStudent, setTotalStudent] = useState("");
   const [attendStudent, setAttendStudent] = useState("");
   const [totalScore, setTotalScore] = useState("");
+  const [lastTotalScore, setLastTotalScore] = useState("");
+  const [topTotalScore, setTopTotalScore] = useState("");
 
   const fetchData = async () => {
     let today = new Date();
     let year = today.getFullYear();
+    let lastMonth = today.getMonth();
     let month = today.getMonth() + 1;
     // const totalUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${Class}`;
     const totalUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTotalStudentsByMonth.php?yyyy=2021&mm=12&class=${Class}`;
     // const testedUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${Class}`;
     const attendedUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTestedStudentsByMonth.php?yyyy=2021&mm=12&class=${Class}`;
     // const ScoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php?%20yyyy=${year}&mm=${month}&series=${Class}`;
-    const ScoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php?%20yyyy=2021&mm=12&series=${Class}`;
+    const scoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php?%20yyyy=2021&mm=12&series=${Class}`;
+    // const lastScoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php?%20yyyy=${year}&mm=${lastMonth}&series=${Class}`;
+    const lastScoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php?%20yyyy=2021&mm=11&series=${Class}`;
+    // const TopScoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesTopLowPerByMonth.php?yyyy=${year}&mm=${month}&toplow=top&per=10&series=${Class}`;
+    const TopScoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesTopLowPerByMonth.php?yyyy=2021&mm=12&toplow=top&per=10&series=${Class}`;
+    // const LowScoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesTopLowPerByMonth.php?yyyy=${year}&mm=${month}&toplow=low&per=10&series=${Class}`;
+    const LowScoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesTopLowPerByMonth.php?yyyy=2021&mm=12&toplow=low&per=10&series=${Class}`;
 
     await axios.get(totalUrl).then((res) => {
       if (res.data.code === "001") {
@@ -36,9 +45,25 @@ const OverviewCard = ({ Class, Color }) => {
       }
     });
 
-    await axios.get(ScoreUrl).then((res) => {
+    await axios.get(scoreUrl).then((res) => {
       if (res.data.code === "001") {
         setTotalScore(Math.round(res.data.result[0].AVG));
+      } else {
+        return;
+      }
+    });
+
+    await axios.get(lastScoreUrl).then((res) => {
+      if (res.data.code === "001") {
+        setLastTotalScore(Math.round(res.data.result[0].AVG));
+      } else {
+        return;
+      }
+    });
+
+    await axios.get(TopScoreUrl).then((res) => {
+      if (res.data.code === "001") {
+        setTopTotalScore(Math.round(res.data.result[0].AVG));
       } else {
         return;
       }
@@ -47,6 +72,12 @@ const OverviewCard = ({ Class, Color }) => {
 
   const TestRate = Math.floor(
     (parseInt(attendStudent) / parseInt(totalStudent)) * 100
+  );
+  const TestMinusLast = Math.floor(
+    parseInt(totalScore) - parseInt(lastTotalScore)
+  );
+  const TestIncrease = Math.floor(
+    (parseInt(totalScore) / parseInt(lastTotalScore)) * 100
   );
 
   useEffect(() => {
@@ -251,18 +282,23 @@ const OverviewCard = ({ Class, Color }) => {
             <Score>
               <ScoreNumber>{totalScore}</ScoreNumber>점
             </Score>
-            <ScoreIncrease>+2.5점</ScoreIncrease>
+            <ScoreIncrease>
+              {TestMinusLast >= 0 ? `+${TestMinusLast}` : `-${TestMinusLast}`}점
+            </ScoreIncrease>
           </ScoreCont>
           <ScoreCont>
             <ScoreName>점수향상</ScoreName>
             <Score>
-              <ScoreNumber>+24.5</ScoreNumber>%
+              <ScoreNumber>
+                {TestIncrease >= 0 ? `+${TestIncrease}` : -`${TestIncrease}`}
+              </ScoreNumber>
+              %
             </Score>
           </ScoreCont>
           <ScoreCont>
             <ScoreName>상위10%</ScoreName>
             <Score>
-              <ScoreNumber>+30</ScoreNumber>%
+              <ScoreNumber>{topTotalScore}</ScoreNumber>%
             </Score>
           </ScoreCont>
           <ScoreCont>
