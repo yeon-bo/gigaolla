@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 // icon link
-import logo from "../image/ollalogo.svg";
-import menu from "../image/menu_gray.svg";
-import menuColor from "../image/menu_color.svg";
-import police from "../image/police_gray.svg";
-import policeColor from "../image/police_color.svg";
-import fire from "../image/fire_gray.svg";
-import fireColor from "../image/fire_color.svg";
-import admin from "../image/admin_gray.svg";
-import adminColor from "../image/admin_color.svg";
-import checklist from "../image/checklist_gray.svg";
-import calendar from "../image/calendar.svg";
-import logout from "../image/logout.svg";
+import logo from '../image/ollalogo.svg'
+import menu from '../image/menu_gray.svg'
+import menuColor from '../image/menu_color.svg'
+import police from '../image/police_gray.svg'
+import policeColor from '../image/police_color.svg'
+import fire from '../image/fire_gray.svg'
+import fireColor from '../image/fire_color.svg'
+import admin from '../image/admin_gray.svg'
+import adminColor from '../image/admin_color.svg'
+import checklist from '../image/checklist_gray.svg'
+import calendar from '../image/calendar.svg'
+import logout from '../image/logout.svg'
 
 // calender
 import DatePicker from "react-datepicker";
@@ -304,7 +304,7 @@ function Navigation({ onMouseOver, onMouseOut }) {
   const [adminIconHover, setAdminIconHover] = useState(false);
 
   // 일정관리 라이브러리
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date())
 
   return (
     <div>
@@ -479,11 +479,7 @@ function Navigation({ onMouseOver, onMouseOut }) {
             {/* 일정관리 */}
             <div className="checklistContainer">
               <Link to="/" className="link">
-                <img
-                  src={checklist}
-                  alt="checklist"
-                  className="checklisticon"
-                />
+                <img src={checklist} alt="checklist" className="checklisticon" />
                 <span>일정관리</span>
               </Link>
             </div>
@@ -518,7 +514,7 @@ function Navigation({ onMouseOver, onMouseOut }) {
         </div>
       </StyledNavigation>
     </div>
-  );
+  )
 }
 
-export default Navigation;
+export default Navigation
