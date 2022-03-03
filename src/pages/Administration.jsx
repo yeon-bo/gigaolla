@@ -13,8 +13,9 @@ const Administration = () => {
     width: 100%;
   `;
   const Cont = styled.div`
-    margin-left: 19.69em;
     margin-bottom: 7.63em;
+    margin-left: 19.69em;
+    padding: 0 2.5em;
   `;
   const MessageCont = styled.div`
     width: 82.81em;
@@ -44,6 +45,7 @@ const Administration = () => {
     margin-top: 3.75em;
   `;
   const ChartCont = styled.div`
+    position: relative;
     max-width: 82.5em;
     margin: 0 auto;
     padding-top: 5em;
@@ -53,12 +55,6 @@ const Administration = () => {
     font-size: 1.63em;
     line-height: 2.19rem;
     margin-bottom: 3.13rem;
-  `;
-  const Chart2Cont = styled.div`
-    max-width: 82.5em;
-    height: 37.25em;
-    margin: 0 auto;
-    padding-top: 5em;
   `;
   const Chart2 = styled.div`
     display: flex;
@@ -85,13 +81,13 @@ const Administration = () => {
           <ChartName>응시지표</ChartName>
           <AttendChartWrap />
         </ChartCont>
-        <Chart2Cont>
+        <ChartCont>
           <ChartName>점수지표</ChartName>
           <Chart2>
             <MaxScoreWrap />
             <AverageChartWrap />
           </Chart2>
-        </Chart2Cont>
+        </ChartCont>
         <ChartCont>
           <ChartName>점수대별 인원수</ChartName>
           <DistributionChartWarp />
