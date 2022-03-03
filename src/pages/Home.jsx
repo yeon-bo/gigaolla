@@ -50,11 +50,6 @@ const Home = () => {
       width: 100%;
     }
   `;
-  const Chart = styled.div`
-    width: 100%;
-    height: 100%;
-    background: #ddd;
-  `;
   return (
     <Background>
       <Navigation />
@@ -62,9 +57,9 @@ const Home = () => {
         <Title>OVERVIEW</Title>
         <CardCont>
           <CardWrap>
-            <OverviewCard Class={"경찰직"} API={"경찰"} Color={"#21468d"} />
-            <OverviewCard Class={"소방직"} API={"소방"} Color={"#fd4f3a"} />
-            <OverviewCard Class={"행정직"} API={"행정"} Color={"#257e0e"} />
+            <OverviewCard Class={"경찰"} Color={"#21468d"} />
+            <OverviewCard Class={"소방"} Color={"#fd4f3a"} />
+            <OverviewCard Class={"행정"} Color={"#257e0e"} />
           </CardWrap>
         </CardCont>
         <ChartCont>

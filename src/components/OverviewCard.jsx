@@ -1,44 +1,58 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import styled from "styled-components";
 
 import PoliceIcon from "../image/PoliceIcon.svg";
 
-const OverviewCard = ({ Class, Color, API }) => {
-  const [loading, setLoading] = useState("");
-  const [allStudent, setAllStudent] = useState("");
+const OverviewCard = ({ Class, Color }) => {
+  const [totalStudent, setTotalStudent] = useState("");
   const [attendStudent, setAttendStudent] = useState("");
-  const fetchDataAllStudent = async () => {
-    try {
-      const response = await fetch(
-        `https://kimcodi.kr/external_api/dashboard/numberOfTotalStudentsByMonth.php?yyyy=2021&mm=12&class=${API}`
-      );
-      const data = await response.json();
-      setAllStudent(data.result[0].STUDENT_COUNT);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
+  const [totalScore, setTotalScore] = useState("");
+
+  const fetchData = async () => {
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    // const totalUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${Class}`;
+    const totalUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTotalStudentsByMonth.php?yyyy=2021&mm=12&class=${Class}`;
+    // const testedUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${Class}`;
+    const attendedUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTestedStudentsByMonth.php?yyyy=2021&mm=12&class=${Class}`;
+    // const ScoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php?%20yyyy=${year}&mm=${month}&series=${Class}`;
+    const ScoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php?%20yyyy=2021&mm=12&series=${Class}`;
+
+    await axios.get(totalUrl).then((res) => {
+      if (res.data.code === "001") {
+        setTotalStudent(res.data.result[0].STUDENT_COUNT);
+      } else {
+        return;
+      }
+    });
+
+    await axios.get(attendedUrl).then((res) => {
+      if (res.data.code === "001") {
+        setAttendStudent(res.data.result[0].STUDENT_COUNT);
+      } else {
+        return;
+      }
+    });
+
+    await axios.get(ScoreUrl).then((res) => {
+      if (res.data.code === "001") {
+        setTotalScore(Math.round(res.data.result[0].AVG));
+      } else {
+        return;
+      }
+    });
   };
-  const fetchDataAttendStudent = async () => {
-    try {
-      const response = await fetch(
-        `https://kimcodi.kr/external_api/dashboard/numberOfTestedStudentsByMonth.php?yyyy=2021&mm=12&class=${API}`
-      );
-      const data = await response.json();
-      setAttendStudent(data.result[0].STUDENT_COUNT);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   const TestRate = Math.floor(
-    (parseInt(attendStudent) / parseInt(allStudent)) * 100
+    (parseInt(attendStudent) / parseInt(totalStudent)) * 100
   );
+
   useEffect(() => {
-    fetchDataAllStudent();
-    fetchDataAttendStudent();
+    fetchData();
   }, []);
+
   const ContWrap = styled.div`
     position: relative;
     box-sizing: border-box;
@@ -197,70 +211,68 @@ const OverviewCard = ({ Class, Color, API }) => {
   `;
   return (
     <ContWrap>
-      {loading ? null : (
-        <Cont>
-          <ClassName>{Class}</ClassName>
-          <IconCont>
-            <Icon src={PoliceIcon} alt="policeIcon" fill="#FFF" />
-          </IconCont>
-          <StudentCounterCont>
-            <StudentCounter>
-              <Student>재학생</Student>
-              <Counter>
-                <Number>{allStudent}</Number>명
-              </Counter>
-              <Increase>+123명</Increase>
-            </StudentCounter>
-            <StudentCounter>
-              <Line></Line>
-              <Student>응시생</Student>
-              <Counter>
-                <Number>{attendStudent}</Number>명
-              </Counter>
-              <Increase>+3명</Increase>
-            </StudentCounter>
-            <StudentCounter>
-              <Student>응시율</Student>
-              <Chart></Chart>
-              <ChartScoreCont>
-                <ScoreCont>
-                  <Score>
-                    <ScoreNumber>{TestRate}</ScoreNumber>%
-                  </Score>
-                  <ScoreIncrease>+2.5%</ScoreIncrease>
-                </ScoreCont>
-              </ChartScoreCont>
-            </StudentCounter>
-          </StudentCounterCont>
-          <ScoreAllCont>
-            <ScoreCont>
-              <ScoreName>평균점수</ScoreName>
-              <Score>
-                <ScoreNumber>89</ScoreNumber>점
-              </Score>
-              <ScoreIncrease>+2.5점</ScoreIncrease>
-            </ScoreCont>
-            <ScoreCont>
-              <ScoreName>점수향상</ScoreName>
-              <Score>
-                <ScoreNumber>+24.5</ScoreNumber>%
-              </Score>
-            </ScoreCont>
-            <ScoreCont>
-              <ScoreName>상위10%</ScoreName>
-              <Score>
-                <ScoreNumber>+30</ScoreNumber>%
-              </Score>
-            </ScoreCont>
-            <ScoreCont>
-              <ScoreName>하위10%</ScoreName>
-              <Score>
-                <ScoreNumber>-20</ScoreNumber>%
-              </Score>
-            </ScoreCont>
-          </ScoreAllCont>
-        </Cont>
-      )}
+      <Cont>
+        <ClassName>{Class}직</ClassName>
+        <IconCont>
+          <Icon src={PoliceIcon} alt="policeIcon" fill="#FFF" />
+        </IconCont>
+        <StudentCounterCont>
+          <StudentCounter>
+            <Student>재학생</Student>
+            <Counter>
+              <Number>{totalStudent}</Number>명
+            </Counter>
+            <Increase>+123명</Increase>
+          </StudentCounter>
+          <StudentCounter>
+            <Line></Line>
+            <Student>응시생</Student>
+            <Counter>
+              <Number>{attendStudent}</Number>명
+            </Counter>
+            <Increase>+3명</Increase>
+          </StudentCounter>
+          <StudentCounter>
+            <Student>응시율</Student>
+            <Chart></Chart>
+            <ChartScoreCont>
+              <ScoreCont>
+                <Score>
+                  <ScoreNumber>{TestRate}</ScoreNumber>%
+                </Score>
+                <ScoreIncrease>+2.5%</ScoreIncrease>
+              </ScoreCont>
+            </ChartScoreCont>
+          </StudentCounter>
+        </StudentCounterCont>
+        <ScoreAllCont>
+          <ScoreCont>
+            <ScoreName>평균점수</ScoreName>
+            <Score>
+              <ScoreNumber>{totalScore}</ScoreNumber>점
+            </Score>
+            <ScoreIncrease>+2.5점</ScoreIncrease>
+          </ScoreCont>
+          <ScoreCont>
+            <ScoreName>점수향상</ScoreName>
+            <Score>
+              <ScoreNumber>+24.5</ScoreNumber>%
+            </Score>
+          </ScoreCont>
+          <ScoreCont>
+            <ScoreName>상위10%</ScoreName>
+            <Score>
+              <ScoreNumber>+30</ScoreNumber>%
+            </Score>
+          </ScoreCont>
+          <ScoreCont>
+            <ScoreName>하위10%</ScoreName>
+            <Score>
+              <ScoreNumber>-20</ScoreNumber>%
+            </Score>
+          </ScoreCont>
+        </ScoreAllCont>
+      </Cont>
     </ContWrap>
   );
 };
