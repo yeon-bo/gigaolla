@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import Navigation from "../components/Navigation";
 import OverviewCard from "../components/OverviewCard";
+import HomeAttendChartWrap from "../components/HomeAttendChartWrap";
 
 const Home = () => {
   // 전체 페이지 Wrap
@@ -41,6 +42,14 @@ const Home = () => {
     margin: 0 auto;
     margin-bottom: 14em;
   `;
+  const CardWrap = styled.div`
+    width: 82.81em;
+    display: flex;
+    justify-content: space-between;
+    @media screen and (max-width: 1712px) {
+      width: 100%;
+    }
+  `;
   const Chart = styled.div`
     width: 100%;
     height: 100%;
@@ -52,12 +61,14 @@ const Home = () => {
       <Cont>
         <Title>OVERVIEW</Title>
         <CardCont>
-          <OverviewCard />
-          <OverviewCard />
-          <OverviewCard />
+          <CardWrap>
+            <OverviewCard Class={"경찰직"} API={"경찰"} Color={"#21468d"} />
+            <OverviewCard Class={"소방직"} API={"소방"} Color={"#fd4f3a"} />
+            <OverviewCard Class={"행정직"} API={"행정"} Color={"#257e0e"} />
+          </CardWrap>
         </CardCont>
         <ChartCont>
-          <Chart />
+          <HomeAttendChartWrap />
         </ChartCont>
       </Cont>
     </Background>
