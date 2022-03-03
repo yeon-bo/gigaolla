@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import CardTemplate from './CardTemplate'
-import RangeChart from './RangeChart'
+import DistributionChart from './DistributionChart'
 
 const DistributionChartWarp = () => {
   //점수대별 인원 Wrap
@@ -18,7 +18,12 @@ const DistributionChartWarp = () => {
   return (
     <Cont>
       {/* 카드 테두리 Components */}
-      <CardTemplate Element={RangeChart} Name={'점수대별 인원'} year="2022" month="2" />
+      <CardTemplate
+        Element={DistributionChart}
+        Name={'점수대별 인원'}
+        year="2022"
+        month="2"
+      />
     </Cont>
   )
 }
