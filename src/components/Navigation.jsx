@@ -324,22 +324,22 @@ function Navigation() {
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=police&classn=1">
+                        <Link className="lnblink" to="/class=police/classn=1">
                           <p>1반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=police&classn=2">
+                        <Link className="lnblink" to="/class=police/classn=2">
                           <p>2반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=police&classn=3">
+                        <Link className="lnblink" to="/class=police/classn=3">
                           <p>3반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=police&classn=5">
+                        <Link className="lnblink" to="/class=police/classn=5">
                           <p>5반</p>
                         </Link>
                       </li>
@@ -375,17 +375,17 @@ function Navigation() {
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=fire&classn=1">
+                        <Link className="lnblink" to="/class=fire/classn=1">
                           <p>1반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=fire&classn=2">
+                        <Link className="lnblink" to="/class=fire/classn=2">
                           <p>2반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=fire&classn=3">
+                        <Link className="lnblink" to="/class=fire/classn=3">
                           <p>3반</p>
                         </Link>
                       </li>
@@ -421,17 +421,17 @@ function Navigation() {
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=admin&classn=1">
+                        <Link className="lnblink" to="/class=admin/classn=1">
                           <p>1반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=admin&classn=2">
+                        <Link className="lnblink" to="/class=admin/classn=2">
                           <p>2반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=admin&classn=3">
+                        <Link className="lnblink" to="/class=admin/classn=3">
                           <p>3반</p>
                         </Link>
                       </li>
