@@ -59,12 +59,8 @@ const StyledNavigation = styled.div`
       li {
         position: relative;
         width: 100%;
-
         list-style: none;
-
         .link {
-          /* position: relative; */
-          display: block;
           width: 286px;
           display: flex;
           text-decoration: none;
@@ -74,6 +70,7 @@ const StyledNavigation = styled.div`
             border-top-left-radius: 30px;
             border-bottom-left-radius: 30px;
           }
+
           .menutext {
             &:hover {
               color: #5d5fef;
@@ -277,7 +274,6 @@ const MidLine = styled.div`
 `;
 // 서브 네비게이션 보여주는 기능
 // (다른 직렬을 선택하면 열려있는 직렬서브 네비 닫힘)
-// 클릭시 css 고정
 function Navigation({ onMouseOver, onMouseOut }) {
   const [policeShow, setPoliceShow] = useState();
   const onClickPolice = (e) => {
@@ -297,6 +293,9 @@ function Navigation({ onMouseOver, onMouseOut }) {
     setPoliceShow(false);
     setFireShow(false);
   };
+  // 클릭시 gnb css 고정
+  const [fixBackground, setFixBackground] = useState(false);
+  const showFix = () => setFixBackground(!fixBackground);
 
   const [menuIconHover, setMenuIconHover] = useState(false);
   const [policeIconHover, setPoliceIconHover] = useState(false);
@@ -317,11 +316,15 @@ function Navigation({ onMouseOver, onMouseOut }) {
             <ul>
               {/* 전체개요 */}
               <li
-                className="gnb"
+                className=""
                 onMouseOver={() => setMenuIconHover(true)}
                 onMouseOut={() => setMenuIconHover(false)}
               >
-                <Link to="/" className="link">
+                <Link
+                  to="/"
+                  className={fixBackground ? "link activeBg" : "link"}
+                  onClick={showFix}
+                >
                   <img
                     src={menuIconHover ? menuColor : menu}
                     alt="menu"
