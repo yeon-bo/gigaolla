@@ -18,6 +18,7 @@ import logout from "../image/logout.svg";
 
 // calender
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 // import { generateMedia } from "styled-media-query";
 
@@ -34,7 +35,7 @@ const StyledNavigation = styled.div`
     --admin-color: #257e0e;
   } */
   font-family: "Noto Sans KR", sans-serif;
-  min-height: 100%;
+  /* min-height: 100vh; */
   overflow-x: hidden;
   .container {
     position: relative;
@@ -58,23 +59,28 @@ const StyledNavigation = styled.div`
       li {
         position: relative;
         width: 100%;
-        /* 높이값을 주면 border-bottom-left-radius형태가 유지되지만... 
-        그럼 서브 메뉴가 안늘어나요.. */
+
         list-style: none;
-        border-top-left-radius: 30px;
-        border-bottom-left-radius: 30px;
-        &:hover {
-          background: #fff;
-        }
+
         .link {
-          position: relative;
+          /* position: relative; */
           display: block;
-          width: 100%;
+          width: 286px;
           display: flex;
           text-decoration: none;
           color: #c7c7c7;
+          &:hover {
+            background: #fff;
+            border-top-left-radius: 30px;
+            border-bottom-left-radius: 30px;
+          }
           .menutext {
             &:hover {
+              color: #5d5fef;
+            }
+          }
+          .menutext {
+            &:active {
               color: #5d5fef;
             }
           }
@@ -93,9 +99,31 @@ const StyledNavigation = styled.div`
               color: #257e0e;
             }
           }
+          &:hover span::before {
+            content: "";
+            position: absolute;
+            right: -83px;
+            top: -50px;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border-radius: 50%;
+            box-shadow: 35px 35px 0 10px #fff;
+          }
+          &:hover span::after {
+            content: "";
+            position: absolute;
+            left: 153px;
+            bottom: -50px;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border-radius: 50%;
+            box-shadow: 35px -35px 0 10px #fff;
+          }
+
           img,
           .navicon {
-            position: relative;
             display: block;
             min-width: 26px;
             padding: 25px;
@@ -113,28 +141,6 @@ const StyledNavigation = styled.div`
             line-height: 80px;
             text-align: center;
           }
-        }
-        &:hover span::before {
-          content: "";
-          position: absolute;
-          right: -83px;
-          top: -50px;
-          width: 50px;
-          height: 50px;
-          background: transparent;
-          border-radius: 50%;
-          box-shadow: 35px 35px 0 10px #fff;
-        }
-        &:hover span::after {
-          content: "";
-          position: absolute;
-          left: 153px;
-          bottom: -50px;
-          width: 50px;
-          height: 50px;
-          background: transparent;
-          border-radius: 50%;
-          box-shadow: 35px -35px 0 10px #fff;
         }
       }
       .lnbcontainer {
@@ -180,7 +186,6 @@ const StyledNavigation = styled.div`
       font-size: 20px;
       .link {
         position: relative;
-        display: block;
         width: 100%;
         display: flex;
         text-decoration: none;
@@ -191,7 +196,6 @@ const StyledNavigation = styled.div`
           margin-left: 3px;
         }
         span {
-          position: relative;
           display: block;
           padding: 0 3px;
           width: 40%;
@@ -203,9 +207,10 @@ const StyledNavigation = styled.div`
     }
     .calendarcontiner {
       position: relative;
-      display: block;
+      /* display: block; */
       top: 30px;
       left: 19px;
+      border-radius: solid 1px red;
       .datepicker {
         width: 220px;
         height: 58px;
@@ -221,7 +226,25 @@ const StyledNavigation = styled.div`
       img {
         position: absolute;
         top: 14px;
-        left: 25px;
+        left: 10px;
+        z-index: 1;
+      }
+      .todolist {
+        display: block;
+        width: 225px;
+        margin-top: 22px;
+        font-size: 16px;
+        color: #fff;
+        p {
+          margin-bottom: 17px;
+          font-weight: 500;
+          span {
+            font-size: 13px;
+            color: #dadada;
+            font-weight: 400;
+            margin: 0 15px 0 15px;
+          }
+        }
       }
     }
     .logout {
@@ -244,26 +267,37 @@ const StyledNavigation = styled.div`
     }
   }
 `;
+
+// 네비게이션 중앙 라인
 const MidLine = styled.div`
   width: 220px;
   height: 1px;
   margin: 10px 47px 30px 18px;
   border-top: 1px solid #c4c4c4;
 `;
-
-function Navigation() {
+// 서브 네비게이션 보여주는 기능
+// (다른 직렬을 선택하면 열려있는 직렬서브 네비 닫힘)
+// 클릭시 css 고정
+function Navigation({ onMouseOver, onMouseOut }) {
   const [policeShow, setPoliceShow] = useState();
   const onClickPolice = (e) => {
     setPoliceShow((prev) => !prev);
+    setFireShow(false);
+    setAdmineShow(false);
   };
   const [fireShow, setFireShow] = useState();
   const onClickFire = (e) => {
     setFireShow((prev) => !prev);
+    setAdmineShow(false);
+    setPoliceShow(false);
   };
   const [adminShow, setAdmineShow] = useState();
   const onClickAdmin = (e) => {
     setAdmineShow((prev) => !prev);
+    setPoliceShow(false);
+    setFireShow(false);
   };
+
   const [menuIconHover, setMenuIconHover] = useState(false);
   const [policeIconHover, setPoliceIconHover] = useState(false);
   const [fireIconHover, setFireIconHover] = useState(false);
@@ -462,6 +496,14 @@ function Navigation() {
                 selected={startDate}
                 onChange={(date) => setStartDate(date)}
               />
+              <div className="todolist">
+                <p>
+                  <span className="time">08:00 AM</span>경찰직 모의고사
+                </p>
+                <p>
+                  <span className="time">10:30 AM</span>관리자 회의
+                </p>
+              </div>
             </div>
             {/* 달력 끝 */}
             {/* 로그아웃 */}
