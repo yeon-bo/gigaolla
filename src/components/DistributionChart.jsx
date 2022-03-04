@@ -11,7 +11,7 @@ import {
 } from 'chart.js'
 import { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
 ChartJS.register(
   CategoryScale,
@@ -68,8 +68,14 @@ const labels = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, '100 (점)']
 //컴포..
 const DistributionChart = () => {
   const params = useParams()
+  const location = useLocation()
+
+  console.log(location)
+
   const SERIES = params.subject
   const CLASS = params.number
+
+  console.log(SERIES, CLASS)
 
   const [policeSubjectData, setPoliceSubjectData] = useState([])
   const [criminalSubjectData, setCriminalSubjectData] = useState([])
