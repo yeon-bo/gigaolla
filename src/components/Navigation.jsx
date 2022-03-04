@@ -345,14 +345,23 @@ function Navigation() {
   const [policefixBackground, setPoliceFixBackground] = useState(false);
   const policeShowFix = () => {
     setPoliceFixBackground((prev) => !prev);
+    setAdminFixBackground(false);
+    setFireFixBackground(false);
+    setChecklistFix(false);
   };
   const [adminfixBackground, setAdminFixBackground] = useState(false);
   const adminShowFix = () => {
     setAdminFixBackground((prev) => !prev);
+    setPoliceFixBackground(false);
+    setFireFixBackground(false);
+    setChecklistFix(false);
   };
   const [firefixBackground, setFireFixBackground] = useState(false);
   const fireShowFix = () => {
     setFireFixBackground((prev) => !prev);
+    setAdminFixBackground(false);
+    setPoliceFixBackground(false);
+    setChecklistFix(false);
   };
 
   // 일정관리 클릭시 color 변경
