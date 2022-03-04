@@ -13,8 +13,8 @@ import fireColor from "../image/fire_color.svg";
 import admin from "../image/admin_gray.svg";
 import adminColor from "../image/admin_color.svg";
 import checklist from "../image/checklist_gray.svg";
+import checklistColor from "../image/checklist_white.svg";
 import calendar from "../image/calendar.svg";
-import logout from "../image/logout.svg";
 
 // calender
 import DatePicker from "react-datepicker";
@@ -68,11 +68,6 @@ const StyledNavigation = styled.div`
               color: #5d5fef;
             }
           }
-          .menutext {
-            &:active {
-              color: #5d5fef;
-            }
-          }
           .policetext {
             &:hover {
               color: #161aec;
@@ -91,7 +86,7 @@ const StyledNavigation = styled.div`
           &:hover span::before {
             content: "";
             position: absolute;
-            right: -83px;
+            right: -85px;
             top: -50px;
             width: 50px;
             height: 50px;
@@ -102,7 +97,7 @@ const StyledNavigation = styled.div`
           &:hover span::after {
             content: "";
             position: absolute;
-            left: 153px;
+            left: 155px;
             bottom: -50px;
             width: 50px;
             height: 50px;
@@ -131,17 +126,16 @@ const StyledNavigation = styled.div`
             text-align: center;
           }
         }
-        /* active */
+        /* active 클릭시 gnb background, fontcolor css 고정*/
         .activeBg {
           width: 100%;
-          color: #5d5fef;
           background: #fff;
           border-top-left-radius: 30px;
           border-bottom-left-radius: 30px;
           span::before {
             content: "";
             position: absolute;
-            right: -84px;
+            right: -85px;
             top: -50px;
             width: 50px;
             height: 50px;
@@ -160,8 +154,24 @@ const StyledNavigation = styled.div`
             border-radius: 50%;
             box-shadow: 35px -35px 0 10px #fff;
           }
+          .menutext {
+            color: #5d5fef;
+          }
+          .policetext {
+            color: #161aec;
+          }
+          .firetext {
+            color: #fd4f3a;
+          }
+          .admintext {
+            color: #257e0e;
+          }
+          .lnb:first-child {
+            color: #fff;
+          }
         }
       }
+      // 서브 메뉴 css
       .lnbcontainer {
         width: 315px;
         height: 100%;
@@ -184,6 +194,7 @@ const StyledNavigation = styled.div`
             color: #c7c7c7;
             &:hover {
               font-weight: 700;
+              color: #fff;
             }
             p {
               position: relative;
@@ -195,9 +206,14 @@ const StyledNavigation = styled.div`
               text-align: center;
             }
           }
+          // 직렬 선택시 직렬 서브메뉴 '전체' font color 변경
+          .fontWhite {
+            color: #fff;
+          }
         }
       }
     }
+
     .checklistContainer {
       width: 285px;
       height: 80px;
@@ -221,6 +237,12 @@ const StyledNavigation = styled.div`
           height: 80px;
           line-height: 74px;
           text-align: center;
+          &:hover {
+            color: #fff;
+          }
+        }
+        .white {
+          color: #fff;
         }
       }
     }
@@ -296,7 +318,7 @@ const MidLine = styled.div`
 `;
 // 서브 네비게이션 보여주는 기능
 // (다른 직렬을 선택하면 열려있는 직렬서브 네비 닫힘)
-function Navigation({ onMouseOver, onMouseOut }) {
+function Navigation() {
   const [policeShow, setPoliceShow] = useState();
   const onClickPolice = (e) => {
     setPoliceShow((prev) => !prev);
@@ -315,14 +337,36 @@ function Navigation({ onMouseOver, onMouseOut }) {
     setPoliceShow(false);
     setFireShow(false);
   };
-  // 클릭시 gnb css 고정
+  // 클릭시 gnb background css 고정
   const [fixBackground, setFixBackground] = useState(false);
-  const showFix = () => setFixBackground(!fixBackground);
+  const showFix = () => {
+    setFixBackground((prev) => !prev);
+  };
+  const [policefixBackground, setPoliceFixBackground] = useState(false);
+  const policeShowFix = () => {
+    setPoliceFixBackground((prev) => !prev);
+  };
+  const [adminfixBackground, setAdminFixBackground] = useState(false);
+  const adminShowFix = () => {
+    setAdminFixBackground((prev) => !prev);
+  };
+  const [firefixBackground, setFireFixBackground] = useState(false);
+  const fireShowFix = () => {
+    setFireFixBackground((prev) => !prev);
+  };
 
+  // 일정관리 클릭시 color 변경
+  const [checklistFix, setChecklistFix] = useState(false);
+  const checklistShowFix = () => {
+    setChecklistFix((prev) => !prev);
+  };
+
+  // 아이콘 호버 컬러 변경
   const [menuIconHover, setMenuIconHover] = useState(false);
   const [policeIconHover, setPoliceIconHover] = useState(false);
   const [fireIconHover, setFireIconHover] = useState(false);
   const [adminIconHover, setAdminIconHover] = useState(false);
+  const [checklistIconHover, setChecklistIconHover] = useState(false);
 
   // 일정관리 라이브러리
   const [startDate, setStartDate] = useState(new Date());
@@ -348,7 +392,7 @@ function Navigation({ onMouseOver, onMouseOut }) {
                   onClick={showFix}
                 >
                   <img
-                    src={menuIconHover ? menuColor : menu}
+                    src={menuIconHover || fixBackground ? menuColor : menu}
                     alt="menu"
                     className="navicon"
                   />
@@ -363,12 +407,21 @@ function Navigation({ onMouseOver, onMouseOut }) {
                 onMouseOut={() => setPoliceIconHover(false)}
               >
                 <Link
-                  to="/class=police"
-                  className="link police"
-                  onClick={onClickPolice}
+                  to="/경찰"
+                  className={
+                    policefixBackground ? "link police activeBg" : "link police"
+                  }
+                  onClick={() => {
+                    onClickPolice();
+                    policeShowFix();
+                  }}
                 >
                   <img
-                    src={policeIconHover ? policeColor : police}
+                    src={
+                      policeIconHover || policefixBackground
+                        ? policeColor
+                        : police
+                    }
                     alt="menu"
                     className="navicon"
                   />
@@ -378,27 +431,34 @@ function Navigation({ onMouseOver, onMouseOut }) {
                   <div className="lnbcontainer">
                     <ul className="lnb">
                       <li>
-                        <Link className="lnblink" to="/class=police">
+                        <Link
+                          className={
+                            policefixBackground
+                              ? "lnblink fontWhite"
+                              : "lnblink"
+                          }
+                          to="/경찰"
+                        >
                           <p>전체</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=police/classn=1">
+                        <Link className="lnblink" to="/경찰/1">
                           <p>1반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=police/classn=2">
+                        <Link className="lnblink" to="/경찰/2">
                           <p>2반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=police/classn=3">
+                        <Link className="lnblink" to="/경찰/3">
                           <p>3반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=police/classn=5">
+                        <Link className="lnblink" to="/경찰/5">
                           <p>5반</p>
                         </Link>
                       </li>
@@ -414,12 +474,17 @@ function Navigation({ onMouseOver, onMouseOut }) {
                 onMouseOut={() => setFireIconHover(false)}
               >
                 <Link
-                  to="/class=fire"
-                  className="link fire"
-                  onClick={onClickFire}
+                  to="/소방"
+                  className={
+                    firefixBackground ? "link fire activeBg" : "link fire"
+                  }
+                  onClick={() => {
+                    onClickFire();
+                    fireShowFix();
+                  }}
                 >
                   <img
-                    src={fireIconHover ? fireColor : fire}
+                    src={fireIconHover || firefixBackground ? fireColor : fire}
                     alt="menu"
                     className="navicon"
                   />
@@ -429,22 +494,27 @@ function Navigation({ onMouseOver, onMouseOut }) {
                   <div className="lnbcontainer">
                     <ul className="lnb">
                       <li>
-                        <Link className="lnblink" to="/class=fire">
+                        <Link
+                          className={
+                            firefixBackground ? "lnblink fontWhite" : "lnblink "
+                          }
+                          to="/소방"
+                        >
                           <p>전체</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=fire/classn=1">
+                        <Link className="lnblink" to="/소방/1">
                           <p>1반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=fire/classn=2">
+                        <Link className="lnblink" to="/소방/2">
                           <p>2반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=fire/classn=3">
+                        <Link className="lnblink" to="/소방/3">
                           <p>3반</p>
                         </Link>
                       </li>
@@ -460,12 +530,19 @@ function Navigation({ onMouseOver, onMouseOut }) {
                 onMouseOut={() => setAdminIconHover(false)}
               >
                 <Link
-                  to="/class=admin"
-                  className="link admin"
-                  onClick={onClickAdmin}
+                  to="/행정"
+                  className={
+                    adminfixBackground ? "link admin activeBg" : "link admin"
+                  }
+                  onClick={() => {
+                    onClickAdmin();
+                    adminShowFix();
+                  }}
                 >
                   <img
-                    src={adminIconHover ? adminColor : admin}
+                    src={
+                      adminIconHover || adminfixBackground ? adminColor : admin
+                    }
                     alt="menu"
                     className="navicon"
                   />
@@ -475,22 +552,29 @@ function Navigation({ onMouseOver, onMouseOut }) {
                   <div className="lnbcontainer">
                     <ul className="lnb">
                       <li>
-                        <Link className="lnblink" to="/class=admin">
+                        <Link
+                          className={
+                            adminfixBackground
+                              ? "lnblink fontWhite"
+                              : "lnblink "
+                          }
+                          to="/행정"
+                        >
                           <p>전체</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=admin/classn=1">
+                        <Link className="lnblink" to="/행정/1">
                           <p>1반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=admin/classn=2">
+                        <Link className="lnblink" to="/행정/2">
                           <p>2반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=admin/classn=3">
+                        <Link className="lnblink" to="/행정/3">
                           <p>3반</p>
                         </Link>
                       </li>
@@ -502,14 +586,28 @@ function Navigation({ onMouseOver, onMouseOut }) {
               <MidLine />
             </ul>
             {/* 일정관리 */}
-            <div className="checklistContainer">
-              <Link to="/" className="link">
+            <div
+              className="checklistContainer"
+              onMouseOver={() => setChecklistIconHover(true)}
+              onMouseOut={() => setChecklistIconHover(false)}
+            >
+              <Link to="/" className="link" onClick={checklistShowFix}>
                 <img
-                  src={checklist}
+                  src={
+                    checklistFix || checklistIconHover
+                      ? checklistColor
+                      : checklist
+                  }
                   alt="checklist"
                   className="checklisticon"
                 />
-                <span>일정관리</span>
+                <span
+                  className={
+                    checklistFix ? "checklistText white" : "checklistText"
+                  }
+                >
+                  일정관리
+                </span>
               </Link>
             </div>
             {/* 일정관리 끝 */}
@@ -531,14 +629,6 @@ function Navigation({ onMouseOver, onMouseOut }) {
               </div>
             </div>
             {/* 달력 끝 */}
-            {/* 로그아웃 */}
-            <div className="logout">
-              <Link to="/" className="logout">
-                <img src={logout} alt="logout" />
-                <span>Logout</span>
-              </Link>
-            </div>
-            {/* 로그아웃 끝 */}
           </div>
         </div>
       </StyledNavigation>
