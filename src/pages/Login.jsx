@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 import logo from "../image/ollalogoLogin.svg";
 import idIcon from "../image/Username.svg";
@@ -48,13 +49,14 @@ const Login = () => {
     width: 100%;
     height: 2.81rem;
     padding: 0 0 0 3.19em;
-    border: 1px solid #c7c7c7;
+    border: 1px solid #545454;
     border-radius: 4px;
     box-sizing: border-box;
-    color: #999;
+    color: #545454;
     font-size: 0.88em;
     line-height: 1.25rem;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Roboto", sans-serif;
+    letter-spacing: 0.13em;
     ::placeholder {
       color: #999;
       text-transform: uppercase;
@@ -68,14 +70,15 @@ const Login = () => {
     width: 100%;
     height: 2.81rem;
     padding: 0;
-    color: #febc56;
+    color: #fff;
     background-color: #5d5fef;
     box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.24);
     border-radius: 4px;
     font-size: 1em;
     line-height: 1.25em;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Roboto", sans-serif;
     font-weight: bold;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
     border: none;
   `;
@@ -92,7 +95,9 @@ const Login = () => {
             <Icon src={passwordIcon} alt="password" />
             <Input type="password" placeholder="password" />
           </InputCont>
-          <Button>login</Button>
+          <Link to="/">
+            <Button>login</Button>
+          </Link>
         </LoginCont>
       </Cont>
     </Background>

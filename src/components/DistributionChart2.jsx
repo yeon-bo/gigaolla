@@ -63,7 +63,7 @@ const options = {
 }
 
 // LABEL
-const labels = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, '100 (점)']
+const labels = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, '100  (점)']
 
 //컴포..
 const DistributionChart = () => {
@@ -79,6 +79,7 @@ const DistributionChart = () => {
   const [fireLawSubjectData, setFireLawSubjectData] = useState([])
   const [fireEngSubjectData, setFireEngSubjectData] = useState([])
   const [fireHistorySubjectData, setFireHistorySubjectData] = useState([])
+
   useEffect(() => {
     ;(async () => {
       if (!params.number) {
@@ -123,7 +124,7 @@ const DistributionChart = () => {
         setFireLawSubjectData(result)
       } else {
         const response = await fetch(
-          `https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=4${thisYear}&mm=${lastMonth}&subject=소방관계법규&class=${SERIES}&classn=${CLASS}`
+          `https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=${thisYear}&mm=${lastMonth}&subject=소방관계법규&class=${SERIES}&classn=${CLASS}`
         )
         const { result } = await response.json()
         setFireLawSubjectData(result)
