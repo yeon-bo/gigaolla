@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import CardTemplate from "./CardTemplate";
-import AxiosApi from "./AxioApi";
+import AverageCart from "./AverageCart";
 
 const AverageChartWrap = () => {
   // 평균점수 Wrap
@@ -20,7 +20,7 @@ const AverageChartWrap = () => {
     <Cont>
       {/* 카드 테두리 Components */}
       <CardTemplate
-        Element={AxiosApi}
+        Element={AverageCart}
         Name={"평균점수"}
         Count={"+ 2.1%"}
         Info={" 전달 대비 평균 총점"}

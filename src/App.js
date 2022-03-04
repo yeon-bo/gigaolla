@@ -6,7 +6,6 @@ import styled from "styled-components";
 import Home from "../src/pages/Home";
 import Login from "../src/pages/Login";
 import Class from "../src/pages/Class";
-import Administration from "./pages/Administration";
 
 function App() {
   return (
@@ -18,7 +17,6 @@ function App() {
         <Route path="/class=:subject" element={<Class />} />
         <Route path="/class=:subject/classn=:number" element={<Class />} />
         <Route path="/class" element={<Class />} />
-        <Route path="/administration" element={<Administration />} />
       </Routes>
     </div>
   );
