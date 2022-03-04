@@ -1,4 +1,3 @@
-import axios from 'axios'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,7 +10,8 @@ import {
 } from 'chart.js'
 import { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import { getLastMonth } from '../utils/getLastMonth'
 
 ChartJS.register(
   CategoryScale,
@@ -68,14 +68,12 @@ const labels = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, '100 (점)']
 //컴포..
 const DistributionChart = () => {
   const params = useParams()
-  const location = useLocation()
-
-  console.log(location)
 
   const SERIES = params.subject
   const CLASS = params.number
 
-  console.log(SERIES, CLASS)
+  const { thisYear, lastMonth } = getLastMonth()
+  console.log(thisYear, lastMonth)
 
   const [policeSubjectData, setPoliceSubjectData] = useState([])
   const [criminalSubjectData, setCriminalSubjectData] = useState([])
@@ -84,13 +82,13 @@ const DistributionChart = () => {
     ;(async () => {
       if (!params.number) {
         const response = await fetch(
-          'https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=2021&mm=12&subject=경찰학'
+          `https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=${thisYear}&mm=${lastMonth}&subject=경찰학`
         )
         const { result } = await response.json()
         setPoliceSubjectData(result)
       } else {
         const response = await fetch(
-          `https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=2021&mm=12&subject=경찰학&class=${SERIES}&classn=${CLASS}`
+          `https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=${thisYear}&mm=${lastMonth}&subject=경찰학&class=${SERIES}&classn=${CLASS}`
         )
         const { result } = await response.json()
         setPoliceSubjectData(result)
@@ -101,13 +99,13 @@ const DistributionChart = () => {
     ;(async () => {
       if (!params.number) {
         const response = await fetch(
-          'https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=2021&mm=12&subject=형사법'
+          `https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=${thisYear}&mm=${lastMonth}&subject=형사법`
         )
         const { result } = await response.json()
         setCriminalSubjectData(result)
       } else {
         const response = await fetch(
-          `https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=2021&mm=12&subject=형사법&class=${SERIES}&classn=${CLASS}`
+          `https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=${thisYear}&mm=${lastMonth}&subject=형사법&class=${SERIES}&classn=${CLASS}`
         )
         const { result } = await response.json()
         setCriminalSubjectData(result)
@@ -118,13 +116,13 @@ const DistributionChart = () => {
     ;(async () => {
       if (!params.number) {
         const response = await fetch(
-          'https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=2021&mm=12&subject=헌법'
+          `https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=${thisYear}&mm=${lastMonth}&subject=헌법`
         )
         const { result } = await response.json()
         setLawSubjectData(result)
       } else {
         const response = await fetch(
-          `https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=2021&mm=12&subject=헌법&class=${SERIES}&classn=${CLASS}`
+          `https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=${thisYear}&mm=${lastMonth}&subject=헌법&class=${SERIES}&classn=${CLASS}`
         )
         const { result } = await response.json()
         setLawSubjectData(result)
