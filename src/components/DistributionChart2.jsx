@@ -79,6 +79,7 @@ const DistributionChart = () => {
   const [fireLawSubjectData, setFireLawSubjectData] = useState([])
   const [fireEngSubjectData, setFireEngSubjectData] = useState([])
   const [fireHistorySubjectData, setFireHistorySubjectData] = useState([])
+
   useEffect(() => {
     ;(async () => {
       if (!params.number) {
@@ -123,7 +124,7 @@ const DistributionChart = () => {
         setFireLawSubjectData(result)
       } else {
         const response = await fetch(
-          `https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=4${thisYear}&mm=${lastMonth}&subject=소방관계법규&class=${SERIES}&classn=${CLASS}`
+          `https://kimcodi.kr/external_api/dashboard/distributionOfStudentScoreByMonth.php?yyyy=${thisYear}&mm=${lastMonth}&subject=소방관계법규&class=${SERIES}&classn=${CLASS}`
         )
         const { result } = await response.json()
         setFireLawSubjectData(result)
