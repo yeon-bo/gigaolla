@@ -115,7 +115,7 @@ const OverviewCard = ({ Class, Color }) => {
   const ClassName = styled.span`
     font-size: 2.13em;
     font-weight: bold;
-    color: #21468d;
+    color: ${Color};
   `;
   const IconCont = styled.div`
     position: absolute;
@@ -126,7 +126,7 @@ const OverviewCard = ({ Class, Color }) => {
     right: 1.69em;
     width: 3em;
     height: 3em;
-    background-color: #21468d;
+    background-color: ${Color};
     border-radius: 2em;
   `;
   const Icon = styled.img`
@@ -307,13 +307,13 @@ const OverviewCard = ({ Class, Color }) => {
           <ScoreCont>
             <ScoreName>상위10%</ScoreName>
             <Score>
-              <ScoreNumber>{topTotalScore}</ScoreNumber>
+              <ScoreNumber>{topTotalScore}</ScoreNumber>%
             </Score>
           </ScoreCont>
           <ScoreCont>
             <ScoreName>하위10%</ScoreName>
             <Score>
-              <ScoreNumber>{losTotalScore}</ScoreNumber>
+              <ScoreNumber>{losTotalScore}</ScoreNumber>%
             </Score>
           </ScoreCont>
         </ScoreAllCont>
