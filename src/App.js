@@ -1,11 +1,11 @@
-import React from "react";
-import { Reset } from "styled-reset";
-import { Routes, Route } from "react-router-dom";
-import styled from "styled-components";
+import React from 'react'
+import { Reset } from 'styled-reset'
+import { Routes, Route } from 'react-router-dom'
+import styled from 'styled-components'
 
-import Home from "../src/pages/Home";
-import Login from "../src/pages/Login";
-import Class from "../src/pages/Class";
+import Home from '../src/pages/Home'
+import Login from '../src/pages/Login'
+import Class from '../src/pages/Class'
 
 function App() {
   return (
@@ -18,6 +18,6 @@ function App() {
         <Route path="/:subject/:number" element={<Class />} />
       </Routes>
     </div>
-  );
+  )
 }
-export default App;
+export default App
