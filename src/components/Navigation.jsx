@@ -20,13 +20,6 @@ import logout from "../image/logout.svg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-// import { generateMedia } from "styled-media-query";
-
-// const customMedia = generateMedia({
-//   lgDesktop: "1920px",
-//   mdDesktop: "1712px",
-//   tablet: "1366px",
-// });
 const StyledNavigation = styled.div`
   /* :root { 적용이 안됩니다..
     --main-color: #5d5fef;
@@ -70,7 +63,6 @@ const StyledNavigation = styled.div`
             border-top-left-radius: 30px;
             border-bottom-left-radius: 30px;
           }
-
           .menutext {
             &:hover {
               color: #5d5fef;
@@ -137,6 +129,36 @@ const StyledNavigation = styled.div`
             height: 80px;
             line-height: 80px;
             text-align: center;
+          }
+        }
+        /* active */
+        .activeBg {
+          width: 100%;
+          color: #5d5fef;
+          background: #fff;
+          border-top-left-radius: 30px;
+          border-bottom-left-radius: 30px;
+          span::before {
+            content: "";
+            position: absolute;
+            right: -84px;
+            top: -50px;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border-radius: 50%;
+            box-shadow: 35px 35px 0 10px #fff;
+          }
+          span::after {
+            content: "";
+            position: absolute;
+            left: 155px;
+            bottom: -50px;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border-radius: 50%;
+            box-shadow: 35px -35px 0 10px #fff;
           }
         }
       }
@@ -316,7 +338,7 @@ function Navigation({ onMouseOver, onMouseOut }) {
             <ul>
               {/* 전체개요 */}
               <li
-                className=""
+                className="gnb"
                 onMouseOver={() => setMenuIconHover(true)}
                 onMouseOut={() => setMenuIconHover(false)}
               >
