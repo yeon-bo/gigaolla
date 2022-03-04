@@ -9,7 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Line } from "react-chartjs-2";
 
 ChartJS.register(
@@ -154,38 +154,32 @@ const getStudentData = async (
   return { attendPolice, attendFire, attendAdmin };
 };
 
-const ym = getYearMonth().YearMonth;
-const labels = ym.map((label) =>
-  label.month < 10 ? `0${label.month}` : label.month
-);
-let policeData = [];
-let fireData = [];
-let adminData = [];
-// let attendPercendData = [];
-ym.map((data) =>
-  getStudentData(data.year, data.month).then((res) =>
-    policeData.push(res.attendPolice)
-  )
-);
-ym.map((data) =>
-  getStudentData(data.year, data.month).then((res) =>
-    fireData.push(res.attendFire)
-  )
-);
-ym.map((data) =>
-  getStudentData(data.year, data.month).then((res) =>
-    adminData.push(res.attendAdmin)
-  )
-);
-// ym.map((data) =>
-//   getStudentData(data.year, data.month).then((res) =>
-//     attendPercendData.push(res.attendPercent)
-//   )
-// );
-console.log(policeData);
-console.log(fireData);
-console.log(adminData);
 const HomeAttendChart = () => {
+  const [loading, setLoading] = useState(true);
+
+  const ym = getYearMonth().YearMonth;
+  const labels = ym.map((label) =>
+    label.month < 10 ? `0${label.month}` : label.month
+  );
+  let policeData = [];
+  let fireData = [];
+  let adminData = [];
+
+  ym.map((data) =>
+    getStudentData(data.year, data.month).then((res) =>
+      policeData.push(res.attendPolice)
+    )
+  );
+  ym.map((data) =>
+    getStudentData(data.year, data.month).then((res) =>
+      fireData.push(res.attendFire)
+    )
+  );
+  ym.map((data) =>
+    getStudentData(data.year, data.month).then((res) =>
+      adminData.push(res.attendAdmin)
+    )
+  );
   return (
     <Line
       data={{
