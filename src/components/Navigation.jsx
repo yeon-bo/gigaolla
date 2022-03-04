@@ -13,20 +13,13 @@ import fireColor from '../image/fire_color.svg'
 import admin from '../image/admin_gray.svg'
 import adminColor from '../image/admin_color.svg'
 import checklist from '../image/checklist_gray.svg'
+import checklistColor from '../image/checklist_white.svg'
 import calendar from '../image/calendar.svg'
-import logout from '../image/logout.svg'
 
 // calender
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
-// import { generateMedia } from "styled-media-query";
-
-// const customMedia = generateMedia({
-//   lgDesktop: "1920px",
-//   mdDesktop: "1712px",
-//   tablet: "1366px",
-// });
 const StyledNavigation = styled.div`
   /* :root { 적용이 안됩니다..
     --main-color: #5d5fef;
@@ -34,7 +27,7 @@ const StyledNavigation = styled.div`
     --fire-color: #fd4f3a;
     --admin-color: #257e0e;
   } */
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   /* min-height: 100vh; */
   overflow-x: hidden;
   .container {
@@ -59,12 +52,8 @@ const StyledNavigation = styled.div`
       li {
         position: relative;
         width: 100%;
-
         list-style: none;
-
         .link {
-          /* position: relative; */
-          display: block;
           width: 286px;
           display: flex;
           text-decoration: none;
@@ -76,11 +65,6 @@ const StyledNavigation = styled.div`
           }
           .menutext {
             &:hover {
-              color: #5d5fef;
-            }
-          }
-          .menutext {
-            &:active {
               color: #5d5fef;
             }
           }
@@ -100,9 +84,9 @@ const StyledNavigation = styled.div`
             }
           }
           &:hover span::before {
-            content: "";
+            content: '';
             position: absolute;
-            right: -83px;
+            right: -85px;
             top: -50px;
             width: 50px;
             height: 50px;
@@ -111,9 +95,9 @@ const StyledNavigation = styled.div`
             box-shadow: 35px 35px 0 10px #fff;
           }
           &:hover span::after {
-            content: "";
+            content: '';
             position: absolute;
-            left: 153px;
+            left: 155px;
             bottom: -50px;
             width: 50px;
             height: 50px;
@@ -142,7 +126,52 @@ const StyledNavigation = styled.div`
             text-align: center;
           }
         }
+        /* active 클릭시 gnb background, fontcolor css 고정*/
+        .activeBg {
+          width: 100%;
+          background: #fff;
+          border-top-left-radius: 30px;
+          border-bottom-left-radius: 30px;
+          span::before {
+            content: '';
+            position: absolute;
+            right: -85px;
+            top: -50px;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border-radius: 50%;
+            box-shadow: 35px 35px 0 10px #fff;
+          }
+          span::after {
+            content: '';
+            position: absolute;
+            left: 155px;
+            bottom: -50px;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border-radius: 50%;
+            box-shadow: 35px -35px 0 10px #fff;
+          }
+          .menutext {
+            color: #5d5fef;
+          }
+          .policetext {
+            color: #161aec;
+          }
+          .firetext {
+            color: #fd4f3a;
+          }
+          .admintext {
+            color: #257e0e;
+          }
+          .lnb:first-child {
+            color: #fff;
+          }
+        }
       }
+      // 서브 메뉴 css
       .lnbcontainer {
         width: 315px;
         height: 100%;
@@ -165,6 +194,7 @@ const StyledNavigation = styled.div`
             color: #c7c7c7;
             &:hover {
               font-weight: 700;
+              color: #fff;
             }
             p {
               position: relative;
@@ -176,9 +206,14 @@ const StyledNavigation = styled.div`
               text-align: center;
             }
           }
+          // 직렬 선택시 직렬 서브메뉴 '전체' font color 변경
+          .fontWhite {
+            color: #fff;
+          }
         }
       }
     }
+
     .checklistContainer {
       width: 285px;
       height: 80px;
@@ -202,6 +237,12 @@ const StyledNavigation = styled.div`
           height: 80px;
           line-height: 74px;
           text-align: center;
+          &:hover {
+            color: #fff;
+          }
+        }
+        .white {
+          color: #fff;
         }
       }
     }
@@ -266,7 +307,7 @@ const StyledNavigation = styled.div`
       }
     }
   }
-`;
+`
 
 // 네비게이션 중앙 라인
 const MidLine = styled.div`
@@ -274,34 +315,58 @@ const MidLine = styled.div`
   height: 1px;
   margin: 10px 47px 30px 18px;
   border-top: 1px solid #c4c4c4;
-`;
+`
 // 서브 네비게이션 보여주는 기능
 // (다른 직렬을 선택하면 열려있는 직렬서브 네비 닫힘)
-// 클릭시 css 고정
-function Navigation({ onMouseOver, onMouseOut }) {
-  const [policeShow, setPoliceShow] = useState();
+function Navigation() {
+  const [policeShow, setPoliceShow] = useState()
   const onClickPolice = (e) => {
-    setPoliceShow((prev) => !prev);
-    setFireShow(false);
-    setAdmineShow(false);
-  };
-  const [fireShow, setFireShow] = useState();
+    setPoliceShow((prev) => !prev)
+    setFireShow(false)
+    setAdmineShow(false)
+  }
+  const [fireShow, setFireShow] = useState()
   const onClickFire = (e) => {
-    setFireShow((prev) => !prev);
-    setAdmineShow(false);
-    setPoliceShow(false);
-  };
-  const [adminShow, setAdmineShow] = useState();
+    setFireShow((prev) => !prev)
+    setAdmineShow(false)
+    setPoliceShow(false)
+  }
+  const [adminShow, setAdmineShow] = useState()
   const onClickAdmin = (e) => {
-    setAdmineShow((prev) => !prev);
-    setPoliceShow(false);
-    setFireShow(false);
-  };
+    setAdmineShow((prev) => !prev)
+    setPoliceShow(false)
+    setFireShow(false)
+  }
+  // 클릭시 gnb background css 고정
+  const [fixBackground, setFixBackground] = useState(false)
+  const showFix = () => {
+    setFixBackground((prev) => !prev)
+  }
+  const [policefixBackground, setPoliceFixBackground] = useState(false)
+  const policeShowFix = () => {
+    setPoliceFixBackground((prev) => !prev)
+  }
+  const [adminfixBackground, setAdminFixBackground] = useState(false)
+  const adminShowFix = () => {
+    setAdminFixBackground((prev) => !prev)
+  }
+  const [firefixBackground, setFireFixBackground] = useState(false)
+  const fireShowFix = () => {
+    setFireFixBackground((prev) => !prev)
+  }
 
-  const [menuIconHover, setMenuIconHover] = useState(false);
-  const [policeIconHover, setPoliceIconHover] = useState(false);
-  const [fireIconHover, setFireIconHover] = useState(false);
-  const [adminIconHover, setAdminIconHover] = useState(false);
+  // 일정관리 클릭시 color 변경
+  const [checklistFix, setChecklistFix] = useState(false)
+  const checklistShowFix = () => {
+    setChecklistFix((prev) => !prev)
+  }
+
+  // 아이콘 호버 컬러 변경
+  const [menuIconHover, setMenuIconHover] = useState(false)
+  const [policeIconHover, setPoliceIconHover] = useState(false)
+  const [fireIconHover, setFireIconHover] = useState(false)
+  const [adminIconHover, setAdminIconHover] = useState(false)
+  const [checklistIconHover, setChecklistIconHover] = useState(false)
 
   // 일정관리 라이브러리
   const [startDate, setStartDate] = useState(new Date())
@@ -321,9 +386,13 @@ function Navigation({ onMouseOver, onMouseOut }) {
                 onMouseOver={() => setMenuIconHover(true)}
                 onMouseOut={() => setMenuIconHover(false)}
               >
-                <Link to="/" className="link">
+                <Link
+                  to="/"
+                  className={fixBackground ? 'link activeBg' : 'link'}
+                  onClick={showFix}
+                >
                   <img
-                    src={menuIconHover ? menuColor : menu}
+                    src={menuIconHover || fixBackground ? menuColor : menu}
                     alt="menu"
                     className="navicon"
                   />
@@ -339,11 +408,14 @@ function Navigation({ onMouseOver, onMouseOut }) {
               >
                 <Link
                   to="/경찰"
-                  className="link police"
-                  onClick={onClickPolice}
+                  className={policefixBackground ? 'link police activeBg' : 'link police'}
+                  onClick={() => {
+                    onClickPolice()
+                    policeShowFix()
+                  }}
                 >
                   <img
-                    src={policeIconHover ? policeColor : police}
+                    src={policeIconHover || policefixBackground ? policeColor : police}
                     alt="menu"
                     className="navicon"
                   />
@@ -353,7 +425,12 @@ function Navigation({ onMouseOver, onMouseOut }) {
                   <div className="lnbcontainer">
                     <ul className="lnb">
                       <li>
-                        <Link className="lnblink" to="/경찰">
+                        <Link
+                          className={
+                            policefixBackground ? 'lnblink fontWhite' : 'lnblink'
+                          }
+                          to="/경찰"
+                        >
                           <p>전체</p>
                         </Link>
                       </li>
@@ -388,9 +465,16 @@ function Navigation({ onMouseOver, onMouseOut }) {
                 onMouseOver={() => setFireIconHover(true)}
                 onMouseOut={() => setFireIconHover(false)}
               >
-                <Link to="/소방" className="link fire" onClick={onClickFire}>
+                <Link
+                  to="/소방"
+                  className={firefixBackground ? 'link fire activeBg' : 'link fire'}
+                  onClick={() => {
+                    onClickFire()
+                    fireShowFix()
+                  }}
+                >
                   <img
-                    src={fireIconHover ? fireColor : fire}
+                    src={fireIconHover || firefixBackground ? fireColor : fire}
                     alt="menu"
                     className="navicon"
                   />
@@ -400,7 +484,10 @@ function Navigation({ onMouseOver, onMouseOut }) {
                   <div className="lnbcontainer">
                     <ul className="lnb">
                       <li>
-                        <Link className="lnblink" to="/소방">
+                        <Link
+                          className={firefixBackground ? 'lnblink fontWhite' : 'lnblink '}
+                          to="/소방"
+                        >
                           <p>전체</p>
                         </Link>
                       </li>
@@ -430,9 +517,16 @@ function Navigation({ onMouseOver, onMouseOut }) {
                 onMouseOver={() => setAdminIconHover(true)}
                 onMouseOut={() => setAdminIconHover(false)}
               >
-                <Link to="/행정" className="link admin" onClick={onClickAdmin}>
+                <Link
+                  to="/행정"
+                  className={adminfixBackground ? 'link admin activeBg' : 'link admin'}
+                  onClick={() => {
+                    onClickAdmin()
+                    adminShowFix()
+                  }}
+                >
                   <img
-                    src={adminIconHover ? adminColor : admin}
+                    src={adminIconHover || adminfixBackground ? adminColor : admin}
                     alt="menu"
                     className="navicon"
                   />
@@ -442,7 +536,12 @@ function Navigation({ onMouseOver, onMouseOut }) {
                   <div className="lnbcontainer">
                     <ul className="lnb">
                       <li>
-                        <Link className="lnblink" to="/행정">
+                        <Link
+                          className={
+                            adminfixBackground ? 'lnblink fontWhite' : 'lnblink '
+                          }
+                          to="/행정"
+                        >
                           <p>전체</p>
                         </Link>
                       </li>
@@ -469,10 +568,20 @@ function Navigation({ onMouseOver, onMouseOut }) {
               <MidLine />
             </ul>
             {/* 일정관리 */}
-            <div className="checklistContainer">
-              <Link to="/" className="link">
-                <img src={checklist} alt="checklist" className="checklisticon" />
-                <span>일정관리</span>
+            <div
+              className="checklistContainer"
+              onMouseOver={() => setChecklistIconHover(true)}
+              onMouseOut={() => setChecklistIconHover(false)}
+            >
+              <Link to="/" className="link" onClick={checklistShowFix}>
+                <img
+                  src={checklistFix || checklistIconHover ? checklistColor : checklist}
+                  alt="checklist"
+                  className="checklisticon"
+                />
+                <span className={checklistFix ? 'checklistText white' : 'checklistText'}>
+                  일정관리
+                </span>
               </Link>
             </div>
             {/* 일정관리 끝 */}
@@ -494,14 +603,6 @@ function Navigation({ onMouseOver, onMouseOut }) {
               </div>
             </div>
             {/* 달력 끝 */}
-            {/* 로그아웃 */}
-            <div className="logout">
-              <Link to="/" className="logout">
-                <img src={logout} alt="logout" />
-                <span>Logout</span>
-              </Link>
-            </div>
-            {/* 로그아웃 끝 */}
           </div>
         </div>
       </StyledNavigation>
