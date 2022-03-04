@@ -338,7 +338,7 @@ function Navigation({ onMouseOver, onMouseOut }) {
                 onMouseOut={() => setPoliceIconHover(false)}
               >
                 <Link
-                  to="/class=police"
+                  to="/경찰"
                   className="link police"
                   onClick={onClickPolice}
                 >
@@ -353,27 +353,27 @@ function Navigation({ onMouseOver, onMouseOut }) {
                   <div className="lnbcontainer">
                     <ul className="lnb">
                       <li>
-                        <Link className="lnblink" to="/class=경찰">
+                        <Link className="lnblink" to="/경찰">
                           <p>전체</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=경찰/classn=1">
+                        <Link className="lnblink" to="/경찰/1">
                           <p>1반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=경찰/classn=2">
+                        <Link className="lnblink" to="/경찰/2">
                           <p>2반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=경찰/classn=3">
+                        <Link className="lnblink" to="/경찰/3">
                           <p>3반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=경찰/classn=5">
+                        <Link className="lnblink" to="/경찰/5">
                           <p>5반</p>
                         </Link>
                       </li>
@@ -388,11 +388,7 @@ function Navigation({ onMouseOver, onMouseOut }) {
                 onMouseOver={() => setFireIconHover(true)}
                 onMouseOut={() => setFireIconHover(false)}
               >
-                <Link
-                  to="/class=fire"
-                  className="link fire"
-                  onClick={onClickFire}
-                >
+                <Link to="/소방" className="link fire" onClick={onClickFire}>
                   <img
                     src={fireIconHover ? fireColor : fire}
                     alt="menu"
@@ -404,22 +400,22 @@ function Navigation({ onMouseOver, onMouseOut }) {
                   <div className="lnbcontainer">
                     <ul className="lnb">
                       <li>
-                        <Link className="lnblink" to="/class=소방">
+                        <Link className="lnblink" to="/소방">
                           <p>전체</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=소방/classn=1">
+                        <Link className="lnblink" to="/소방/1">
                           <p>1반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=소방/classn=2">
+                        <Link className="lnblink" to="/소방/2">
                           <p>2반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=소방/classn=3">
+                        <Link className="lnblink" to="/소방/3">
                           <p>3반</p>
                         </Link>
                       </li>
@@ -434,11 +430,7 @@ function Navigation({ onMouseOver, onMouseOut }) {
                 onMouseOver={() => setAdminIconHover(true)}
                 onMouseOut={() => setAdminIconHover(false)}
               >
-                <Link
-                  to="/class=admin"
-                  className="link admin"
-                  onClick={onClickAdmin}
-                >
+                <Link to="/행정" className="link admin" onClick={onClickAdmin}>
                   <img
                     src={adminIconHover ? adminColor : admin}
                     alt="menu"
@@ -450,22 +442,22 @@ function Navigation({ onMouseOver, onMouseOut }) {
                   <div className="lnbcontainer">
                     <ul className="lnb">
                       <li>
-                        <Link className="lnblink" to="/class=행정">
+                        <Link className="lnblink" to="/행정">
                           <p>전체</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=행정/classn=1">
+                        <Link className="lnblink" to="/행정/1">
                           <p>1반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=행정/classn=2">
+                        <Link className="lnblink" to="/행정/2">
                           <p>2반</p>
                         </Link>
                       </li>
                       <li>
-                        <Link className="lnblink" to="/class=행정/classn=3">
+                        <Link className="lnblink" to="/행정/3">
                           <p>3반</p>
                         </Link>
                       </li>
