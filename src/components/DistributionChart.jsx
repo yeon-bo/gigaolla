@@ -74,7 +74,6 @@ const DistributionChart = () => {
   const [policeSubjectData, setPoliceSubjectData] = useState([])
   const [criminalSubjectData, setCriminalSubjectData] = useState([])
   const [lawSubjectData, setLawSubjectData] = useState([])
-
   useEffect(() => {
     ;(async () => {
       if (!params.number) {
