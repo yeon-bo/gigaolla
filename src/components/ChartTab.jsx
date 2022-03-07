@@ -6,6 +6,8 @@ import calendar from "../image/calendar.svg";
 const ChartTab = ({
   onClick,
   view,
+  todayDate,
+  setTodayDate,
   startDate,
   setStartDate,
   endDate,
@@ -106,8 +108,7 @@ const ChartTab = ({
           ) : (
             <DatePicker
               className="datepicker"
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
+              selected={todayDate}
               maxDate={new Date()}
             />
           )}

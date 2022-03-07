@@ -18,7 +18,6 @@ import { useParams } from "react-router";
 const AttendChart = ({ chartView, startDate, endDate }) => {
   const [totalStudentArr, setTotalStudentArr] = useState([]);
   const [testedStudentArr, setTestedStudentArr] = useState([]);
-  const [attendPercentArr, setAttendPercentArr] = useState([]);
   const [labels, setLabels] = useState([]);
   const [barPercentage, setBarPercentage] = useState(0.5);
   const { subject, number } = useParams();
@@ -110,34 +109,27 @@ const AttendChart = ({ chartView, startDate, endDate }) => {
       const { YearMonth } =
         chartView !== "compareBar" ? getYearMonth() : getCompareYearMonth();
 
-      const {
-        totalStudentData,
-        testedStudentData,
-        attendPercentData,
-        chartLabelData,
-      } = await YearMonth.reduce(
-        async (_acc, cur) => {
-          const { totalStudent, testedStudent, attendPercent } =
-            await getStudentData(subject, number, cur.year, cur.month);
-          const acc = await _acc;
-          const monthLabel = cur.month < 10 ? `0${cur.month}` : cur.month;
-          console.log(_acc, cur);
-          acc["totalStudentData"].push(totalStudent);
-          acc["testedStudentData"].push(testedStudent);
-          acc["attendPercentData"].push(attendPercent);
-          acc["chartLabelData"].push([monthLabel, attendPercent]);
-          return acc;
-        },
-        {
-          totalStudentData: [],
-          testedStudentData: [],
-          attendPercentData: [],
-          chartLabelData: [],
-        }
-      );
+      const { totalStudentData, testedStudentData, chartLabelData } =
+        await YearMonth.reduce(
+          async (_acc, cur) => {
+            const { totalStudent, testedStudent, attendPercent } =
+              await getStudentData(subject, number, cur.year, cur.month);
+            const acc = await _acc;
+            const monthLabel = cur.month < 10 ? `0${cur.month}` : cur.month;
+            console.log(_acc, cur);
+            acc["totalStudentData"].push(totalStudent);
+            acc["testedStudentData"].push(testedStudent);
+            acc["chartLabelData"].push([monthLabel, attendPercent]);
+            return acc;
+          },
+          {
+            totalStudentData: [],
+            testedStudentData: [],
+            chartLabelData: [],
+          }
+        );
       setTotalStudentArr(totalStudentData);
       setTestedStudentArr(testedStudentData);
-      setAttendPercentArr(attendPercentData);
       setLabels(chartLabelData);
       setBarPercentage(chartView === "compareBar" ? 0.2 : 0.5);
       return;

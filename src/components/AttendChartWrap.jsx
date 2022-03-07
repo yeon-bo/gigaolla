@@ -6,6 +6,7 @@ import ChartTab from "./ChartTab";
 
 const AttendChartWrap = () => {
   const [chartView, setChartView] = useState("bar");
+  const [todayDate, setTodayDate] = useState(new Date());
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   // 응시율 Wrap
@@ -18,6 +19,8 @@ const AttendChartWrap = () => {
       <ChartTab
         onClick={setChartView}
         view={chartView}
+        todayDate={todayDate}
+        setTodayDate={setTodayDate}
         startDate={startDate}
         setStartDate={setStartDate}
         endDate={endDate}
