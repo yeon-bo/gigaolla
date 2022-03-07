@@ -14,12 +14,11 @@ import {
 } from "chart.js";
 import { Bar, Line } from "react-chartjs-2";
 import { useParams } from "react-router";
-import ChartTab from "./ChartTab";
 
-const AttendChart = () => {
+const AttendChart = ({ chartView, startDate, endDate }) => {
   const [totalStudentArr, setTotalStudentArr] = useState([]);
   const [testedStudentArr, setTestedStudentArr] = useState([]);
-  const [chartView, setChartView] = useState("bar");
+  const [labels, setLabels] = useState([]);
   const { subject, number } = useParams();
 
   const Cont = styled.div`
@@ -31,6 +30,22 @@ const AttendChart = () => {
     }
   `;
 
+  const getCompareYearMonth = () => {
+    const compareStartDate = new Date(startDate);
+    const compareEndDate = new Date(endDate);
+    const YearMonth = [
+      {
+        year: compareStartDate.getFullYear(),
+        month: compareStartDate.getMonth() + 1,
+      },
+      {
+        year: compareEndDate.getFullYear(),
+        month: compareEndDate.getMonth() + 1,
+      },
+    ];
+    return { YearMonth };
+  };
+
   const getYearMonth = () => {
     const date = new Date();
     const nowYear = date.getFullYear();
@@ -38,7 +53,7 @@ const AttendChart = () => {
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
     let YearMonth = [];
-    for (let i = 0; i <= 5; i++) {
+    for (let i = 1; i <= 6; i++) {
       YearMonth.unshift({ year, month });
       month--;
       if (month === 0) {
@@ -56,8 +71,6 @@ const AttendChart = () => {
     month = getYearMonth().nowMonth
   ) => {
     month = month < 10 ? `0${month}` : month;
-    let totalStudent = 0;
-    let testedStudent = 0;
 
     const BASE_URL = "https://kimcodi.kr/external_api/dashboard/";
     const SUC_CODE = "001";
@@ -71,21 +84,17 @@ const AttendChart = () => {
         ? `${BASE_URL}numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${subject}`
         : `${BASE_URL}numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${subject}&classn=${number}`;
 
-    await axios.get(totalUrl).then((res) => {
-      if (res.data.code === SUC_CODE) {
-        totalStudent = res.data.result[0].STUDENT_COUNT;
-      } else {
-        return;
-      }
-    });
+    let totalStudent = await axios.get(totalUrl);
+    totalStudent =
+      totalStudent.data.code === SUC_CODE
+        ? totalStudent.data.result[0].STUDENT_COUNT
+        : 0;
 
-    await axios.get(testedUrl).then((res) => {
-      if (res.data.code === SUC_CODE) {
-        testedStudent = res.data.result[0].STUDENT_COUNT;
-      } else {
-        return;
-      }
-    });
+    let testedStudent = await axios.get(testedUrl);
+    testedStudent =
+      testedStudent.data.code === SUC_CODE
+        ? testedStudent.data.result[0].STUDENT_COUNT
+        : 0;
 
     // 응시율
     let attendPercent = ((testedStudent / totalStudent) * 100).toFixed(1);
@@ -94,12 +103,15 @@ const AttendChart = () => {
     return { totalStudent, testedStudent, attendPercent };
   };
 
-  const { YearMonth } = getYearMonth();
-  const labels = YearMonth.map((label) =>
-    label.month < 10 ? `0${label.month}` : label.month
-  );
-
   useEffect(() => {
+    const { YearMonth } =
+      chartView !== "compareBar" ? getYearMonth() : getCompareYearMonth();
+    console.log(getCompareYearMonth());
+    const chartLabel = YearMonth.map((label) =>
+      label.month < 10 ? `0${label.month}` : label.month
+    );
+    setLabels(chartLabel);
+
     const fetchData = async () => {
       const { totalStudentData, testedStudentData, attendPercentData } =
         await YearMonth.reduce(
@@ -120,7 +132,7 @@ const AttendChart = () => {
     };
 
     fetchData();
-  }, [subject, number]);
+  }, [subject, number, chartView, startDate, endDate]);
 
   ChartJS.register(
     CategoryScale,
@@ -194,8 +206,9 @@ const AttendChart = () => {
 
   return (
     <Cont>
-      <ChartTab onClick={setChartView} />
       {chartView === "bar" ? (
+        <Bar options={barOptions} data={chartData} />
+      ) : chartView === "compareBar" ? (
         <Bar options={barOptions} data={chartData} />
       ) : (
         <Line options={barOptions} data={chartData} />

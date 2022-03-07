@@ -43,7 +43,16 @@ const Detail = styled.span`
   color: #8898aa;
 `;
 //컴포..
-const CardTemplate = ({ Element, Name, Count, year, month }) => {
+const CardTemplate = ({
+  Element,
+  Name,
+  Count,
+  year,
+  month,
+  chartView,
+  startDate,
+  endDate,
+}) => {
   // Card Template Wrap
 
   //리턴..
@@ -58,7 +67,13 @@ const CardTemplate = ({ Element, Name, Count, year, month }) => {
           </Detail>
         </DetailCont>
       </TitleCont>
-      <Element year={year} month={month} />
+      <Element
+        year={year}
+        month={month}
+        chartView={chartView}
+        startDate={startDate}
+        endDate={endDate}
+      />
     </Cont>
   );
 };
