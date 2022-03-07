@@ -14,6 +14,8 @@ const ChartTab = ({
   const Tab = styled.div`
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 11px;
     button {
       cursor: pointer;
       padding: 10px 20px;
@@ -24,6 +26,14 @@ const ChartTab = ({
     }
     .reset {
       margin-right: 15px;
+      margin-left: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .calendarcontainer {
       position: relative;
