@@ -18,7 +18,9 @@ import { useParams } from "react-router";
 const AttendChart = ({ chartView, startDate, endDate }) => {
   const [totalStudentArr, setTotalStudentArr] = useState([]);
   const [testedStudentArr, setTestedStudentArr] = useState([]);
+  const [attendPercentArr, setAttendPercentArr] = useState([]);
   const [labels, setLabels] = useState([]);
+  const [barPercentage, setBarPercentage] = useState(0.5);
   const { subject, number } = useParams();
 
   const Cont = styled.div`
@@ -97,42 +99,52 @@ const AttendChart = ({ chartView, startDate, endDate }) => {
         : 0;
 
     // 응시율
-    let attendPercent = ((testedStudent / totalStudent) * 100).toFixed(1);
-    attendPercent = attendPercent === "NaN" ? 0 : attendPercent;
+    let attendPercent = await ((testedStudent / totalStudent) * 100).toFixed(1);
+    attendPercent = attendPercent === "NaN" ? "0%" : `${attendPercent}%`;
 
     return { totalStudent, testedStudent, attendPercent };
   };
 
   useEffect(() => {
-    const { YearMonth } =
-      chartView !== "compareBar" ? getYearMonth() : getCompareYearMonth();
-    console.log(getCompareYearMonth());
-    const chartLabel = YearMonth.map((label) =>
-      label.month < 10 ? `0${label.month}` : label.month
-    );
-    setLabels(chartLabel);
-
     const fetchData = async () => {
-      const { totalStudentData, testedStudentData, attendPercentData } =
-        await YearMonth.reduce(
-          async (_acc, cur) => {
-            const { totalStudent, testedStudent, attendPercent } =
-              await getStudentData(subject, number, cur.year, cur.month);
-            const acc = await _acc;
-            acc["totalStudentData"].push(totalStudent);
-            acc["testedStudentData"].push(testedStudent);
-            acc["attendPercentData"].push(attendPercent);
-            return acc;
-          },
-          { totalStudentData: [], testedStudentData: [], attendPercentData: [] }
-        );
+      const { YearMonth } =
+        chartView !== "compareBar" ? getYearMonth() : getCompareYearMonth();
+
+      const {
+        totalStudentData,
+        testedStudentData,
+        attendPercentData,
+        chartLabelData,
+      } = await YearMonth.reduce(
+        async (_acc, cur) => {
+          const { totalStudent, testedStudent, attendPercent } =
+            await getStudentData(subject, number, cur.year, cur.month);
+          const acc = await _acc;
+          const monthLabel = cur.month < 10 ? `0${cur.month}` : cur.month;
+          console.log(_acc, cur);
+          acc["totalStudentData"].push(totalStudent);
+          acc["testedStudentData"].push(testedStudent);
+          acc["attendPercentData"].push(attendPercent);
+          acc["chartLabelData"].push([monthLabel, attendPercent]);
+          return acc;
+        },
+        {
+          totalStudentData: [],
+          testedStudentData: [],
+          attendPercentData: [],
+          chartLabelData: [],
+        }
+      );
       setTotalStudentArr(totalStudentData);
       setTestedStudentArr(testedStudentData);
+      setAttendPercentArr(attendPercentData);
+      setLabels(chartLabelData);
+      setBarPercentage(chartView === "compareBar" ? 0.2 : 0.5);
       return;
     };
 
     fetchData();
-  }, [subject, number, chartView, startDate, endDate]);
+  }, [subject, number, chartView]);
 
   ChartJS.register(
     CategoryScale,
@@ -187,7 +199,7 @@ const AttendChart = ({ chartView, startDate, endDate }) => {
     datasets: [
       {
         label: "재학생",
-        barPercentage: 0.6,
+        barPercentage: barPercentage,
         categoryPercentage: 0.5,
         data: totalStudentArr,
         backgroundColor: "#8898AA",
@@ -195,7 +207,7 @@ const AttendChart = ({ chartView, startDate, endDate }) => {
       },
       {
         label: "응시생",
-        barPercentage: 0.6,
+        barPercentage: barPercentage,
         categoryPercentage: 0.5,
         data: testedStudentArr,
         backgroundColor: "#5D5FEF",
@@ -206,9 +218,7 @@ const AttendChart = ({ chartView, startDate, endDate }) => {
 
   return (
     <Cont>
-      {chartView === "bar" ? (
-        <Bar options={barOptions} data={chartData} />
-      ) : chartView === "compareBar" ? (
+      {chartView !== "chart" ? (
         <Bar options={barOptions} data={chartData} />
       ) : (
         <Line options={barOptions} data={chartData} />

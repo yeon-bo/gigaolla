@@ -23,6 +23,10 @@ const ChartTab = ({
       background: #f4f4f4;
       border-radius: 8px;
       border: none;
+      &.active {
+        background: #5d5fef;
+        color: #fff;
+      }
     }
     .reset {
       margin-right: 15px;
