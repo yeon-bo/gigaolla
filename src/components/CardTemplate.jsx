@@ -53,6 +53,7 @@ const CardTemplate = ({
   startDate,
   endDate,
   Info,
+  setCompareAttendPercent,
 }) => {
   // Card Template Wrap
 
@@ -75,6 +76,7 @@ const CardTemplate = ({
         chartView={chartView}
         startDate={startDate}
         endDate={endDate}
+        setCompareAttendPercent={setCompareAttendPercent}
       />
     </Cont>
   );

@@ -16,7 +16,12 @@ import { Bar, Line } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { useParams } from "react-router";
 
-const AttendChart = ({ chartView, startDate, endDate }) => {
+const AttendChart = ({
+  chartView,
+  startDate,
+  endDate,
+  setCompareAttendPercent,
+}) => {
   const [totalStudentArr, setTotalStudentArr] = useState([]);
   const [testedStudentArr, setTestedStudentArr] = useState([]);
   const [labels, setLabels] = useState([]);
@@ -100,7 +105,6 @@ const AttendChart = ({ chartView, startDate, endDate }) => {
 
     // 응시율
     let attendPercent = await ((testedStudent / totalStudent) * 100).toFixed(1);
-    attendPercent = attendPercent === "NaN" ? "0%" : `${attendPercent}%`;
 
     return { totalStudent, testedStudent, attendPercent };
   };
@@ -110,24 +114,35 @@ const AttendChart = ({ chartView, startDate, endDate }) => {
       const { YearMonth } =
         chartView !== "compareBar" ? getYearMonth() : getCompareYearMonth();
 
-      const { totalStudentData, testedStudentData, chartLabelData } =
-        await YearMonth.reduce(
-          async (_acc, cur) => {
-            const { totalStudent, testedStudent, attendPercent } =
-              await getStudentData(subject, number, cur.year, cur.month);
-            const acc = await _acc;
-            const monthLabel = cur.month < 10 ? `0${cur.month}` : cur.month;
-            acc["totalStudentData"].push(totalStudent);
-            acc["testedStudentData"].push(testedStudent);
-            acc["chartLabelData"].push([monthLabel, attendPercent]);
-            return acc;
-          },
-          {
-            totalStudentData: [],
-            testedStudentData: [],
-            chartLabelData: [],
-          }
-        );
+      const {
+        totalStudentData,
+        testedStudentData,
+        attendPercentData,
+        chartLabelData,
+      } = await YearMonth.reduce(
+        async (_acc, cur) => {
+          const { totalStudent, testedStudent, attendPercent } =
+            await getStudentData(subject, number, cur.year, cur.month);
+          const acc = await _acc;
+          const monthLabel = cur.month < 10 ? `0${cur.month}` : cur.month;
+          acc["totalStudentData"].push(totalStudent);
+          acc["testedStudentData"].push(testedStudent);
+          acc["attendPercentData"].push(attendPercent);
+          acc["chartLabelData"].push([monthLabel, attendPercent]);
+          return acc;
+        },
+        {
+          totalStudentData: [],
+          testedStudentData: [],
+          attendPercentData: [],
+          chartLabelData: [],
+        }
+      );
+      const arrIndex = attendPercentData.length;
+      let compareAttend =
+        attendPercentData[arrIndex - 1] - attendPercentData[arrIndex - 2];
+      compareAttend = compareAttend >= 0 ? `+ ${compareAttend}` : compareAttend;
+      setCompareAttendPercent(compareAttend);
       setTotalStudentArr(totalStudentData);
       setTestedStudentArr(testedStudentData);
       setLabels(chartLabelData);
@@ -146,8 +161,8 @@ const AttendChart = ({ chartView, startDate, endDate }) => {
     PointElement,
     Title,
     Tooltip,
-    Legend,
-    ChartDataLabels
+    Legend
+    // ChartDataLabels
   );
 
   const barOptions = {
@@ -171,17 +186,8 @@ const AttendChart = ({ chartView, startDate, endDate }) => {
           left: 18,
           right: 18,
         },
-        // anchor: "start",
-        align: "right",
-        offset: (context) => {
-          const value = context.dataset.label;
-          return value === "재학생" ? 50 : 20;
-        },
-      },
-      labels: {
-        font: {
-          lineHeight: 10,
-        },
+        anchor: "end",
+        align: "top",
       },
       legend: {
         position: "bottom",
@@ -190,12 +196,21 @@ const AttendChart = ({ chartView, startDate, endDate }) => {
           usePointStyle: true,
           pointStyle: "circle",
           padding: 20,
+          font: {
+            size: 20,
+          },
         },
       },
       tooltip: {
         backgroundColor: "#5D5FEF",
         xAlign: "center",
         yAlign: "bottom",
+        padding: {
+          top: 9,
+          bottom: 9,
+          left: 15,
+          right: 15,
+        },
         callbacks: {
           title: (context) => {
             let title = "";
@@ -205,8 +220,19 @@ const AttendChart = ({ chartView, startDate, endDate }) => {
         },
       },
     },
+    layout: {
+      padding: {
+        top: 30,
+      },
+    },
     scales: {
       xAxes: {
+        ticks: {
+          font: {
+            size: 20,
+            lineHeight: 2.2,
+          },
+        },
         grid: {
           display: false,
         },

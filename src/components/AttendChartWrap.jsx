@@ -9,6 +9,7 @@ const AttendChartWrap = () => {
   const [todayDate, setTodayDate] = useState(new Date());
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [compareAttendPercent, setCompareAttendPercent] = useState(0);
   // 응시율 Wrap
   const Cont = styled.div`
     width: 100%;
@@ -30,11 +31,12 @@ const AttendChartWrap = () => {
       <CardTemplate
         Element={AttendChart}
         Name={"응시율"}
-        Count={"+ 2.1%"}
+        Count={compareAttendPercent + "%"}
         Info={" 전달 대비 응시율"}
         chartView={chartView}
         startDate={startDate}
         endDate={endDate}
+        setCompareAttendPercent={setCompareAttendPercent}
       />
     </Cont>
   );
