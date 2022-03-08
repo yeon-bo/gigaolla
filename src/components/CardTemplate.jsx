@@ -52,6 +52,7 @@ const CardTemplate = ({
   chartView,
   startDate,
   endDate,
+  Info,
 }) => {
   // Card Template Wrap
 
@@ -62,6 +63,7 @@ const CardTemplate = ({
         <Title>{Name}</Title>
         <DetailCont>
           <DetailCount>{Count}</DetailCount>
+          {Info}
           <Detail>
             {year}-{month}
           </Detail>

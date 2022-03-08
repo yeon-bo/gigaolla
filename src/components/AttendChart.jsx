@@ -13,6 +13,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar, Line } from "react-chartjs-2";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 import { useParams } from "react-router";
 
 const AttendChart = ({ chartView, startDate, endDate }) => {
@@ -116,7 +117,6 @@ const AttendChart = ({ chartView, startDate, endDate }) => {
               await getStudentData(subject, number, cur.year, cur.month);
             const acc = await _acc;
             const monthLabel = cur.month < 10 ? `0${cur.month}` : cur.month;
-            console.log(_acc, cur);
             acc["totalStudentData"].push(totalStudent);
             acc["testedStudentData"].push(testedStudent);
             acc["chartLabelData"].push([monthLabel, attendPercent]);
@@ -146,12 +146,43 @@ const AttendChart = ({ chartView, startDate, endDate }) => {
     PointElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    ChartDataLabels
   );
 
   const barOptions = {
     responsive: true,
     plugins: {
+      datalabels: {
+        display: (context) => {
+          const index = context.dataIndex;
+          const value = context.dataset.data.length;
+          return index - value === -1 ? true : false;
+        },
+        backgroundColor: (context) => {
+          const value = context.dataset.label;
+          return value === "재학생" ? "#8898AA" : "#5D5FEF";
+        },
+        color: "#ffffff",
+        borderRadius: 12,
+        padding: {
+          top: 8,
+          bottom: 8,
+          left: 18,
+          right: 18,
+        },
+        // anchor: "start",
+        align: "right",
+        offset: (context) => {
+          const value = context.dataset.label;
+          return value === "재학생" ? 50 : 20;
+        },
+      },
+      labels: {
+        font: {
+          lineHeight: 10,
+        },
+      },
       legend: {
         position: "bottom",
         align: "end",
@@ -165,6 +196,13 @@ const AttendChart = ({ chartView, startDate, endDate }) => {
         backgroundColor: "#5D5FEF",
         xAlign: "center",
         yAlign: "bottom",
+        callbacks: {
+          title: (context) => {
+            let title = "";
+            title = context.formattedValue;
+            return title;
+          },
+        },
       },
     },
     scales: {
