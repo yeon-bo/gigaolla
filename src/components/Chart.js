@@ -6,6 +6,9 @@ import ChartTab from "./ChartTab";
 import { useParams } from "react-router-dom";
 import qs from "qs";
 
+const TOTAL_URL =
+  "https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php";
+const SUBJECT_URL = `https://kimcodi.kr/external_api/dashboard/avgOfSubjectByMonth.php`;
 const subjects = {
   경찰: ["경찰학", "형사법", "헌법"],
   행정: ["행정학", "국어", "한국사", "행정법", "영어"],
@@ -13,20 +16,19 @@ const subjects = {
 };
 
 function Chart() {
-  const [totalData, setTotalData] = useState([]);
-  const [data, setData] = useState([]);
   const [chartView, setChartView] = useState("bar");
+  const [currentTotalData, setCurrentTotalData] = useState([]);
+  const [currentSubjectdata, setCurrentSubjectData] = useState([]);
+  const [prevTotalData, setPrevTotalData] = useState([]);
+  const [prevSubjectdata, setPrevSubjectData] = useState([]);
 
   const params = useParams();
   const SUBJECT = params.subject;
   const subject = subjects[SUBJECT];
 
-  const TOTAL_URL =
-    "https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php";
-  const SUBJECT_URL = `https://kimcodi.kr/external_api/dashboard/avgOfSubjectByMonth.php`;
-
+  // 이번달 총점 평균
   useEffect(() => {
-    const total = [];
+    const currentTotal = [];
     (async () => {
       const res = await fetch(
         `${TOTAL_URL}?${qs.stringify({
@@ -35,13 +37,14 @@ function Chart() {
           series: SUBJECT,
         })}`
       );
-      total.push(Math.round((await res.json()).result[0].AVG));
-      setTotalData(total);
+      currentTotal.push(Math.round((await res.json()).result[0].AVG));
+      setCurrentTotalData(currentTotal);
     })().catch(console.error);
   }, []);
 
+  // 이번달 과목별 평균
   useEffect(() => {
-    const newData = [];
+    const currentSubject = [];
     (async () => {
       await Promise.all(
         subject.map(async (i) => {
@@ -52,10 +55,46 @@ function Chart() {
               subject: i,
             })}`
           );
-          newData.push(Math.round((await res.json()).result[0].AVG));
+          currentSubject.push(Math.round((await res.json()).result[0].AVG));
         })
       );
-      setData(newData);
+      setCurrentSubjectData(currentSubject);
+    })().catch(console.error);
+  }, []);
+
+  // 전달 총점 평균
+  useEffect(() => {
+    const prevTotal = [];
+    (async () => {
+      const res = await fetch(
+        `${TOTAL_URL}?${qs.stringify({
+          yyyy: new Date().getFullYear(),
+          mm: `0${new Date().getMonth() - 1}`,
+          series: SUBJECT,
+        })}`
+      );
+      prevTotal.push(Math.round((await res.json()).result[0].AVG));
+      setPrevTotalData(prevTotal);
+    })().catch(console.error);
+  }, []);
+
+  // 전달 과목별 평균
+  useEffect(() => {
+    const prevSubject = [];
+    (async () => {
+      await Promise.all(
+        subject.map(async (i) => {
+          const res = await fetch(
+            `${SUBJECT_URL}?${qs.stringify({
+              yyyy: new Date().getFullYear(),
+              mm: `0${new Date().getMonth() - 1}`,
+              subject: i,
+            })}`
+          );
+          prevSubject.push(Math.round((await res.json()).result[0].AVG));
+        })
+      );
+      setPrevSubjectData(prevSubject);
     })().catch(console.error);
   }, []);
 
@@ -103,13 +142,23 @@ function Chart() {
     datasets: [
       {
         label: "이번달",
-        data: [totalData, data[0], data[1], data[2]],
+        data: [
+          currentTotalData,
+          currentSubjectdata[0],
+          currentSubjectdata[1],
+          currentSubjectdata[2],
+        ],
         backgroundColor: ["#5E72E4"],
         barPercentage: 0.5,
       },
       {
         label: "전달",
-        data: [89, 87, 90, 85],
+        data: [
+          prevTotalData,
+          prevSubjectdata[0],
+          prevSubjectdata[1],
+          prevSubjectdata[2],
+        ],
         backgroundColor: "#8898AA",
         barPercentage: 0.5,
       },
