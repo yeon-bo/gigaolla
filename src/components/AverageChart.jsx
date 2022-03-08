@@ -1,37 +1,104 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import styled from "styled-components";
 import { Chart as ChartJS, BarElement } from "chart.js";
 import { Bar, Line } from "react-chartjs-2";
 import ChartTab from "./ChartTab";
+import { useParams } from "react-router-dom";
+import qs from "qs";
 
-const totalUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php?%20yyyy=2021&mm=12&series=경찰`;
-const subjectUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSubjectByMonth.php?yyyy=2021&mm=12&subject=헌법`;
+const TOTAL_URL =
+  "https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php";
+const SUBJECT_URL = `https://kimcodi.kr/external_api/dashboard/avgOfSubjectByMonth.php`;
+const subjects = {
+  경찰: ["경찰학", "형사법", "헌법"],
+  행정: ["행정학", "국어", "한국사", "행정법", "영어"],
+  소방: ["소방학개론", "소방한국사", "소방영어", "소방관계법규", "소방행정법"],
+};
 
 function AverageChart() {
-  const [averageData, setAverageData] = useState([]);
   const [chartView, setChartView] = useState("bar");
+  const [currentTotalData, setCurrentTotalData] = useState([]);
+  const [currentSubjectdata, setCurrentSubjectData] = useState([]);
+  const [prevTotalData, setPrevTotalData] = useState([]);
+  const [prevSubjectdata, setPrevSubjectData] = useState([]);
 
-  function searchApi() {
-    let arr = [];
-    axios
-      .all([axios.get(totalUrl), axios.get(subjectUrl)])
-      .then(
-        axios.spread((res1, res2) => {
-          console.log(
-            "성공",
-            res1.data.result[0].STUDENT_COUNT,
-            res2.data.result[0].STUDENT_COUNT
+  const params = useParams();
+  const SUBJECT = params.subject;
+  const subject = subjects[SUBJECT];
+
+  // 이번달 총점 평균
+  useEffect(() => {
+    const currentTotal = [];
+    (async () => {
+      const res = await fetch(
+        `${TOTAL_URL}?${qs.stringify({
+          yyyy: new Date().getFullYear(),
+          mm: `0${new Date().getMonth() - 1}`,
+          series: SUBJECT,
+        })}`
+      );
+      currentTotal.push(Math.round((await res.json()).result[0].AVG));
+      setCurrentTotalData(currentTotal);
+    })().catch(console.error);
+  }, []);
+
+  // 이번달 과목별 평균
+  useEffect(() => {
+    const currentSubject = [];
+    (async () => {
+      await Promise.all(
+        subject.map(async (i) => {
+          const res = await fetch(
+            `${SUBJECT_URL}?${qs.stringify({
+              yyyy: new Date().getFullYear(),
+              mm: `0${new Date().getMonth() - 1}`,
+              subject: i,
+            })}`
           );
-          console.log(averageData);
+          currentSubject.push(Math.round((await res.json()).result[0].AVG));
         })
-      )
-      .catch(function (error) {
-        console.log("실패");
-      });
-  }
-  searchApi();
+      );
+      setCurrentSubjectData(currentSubject);
+    })().catch(console.error);
+  }, []);
 
+  // 전달 총점 평균
+  useEffect(() => {
+    const prevTotal = [];
+    (async () => {
+      const res = await fetch(
+        `${TOTAL_URL}?${qs.stringify({
+          yyyy: new Date().getFullYear(),
+          mm: `0${new Date().getMonth() - 1}`,
+          series: SUBJECT,
+        })}`
+      );
+      prevTotal.push(Math.round((await res.json()).result[0].AVG));
+      setPrevTotalData(prevTotal);
+    })().catch(console.error);
+  }, []);
+
+  // 전달 과목별 평균
+  useEffect(() => {
+    const prevSubject = [];
+    (async () => {
+      await Promise.all(
+        subject.map(async (i) => {
+          const res = await fetch(
+            `${SUBJECT_URL}?${qs.stringify({
+              yyyy: new Date().getFullYear(),
+              mm: `0${new Date().getMonth() - 1}`,
+              subject: i,
+            })}`
+          );
+          prevSubject.push(Math.round((await res.json()).result[0].AVG));
+        })
+      );
+      setPrevSubjectData(prevSubject);
+    })().catch(console.error);
+  }, []);
+
+  // 차트
   ChartJS.register(BarElement);
 
   const barOptions = {
@@ -75,13 +142,23 @@ function AverageChart() {
     datasets: [
       {
         label: "이번달",
-        data: [96, 90, 95, 90],
+        data: [
+          currentTotalData,
+          currentSubjectdata[0],
+          currentSubjectdata[1],
+          currentSubjectdata[2],
+        ],
         backgroundColor: ["#5E72E4"],
         barPercentage: 0.5,
       },
       {
         label: "전달",
-        data: [89, 87, 90, 85],
+        data: [
+          prevTotalData,
+          prevSubjectdata[0],
+          prevSubjectdata[1],
+          prevSubjectdata[2],
+        ],
         backgroundColor: "#8898AA",
         barPercentage: 0.5,
       },
