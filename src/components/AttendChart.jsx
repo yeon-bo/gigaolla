@@ -13,7 +13,6 @@ import {
   Legend,
 } from "chart.js";
 import { Bar, Line } from "react-chartjs-2";
-import ChartDataLabels from "chartjs-plugin-datalabels";
 import { useParams } from "react-router";
 
 const AttendChart = ({
@@ -125,10 +124,11 @@ const AttendChart = ({
             await getStudentData(subject, number, cur.year, cur.month);
           const acc = await _acc;
           const monthLabel = cur.month < 10 ? `0${cur.month}` : cur.month;
+          const attendPercentLabel = attendPercent + "%";
           acc["totalStudentData"].push(totalStudent);
           acc["testedStudentData"].push(testedStudent);
           acc["attendPercentData"].push(attendPercent);
-          acc["chartLabelData"].push([monthLabel, attendPercent]);
+          acc["chartLabelData"].push([monthLabel, attendPercentLabel]);
           return acc;
         },
         {
@@ -162,33 +162,11 @@ const AttendChart = ({
     Title,
     Tooltip,
     Legend
-    // ChartDataLabels
   );
 
   const barOptions = {
     responsive: true,
     plugins: {
-      datalabels: {
-        display: (context) => {
-          const index = context.dataIndex;
-          const value = context.dataset.data.length;
-          return index - value === -1 ? true : false;
-        },
-        backgroundColor: (context) => {
-          const value = context.dataset.label;
-          return value === "재학생" ? "#8898AA" : "#5D5FEF";
-        },
-        color: "#ffffff",
-        borderRadius: 12,
-        padding: {
-          top: 8,
-          bottom: 8,
-          left: 18,
-          right: 18,
-        },
-        anchor: "end",
-        align: "top",
-      },
       legend: {
         position: "bottom",
         align: "end",

@@ -82,14 +82,21 @@ const ChartTab = ({
       <div className="calendarcontainer">
         <img src={calendar} alt="calendar" className="navicon" />
         <div className="datepicker-wrap">
-          {view === "compareBar" ? (
+          {view === "bar" ? (
+            <DatePicker
+              className="datepicker"
+              selected={todayDate}
+              dateFormat="yyyy/MM/dd"
+              disabled
+            />
+          ) : (
             <>
               <DatePicker
                 className="datepicker"
                 selected={startDate}
                 onChange={(date) => setStartDate(date)}
                 maxDate={new Date()}
-                dateFormat="MM/yyyy"
+                dateFormat="yyyy/MM"
                 showMonthYearPicker
               />
               ,
@@ -101,16 +108,10 @@ const ChartTab = ({
                 endDate={endDate}
                 minDate={startDate}
                 maxDate={new Date()}
-                dateFormat="MM/yyyy"
+                dateFormat="yyyy/MM"
                 showMonthYearPicker
               />
             </>
-          ) : (
-            <DatePicker
-              className="datepicker"
-              selected={todayDate}
-              maxDate={new Date()}
-            />
           )}
         </div>
       </div>
