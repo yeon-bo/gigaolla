@@ -10,6 +10,7 @@ const AttendChartWrap = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [compareAttendPercent, setCompareAttendPercent] = useState(0);
+  const [info, setInfo] = useState(" 전달 대비 응시율");
   // 응시율 Wrap
   const Cont = styled.div`
     width: 100%;
@@ -32,7 +33,7 @@ const AttendChartWrap = () => {
         Element={AttendChart}
         Name={"응시율"}
         Count={compareAttendPercent + "%"}
-        Info={" 전달 대비 응시율"}
+        Info={info}
         chartView={chartView}
         startDate={startDate}
         endDate={endDate}

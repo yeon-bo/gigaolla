@@ -252,7 +252,7 @@ const AttendChart = ({
 
   return (
     <Cont>
-      {chartView !== "chart" ? (
+      {chartView !== "line" ? (
         <Bar options={barOptions} data={chartData} />
       ) : (
         <Line options={barOptions} data={chartData} />
