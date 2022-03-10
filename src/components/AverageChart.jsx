@@ -6,6 +6,11 @@ import ChartTab from "./ChartTab";
 import { useParams } from "react-router-dom";
 import qs from "qs";
 
+const Cont = styled.div`
+  width: 800px;
+  margin-top: 64px;
+`;
+
 const TOTAL_URL =
   "https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php";
 const SUBJECT_URL = `https://kimcodi.kr/external_api/dashboard/avgOfSubjectByMonth.php`;
@@ -14,6 +19,9 @@ const subjects = {
   행정: ["행정학", "국어", "한국사", "행정법", "영어"],
   소방: ["소방학개론", "소방한국사", "소방영어", "소방관계법규", "소방행정법"],
 };
+
+// 차트
+ChartJS.register(BarElement);
 
 function AverageChart() {
   const [chartView, setChartView] = useState("bar");
@@ -33,7 +41,7 @@ function AverageChart() {
       const res = await fetch(
         `${TOTAL_URL}?${qs.stringify({
           yyyy: new Date().getFullYear(),
-          mm: `0${new Date().getMonth() - 1}`,
+          mm: String(new Date().getMonth() - 1).padStart(2, "0"),
           series: SUBJECT,
         })}`
       );
@@ -50,7 +58,7 @@ function AverageChart() {
           const res = await fetch(
             `${SUBJECT_URL}?${qs.stringify({
               yyyy: new Date().getFullYear(),
-              mm: `0${new Date().getMonth() - 1}`,
+              mm: String(new Date().getMonth() - 1).padStart(2, "0"),
               subject: i,
             })}`
           );
@@ -68,7 +76,7 @@ function AverageChart() {
       const res = await fetch(
         `${TOTAL_URL}?${qs.stringify({
           yyyy: new Date().getFullYear(),
-          mm: `0${new Date().getMonth() - 1}`,
+          mm: String(new Date().getMonth() - 1).padStart(2, "0"),
           series: SUBJECT,
         })}`
       );
@@ -85,7 +93,7 @@ function AverageChart() {
           const res = await fetch(
             `${SUBJECT_URL}?${qs.stringify({
               yyyy: new Date().getFullYear(),
-              mm: `0${new Date().getMonth() - 1}`,
+              mm: String(new Date().getMonth() - 1).padStart(2, "0"),
               subject: i,
             })}`
           );
@@ -95,9 +103,6 @@ function AverageChart() {
       setPrevSubjectData(prevSubject);
     })().catch(console.error);
   }, []);
-
-  // 차트
-  ChartJS.register(BarElement);
 
   const barOptions = {
     indexAxis: "y",
@@ -162,11 +167,6 @@ function AverageChart() {
       },
     ],
   };
-
-  const Cont = styled.div`
-    width: 800px;
-    margin-top: 64px;
-  `;
 
   return (
     <>
