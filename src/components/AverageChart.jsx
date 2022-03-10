@@ -20,8 +20,25 @@ const subjects = {
   소방: ["소방학개론", "소방한국사", "소방영어", "소방관계법규", "소방행정법"],
 };
 
-// 차트
 ChartJS.register(BarElement);
+
+// 전달, 전년도 구하기
+function getPrevMonthAndYear() {
+  let prevMonth = String(new Date().getMonth() - 2).padStart(2, "0");
+  let prevYear = new Date().getFullYear();
+  if ((prevMonth = "00")) {
+    prevMonth = "12";
+    prevYear -= 1;
+  } else if ((prevMonth = "0-1")) {
+    prevMonth = "11";
+    prevYear -= 1;
+  }
+  return { prevMonth, prevYear };
+}
+
+// 이번 달, 이번 년도 구하기
+const year = new Date().getFullYear(); // 현재 년도
+const month = String(new Date().getMonth() - 1).padStart(2, "0"); // 현재 월
 
 function AverageChart() {
   const [chartView, setChartView] = useState("bar");
@@ -40,8 +57,8 @@ function AverageChart() {
     (async () => {
       const res = await fetch(
         `${TOTAL_URL}?${qs.stringify({
-          yyyy: new Date().getFullYear(),
-          mm: String(new Date().getMonth() - 1).padStart(2, "0"),
+          yyyy: year,
+          mm: month,
           series: SUBJECT,
         })}`
       );
@@ -57,8 +74,8 @@ function AverageChart() {
         subject.map(async (i) => {
           const res = await fetch(
             `${SUBJECT_URL}?${qs.stringify({
-              yyyy: new Date().getFullYear(),
-              mm: String(new Date().getMonth() - 1).padStart(2, "0"),
+              yyyy: year,
+              mm: month,
               subject: i,
             })}`
           );
@@ -75,8 +92,8 @@ function AverageChart() {
     (async () => {
       const res = await fetch(
         `${TOTAL_URL}?${qs.stringify({
-          yyyy: new Date().getFullYear(),
-          mm: String(new Date().getMonth() - 1).padStart(2, "0"),
+          yyyy: getPrevMonthAndYear().prevYear,
+          mm: getPrevMonthAndYear().prevMonth,
           series: SUBJECT,
         })}`
       );
@@ -92,8 +109,8 @@ function AverageChart() {
         subject.map(async (i) => {
           const res = await fetch(
             `${SUBJECT_URL}?${qs.stringify({
-              yyyy: new Date().getFullYear(),
-              mm: String(new Date().getMonth() - 1).padStart(2, "0"),
+              yyyy: getPrevMonthAndYear().prevYear,
+              mm: getPrevMonthAndYear().prevMonth,
               subject: i,
             })}`
           );
