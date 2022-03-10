@@ -44,9 +44,8 @@ function AverageChart() {
 
   // 이번달 과목별 평균
   useEffect(() => {
-    const currentSubject = [];
     (async () => {
-      await Promise.all(
+      const currentSubject = await Promise.all(
         subject.map(async (i) => {
           const res = await fetch(
             `${SUBJECT_URL}?${qs.stringify({
@@ -55,7 +54,7 @@ function AverageChart() {
               subject: i,
             })}`
           );
-          currentSubject.push(Math.round((await res.json()).result[0].AVG));
+          return Math.round((await res.json()).result[0].AVG);
         })
       );
       setCurrentSubjectData(currentSubject);
@@ -80,9 +79,8 @@ function AverageChart() {
 
   // 전달 과목별 평균
   useEffect(() => {
-    const prevSubject = [];
     (async () => {
-      await Promise.all(
+      const prevSubject = await Promise.all(
         subject.map(async (i) => {
           const res = await fetch(
             `${SUBJECT_URL}?${qs.stringify({
@@ -91,7 +89,7 @@ function AverageChart() {
               subject: i,
             })}`
           );
-          prevSubject.push(Math.round((await res.json()).result[0].AVG));
+          return Math.round((await res.json()).result[0].AVG);
         })
       );
       setPrevSubjectData(prevSubject);
