@@ -11,7 +11,7 @@ import {
 import { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
 import { useParams } from 'react-router-dom'
-import { getLastMonth } from '../utils/getLastMonth'
+import { getLastMonth } from '../../utils/getLastMonth'
 
 ChartJS.register(
   CategoryScale,
