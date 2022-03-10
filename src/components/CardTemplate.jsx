@@ -77,7 +77,7 @@ const CardTemplate = ({
         startDate={startDate}
         endDate={endDate}
         setCompareAttendPercent={setCompareAttendPercent}
-        distributionTotal={distributionTotal}
+        // distributionTotal={distributionTotal}
       />
     </Cont>
   )
