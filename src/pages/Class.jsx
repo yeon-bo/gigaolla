@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import Navigation from '../components/Navigation'
@@ -6,9 +6,14 @@ import SummaryCard from '../components/SummaryCard'
 import AttendChartWrap from '../components/AttendChartWrap'
 import MaxScoreWrap from '../components/MaxScoreWrap'
 import AverageChartWrap from '../components/AverageChartWrap'
-import DistributionChartWarp from '../components/DistributionChartWarp'
+import DistributionChartWrap from '../components/distribution_chart/DistributionChartWrap'
+import DistributionChartTab from '../components/distribution_chart/DistributionChartTap'
+import SortBySubjectWrap from '../components/distribution_chart/SortBySubjectWrap'
 
 const Class = () => {
+  // 점수대별 인원 전체 / 과목별 버튼
+  const [distributionTotal, setDistributionTotal] = useState(true)
+
   // 전체 페이지 Wrap
   const Background = styled.div`
     width: 100%;
@@ -64,6 +69,9 @@ const Class = () => {
     line-height: 2.19rem;
     margin-bottom: 3.13rem;
   `
+  const DistributionChartName = styled(ChartName)`
+    margin-bottom: 1rem;
+  `
   // 점수지표 차트 wrap
   const Chart2 = styled.div`
     display: flex;
@@ -98,8 +106,11 @@ const Class = () => {
           </Chart2>
         </ChartCont>
         <ChartCont>
-          <ChartName>점수대별 인원수</ChartName>
-          <DistributionChartWarp />
+          <DistributionChartName>
+            <span>점수대별 인원수</span>
+            <DistributionChartTab setDistributionTotal={setDistributionTotal} />
+          </DistributionChartName>
+          {distributionTotal ? <DistributionChartWrap /> : <SortBySubjectWrap />}
         </ChartCont>
       </Cont>
     </Background>
