@@ -10,6 +10,30 @@ const Cont = styled.div`
   width: 800px;
   margin-top: 64px;
 `;
+const CurrentTotalData = styled.div`
+  width: 81px;
+  height: 39px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 39px;
+  letter-spacing: 0.977564px;
+  text-align: center;
+  .current {
+    background: #5d5fef;
+    border-radius: 12px;
+  }
+  .prev {
+    background: #8898aa;
+    border-radius: 12px;
+  }
+`;
+const SubjectData = styled.div`
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #696969;
+`;
 
 const TOTAL_URL =
   "https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php";
@@ -127,6 +151,7 @@ function AverageChart() {
     plugins: {
       legend: {
         display: true,
+        maxWidth: "200px",
         position: "bottom",
         align: "end",
         labels: {
@@ -190,7 +215,19 @@ function AverageChart() {
       <ChartTab onClick={setChartView} />
       <Cont>
         {chartView === "bar" ? (
-          <Bar options={barOptions} data={chartData} />
+          <>
+            <Bar options={barOptions} data={chartData} />
+            <CurrentTotalData>
+              <div className="current">{currentTotalData}점</div>
+              <div className="prev">{prevTotalData}점</div>
+            </CurrentTotalData>
+            <div>
+              {currentSubjectdata.map((data) => {
+                let datas = <SubjectData>{data}</SubjectData>;
+                return datas;
+              })}
+            </div>
+          </>
         ) : (
           <Line options={barOptions} data={chartData} />
         )}
