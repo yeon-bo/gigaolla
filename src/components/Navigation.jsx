@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-
 // icon link
 import logo from "../image/ollalogo.svg";
 import menu from "../image/menu_gray.svg";
@@ -15,7 +14,6 @@ import adminColor from "../image/admin_color.svg";
 import checklist from "../image/checklist_gray.svg";
 import checklistColor from "../image/checklist_white.svg";
 import calendar from "../image/calendar.svg";
-
 // calender
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -39,8 +37,10 @@ function Navigation() {
     adminlnb = "lnbcontainer admin";
   }
 
-  // 클릭시 gnb background css 고정
+  // 클릭시 gnb background css 고정 className = "activeBg" 추가
+  //  fixBackground === "직렬" 선택시 아이콘 color 변경 고정
   const [fixBackground, setFixBackground] = useState("");
+
   const onClickShowFix = (kategorie) => {
     setFixBackground(kategorie);
   };
@@ -49,23 +49,35 @@ function Navigation() {
   let adminmenu = "link admin";
   let allmenu = "link allmenu";
   if (fixBackground === "allmenu") {
-    allmenu = "link allmenu activeBg";
+    allmenu += " activeBg";
   } else if (fixBackground === "policemenu") {
-    policemenu = "link police activeBg";
+    policemenu += " activeBg";
   } else if (fixBackground === "firemenu") {
-    firemenu = "link fire activeBg";
+    firemenu += " activeBg";
   } else if (fixBackground === "adminmenu") {
-    adminmenu = "link admin activeBg";
+    adminmenu += " activeBg";
+  }
+  // icon color hover
+  const [hoveredIcon, sethoveredIcon] = useState("");
+  const onMouseOver = (coloricon) => {
+    sethoveredIcon(coloricon);
+  };
+  const onMouseOut = (coloricon) => {
+    sethoveredIcon(!coloricon);
+  };
+  let allicon = "navicon";
+  if (hoveredIcon === "allmenucolor") {
+    allicon += " allmenuicon";
+  } else if (hoveredIcon === "policemenucolor") {
+    allicon += " policeicon";
+  } else if (hoveredIcon === "firemenucolor") {
+    allicon += " fireicon";
+  } else if (hoveredIcon === "adminmenucolor") {
+    allicon += " adminicon";
   }
 
-  // 직렬 gnb hover icon/text color 변경
-  const [menuIconHover, setMenuIconHover] = useState(false);
-  const [policeIconHover, setPoliceIconHover] = useState(false);
-  const [fireIconHover, setFireIconHover] = useState(false);
-  const [adminIconHover, setAdminIconHover] = useState(false);
+  // 일정관리 클릭시 color 변경 / hover icon/text color 변경
   const [checklistIconHover, setChecklistIconHover] = useState(false);
-
-  // 일정관리 클릭시 color 변경
   const [checklistFix, setChecklistFix] = useState(false);
   const checklistShowFix = () => {
     setChecklistFix((prev) => !prev);
@@ -84,22 +96,29 @@ function Navigation() {
             </div>
             <ul>
               {/* 전체개요 */}
-              <li
-                className="gnb"
-                onMouseOver={() => setMenuIconHover(true)}
-                onMouseOut={() => setMenuIconHover(false)}
-              >
+              <li className="gnb">
                 <NavLink
                   to="/"
                   className={allmenu}
                   onClick={() => {
                     onClickShowFix("allmenu");
                   }}
+                  onMouseOver={() => {
+                    onMouseOver("allmenucolor");
+                  }}
+                  onMouseOut={() => {
+                    onMouseOut("allmenucolor");
+                  }}
                 >
                   <img
-                    src={menuIconHover || fixBackground ? menuColor : menu}
+                    src={
+                      fixBackground === "allmenu" ||
+                      hoveredIcon === "allmenucolor"
+                        ? menuColor
+                        : menu
+                    }
                     alt="menu"
-                    className="navicon"
+                    className={allicon}
                   />
                   <span className="menutext">전체개요</span>
                 </NavLink>
@@ -108,8 +127,8 @@ function Navigation() {
               {/* 경찰직렬 메뉴 */}
               <li
                 className="gnb"
-                onMouseOver={() => setPoliceIconHover(true)}
-                onMouseOut={() => setPoliceIconHover(false)}
+                // onMouseOver={() => setPoliceIconHover(true)}
+                // onMouseOut={() => setPoliceIconHover(false)}
               >
                 <NavLink
                   to="/경찰"
@@ -118,13 +137,22 @@ function Navigation() {
                     onClickSection("police");
                     onClickShowFix("policemenu");
                   }}
+                  onMouseOver={() => {
+                    onMouseOver("policemenucolor");
+                  }}
+                  onMouseOut={() => {
+                    onMouseOut("policemenucolor");
+                  }}
                 >
                   <img
                     src={
-                      policeIconHover || openedSection ? policeColor : police
+                      fixBackground === "policemenu" ||
+                      hoveredIcon === "policemenucolor"
+                        ? policeColor
+                        : police
                     }
                     alt="menu"
-                    className="navicon"
+                    className={allicon}
                   />
                   <span className="policetext">경찰직</span>
                 </NavLink>
@@ -167,8 +195,8 @@ function Navigation() {
               {/* 소방직렬 메뉴 */}
               <li
                 className="gnb"
-                onMouseOver={() => setFireIconHover(true)}
-                onMouseOut={() => setFireIconHover(false)}
+                // onMouseOver={() => setFireIconHover(true)}
+                // onMouseOut={() => setFireIconHover(false)}
               >
                 <NavLink
                   to="/소방"
@@ -177,11 +205,22 @@ function Navigation() {
                     onClickSection("fire");
                     onClickShowFix("firemenu");
                   }}
+                  onMouseOver={() => {
+                    onMouseOver("firemenucolor");
+                  }}
+                  onMouseOut={() => {
+                    onMouseOut("firemenucolor");
+                  }}
                 >
                   <img
-                    src={fireIconHover || openedSection ? fireColor : fire}
+                    src={
+                      fixBackground === "firemenu" ||
+                      hoveredIcon === "firemenucolor"
+                        ? fireColor
+                        : fire
+                    }
                     alt="menu"
-                    className="navicon"
+                    className={allicon}
                   />
                   <span className="firetext">소방직</span>
                 </NavLink>
@@ -217,11 +256,7 @@ function Navigation() {
               </li>
               {/* 소방직렬 메뉴끔 */}
               {/* 행정직렬 메뉴끔 */}
-              <li
-                className="gnb"
-                onMouseOver={() => setAdminIconHover(true)}
-                onMouseOut={() => setAdminIconHover(false)}
-              >
+              <li className="gnb">
                 <NavLink
                   to="/행정"
                   className={adminmenu}
@@ -229,11 +264,22 @@ function Navigation() {
                     onClickSection("admin");
                     onClickShowFix("adminmenu");
                   }}
+                  onMouseOver={() => {
+                    onMouseOver("adminmenucolor");
+                  }}
+                  onMouseOut={() => {
+                    onMouseOut("adminmenucolor");
+                  }}
                 >
                   <img
-                    src={adminIconHover || openedSection ? adminColor : admin}
+                    src={
+                      fixBackground === "adminmenu" ||
+                      hoveredIcon === "adminmenucolor"
+                        ? adminColor
+                        : admin
+                    }
                     alt="menu"
-                    className="navicon"
+                    className={allicon}
                   />
                   <span className="admintext">행정직</span>
                 </NavLink>
@@ -298,7 +344,7 @@ function Navigation() {
             {/* 일정관리 끝 */}
             {/* 달력 */}
             <div className="calendarcontiner">
-              <img src={calendar} alt="menu" className="navicon" />
+              <img src={calendar} alt="menu" className={allicon} />
               <DatePicker
                 className="datepicker"
                 selected={startDate}
