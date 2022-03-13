@@ -29,11 +29,11 @@
 
 ## Demo
 
-### Sidebar CSS
+### (1) Sidebar CSS
 
 ![sidebarCSS](https://user-images.githubusercontent.com/86825214/158068775-815748ce-a76e-40ee-a910-e609431356f7.gif)
 
-### Full overview
+### (2) Full overview
 
 ![overview](https://user-images.githubusercontent.com/86825214/158068883-db6a3930-f89c-4f00-95cc-20a46282ab95.gif)
 
