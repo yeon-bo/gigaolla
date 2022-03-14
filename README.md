@@ -18,7 +18,7 @@
 ### 🛠  Using Local Storage
 
 
-## Authors
+## Contributors
 
 - [@kimminji](https://github.com/yeon-bo)
 - [@leedongju](https://github.com/dongduu)
