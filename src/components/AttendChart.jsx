@@ -19,6 +19,8 @@ const AttendChart = ({
   chartView,
   startDate,
   endDate,
+  compareStartDate,
+  compareEndDate,
   setCompareAttendPercent,
 }) => {
   const [totalStudentArr, setTotalStudentArr] = useState([]);
@@ -36,9 +38,25 @@ const AttendChart = ({
     }
   `;
 
+  const getProgressYearMonth = () => {
+    const total_months =
+      (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+      (endDate.getMonth() - startDate.getMonth());
+    let year = endDate.getFullYear();
+    let month = endDate.getMonth() + 1;
+    let YearMonth = [];
+    for (let i = 0; i <= total_months; i++) {
+      YearMonth.unshift({ year, month });
+      month--;
+      if (month === 0) {
+        month = 12;
+        year = year - 1;
+      }
+    }
+    return { YearMonth };
+  };
+
   const getCompareYearMonth = () => {
-    const compareStartDate = new Date(startDate);
-    const compareEndDate = new Date(endDate);
     const YearMonth = [
       {
         year: compareStartDate.getFullYear(),
@@ -111,7 +129,11 @@ const AttendChart = ({
   useEffect(() => {
     const fetchData = async () => {
       const { YearMonth } =
-        chartView !== "compareBar" ? getYearMonth() : getCompareYearMonth();
+        chartView === "bar"
+          ? getYearMonth()
+          : chartView === "compareBar"
+          ? getCompareYearMonth()
+          : getProgressYearMonth();
 
       const {
         totalStudentData,
@@ -123,12 +145,13 @@ const AttendChart = ({
           const { totalStudent, testedStudent, attendPercent } =
             await getStudentData(subject, number, cur.year, cur.month);
           const acc = await _acc;
-          const monthLabel = cur.month < 10 ? `0${cur.month}` : cur.month;
+          const month = cur.month < 10 ? `0${cur.month}` : cur.month;
+          const dateLabel = `${cur.year}.${month}`;
           const attendPercentLabel = attendPercent + "%";
           acc["totalStudentData"].push(totalStudent);
           acc["testedStudentData"].push(testedStudent);
           acc["attendPercentData"].push(attendPercent);
-          acc["chartLabelData"].push([monthLabel, attendPercentLabel]);
+          acc["chartLabelData"].push([dateLabel, attendPercentLabel]);
           return acc;
         },
         {
@@ -141,6 +164,7 @@ const AttendChart = ({
       const arrIndex = attendPercentData.length;
       let compareAttend =
         attendPercentData[arrIndex - 1] - attendPercentData[arrIndex - 2];
+      compareAttend = compareAttend.toFixed(1);
       compareAttend = compareAttend >= 0 ? `+ ${compareAttend}` : compareAttend;
       setCompareAttendPercent(compareAttend);
       setTotalStudentArr(totalStudentData);

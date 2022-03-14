@@ -12,6 +12,10 @@ const ChartTab = ({
   setStartDate,
   endDate,
   setEndDate,
+  compareStartDate,
+  setCompareStartDate,
+  compareEndDate,
+  setCompareEndDate,
 }) => {
   const Tab = styled.div`
     display: flex;
@@ -56,6 +60,26 @@ const ChartTab = ({
           font-size: 14px;
           letter-spacing: -0.6px;
         }
+        .react-datepicker {
+          width: 344px;
+          height: 258px;
+          .react-datepicker__header {
+            background-color: #fff;
+            border-bottom: none;
+          }
+          .react-datepicker__month-container {
+            height: 100%;
+            .react-datepicker__month {
+              display: flex;
+              flex-wrap: wrap;
+              .react-datepicker__month-wrapper {
+                flex-basis: 100%;
+                display: flex;
+                justify-content: space-evenly;
+              }
+            }
+          }
+        }
       }
       img {
         position: absolute;
@@ -97,6 +121,26 @@ const ChartTab = ({
               disabled
               customInput={<CustomInput />}
               locale={ko}
+            />
+          ) : view === "compareBar" ? (
+            <DatePicker
+              className="datepicker"
+              selected={startDate}
+              onChange={(dates) => {
+                const [start, end] = dates;
+                setCompareStartDate(start);
+                setCompareEndDate(end);
+              }}
+              startDate={compareStartDate}
+              endDate={compareEndDate}
+              minDate={new Date("2021/10")}
+              maxDate={new Date()}
+              dateFormat="yyyy년 MM월"
+              showMonthYearPicker
+              customInput={<CustomInput />}
+              shouldCloseOnSelect={false}
+              locale={ko}
+              selectsRange
             />
           ) : (
             <DatePicker
