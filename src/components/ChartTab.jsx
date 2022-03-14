@@ -6,10 +6,8 @@ import { forwardRef } from "react";
 import { ko } from "date-fns/esm/locale";
 
 const ChartTab = ({
-  onClick,
+  setChartView,
   view,
-  todayDate,
-  setTodayDate,
   startDate,
   setStartDate,
   endDate,
@@ -82,9 +80,10 @@ const ChartTab = ({
       </div>
     );
   });
+
   return (
     <Tab>
-      <button className="reset" onClick={() => onClick("bar")}>
+      <button className="reset" onClick={() => setChartView("bar")}>
         <img src={reset} alt="reset" />
       </button>
       <div className="calendarcontainer">
@@ -93,39 +92,48 @@ const ChartTab = ({
           {view === "bar" ? (
             <DatePicker
               className="datepicker"
-              selected={todayDate}
+              selected={new Date()}
               dateFormat="yyyy년 MM월 dd일"
               disabled
               customInput={<CustomInput />}
               locale={ko}
             />
           ) : (
-            <>
-              <DatePicker
-                className="datepicker"
-                selected={startDate}
-                onChange={(dates) => {
-                  const [start, end] = dates;
-                  setStartDate(start);
-                  setEndDate(end);
-                }}
-                startDate={startDate}
-                endDate={endDate}
-                minDate={new Date("2021/10")}
-                maxDate={new Date()}
-                dateFormat="yyyy년 MM월"
-                showMonthYearPicker
-                selectsRange
-                monthsShown={2}
-                customInput={<CustomInput />}
-              />
-            </>
+            <DatePicker
+              className="datepicker"
+              selected={startDate}
+              onChange={(dates) => {
+                const [start, end] = dates;
+                setStartDate(start);
+                setEndDate(end);
+              }}
+              startDate={startDate}
+              endDate={endDate}
+              minDate={new Date("2021/10")}
+              maxDate={new Date()}
+              dateFormat="yyyy년 MM월"
+              showMonthYearPicker
+              customInput={<CustomInput />}
+              shouldCloseOnSelect={false}
+              locale={ko}
+              selectsRange
+            />
           )}
         </div>
       </div>
       {/* 원하시는 함수 props 로 내려서 쓰시면 됩니다. */}
-      <button onClick={() => onClick("compareBar")}>비교</button>
-      <button onClick={() => onClick("line")}>추이</button>
+      <button
+        className={view === "compareBar" ? "active" : ""}
+        onClick={() => setChartView("compareBar")}
+      >
+        비교
+      </button>
+      <button
+        className={view === "line" ? "active" : ""}
+        onClick={() => setChartView("line")}
+      >
+        추이
+      </button>
     </Tab>
   );
 };

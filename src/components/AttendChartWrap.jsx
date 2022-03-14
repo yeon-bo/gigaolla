@@ -6,7 +6,6 @@ import ChartTab from "./ChartTab";
 
 const AttendChartWrap = () => {
   const [chartView, setChartView] = useState("bar");
-  const [todayDate, setTodayDate] = useState(new Date());
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [compareAttendPercent, setCompareAttendPercent] = useState(0);
@@ -19,10 +18,8 @@ const AttendChartWrap = () => {
   return (
     <Cont>
       <ChartTab
-        onClick={setChartView}
+        setChartView={setChartView}
         view={chartView}
-        todayDate={todayDate}
-        setTodayDate={setTodayDate}
         startDate={startDate}
         setStartDate={setStartDate}
         endDate={endDate}
