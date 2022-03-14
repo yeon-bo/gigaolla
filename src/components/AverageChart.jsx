@@ -5,6 +5,7 @@ import { Bar, Line } from "react-chartjs-2";
 import ChartTab from "./ChartTab";
 import { useParams } from "react-router-dom";
 import qs from "qs";
+import { Dropdown } from "antd";
 
 const Cont = styled.div`
   width: 800px;
@@ -65,11 +66,12 @@ const year = new Date().getFullYear(); // 현재 년도
 const month = String(new Date().getMonth() - 1).padStart(2, "0"); // 현재 월
 
 function AverageChart() {
-  const [chartView, setChartView] = useState("bar");
+  const [chartView, setChartView] = useState("chart");
   const [currentTotalData, setCurrentTotalData] = useState([]);
   const [currentSubjectdata, setCurrentSubjectData] = useState([]);
   const [prevTotalData, setPrevTotalData] = useState([]);
   const [prevSubjectdata, setPrevSubjectData] = useState([]);
+  const [labels, setLabels] = useState([]);
 
   const params = useParams();
   const SUBJECT = params.subject;
@@ -88,8 +90,9 @@ function AverageChart() {
       );
       currentTotal.push(Math.round((await res.json()).result[0].AVG));
       setCurrentTotalData(currentTotal);
+      setLabels(["총점", ...subject]);
     })().catch(console.error);
-  }, []);
+  }, [subject]);
 
   // 이번달 과목별 평균
   useEffect(() => {
@@ -108,7 +111,7 @@ function AverageChart() {
       );
       setCurrentSubjectData(currentSubject);
     })().catch(console.error);
-  }, []);
+  }, [subject]);
 
   // 전달 총점 평균
   useEffect(() => {
@@ -124,7 +127,7 @@ function AverageChart() {
       prevTotal.push(Math.round((await res.json()).result[0].AVG));
       setPrevTotalData(prevTotal);
     })().catch(console.error);
-  }, []);
+  }, [subject]);
 
   // 전달 과목별 평균
   useEffect(() => {
@@ -143,7 +146,7 @@ function AverageChart() {
       );
       setPrevSubjectData(prevSubject);
     })().catch(console.error);
-  }, []);
+  }, [subject]);
 
   const barOptions = {
     indexAxis: "y",
@@ -151,10 +154,12 @@ function AverageChart() {
     plugins: {
       legend: {
         display: true,
+        // reserver: true,
         maxWidth: "200px",
         position: "bottom",
         align: "end",
         labels: {
+          padding: 20,
           usePointStyle: true,
           pointStyle: "circle",
         },
@@ -182,30 +187,72 @@ function AverageChart() {
     },
   };
 
-  const chartData = {
-    labels: ["총점", "경찰학", "형사법", "헌법"],
+  const chartData1 = {
+    labels: labels,
     datasets: [
       {
         label: "이번달",
+        // barThickness: 12,
         data: [
           currentTotalData,
           currentSubjectdata[0],
           currentSubjectdata[1],
           currentSubjectdata[2],
+          currentSubjectdata[3],
+          currentSubjectdata[4],
         ],
-        backgroundColor: ["#5E72E4"],
-        barPercentage: 0.5,
+        backgroundColor: [
+          "#5E72E4",
+          "#FBA869",
+          "#42C366",
+          "#70A6E8",
+          "#FFDB5C",
+          "#A293FF",
+        ],
+        barPercentage: 0.4,
       },
       {
         label: "전달",
+        // barThickness: 12,
         data: [
           prevTotalData,
           prevSubjectdata[0],
           prevSubjectdata[1],
           prevSubjectdata[2],
+          prevSubjectdata[3],
+          prevSubjectdata[4],
         ],
         backgroundColor: "#8898AA",
-        barPercentage: 0.5,
+        barPercentage: 0.4,
+      },
+    ],
+  };
+
+  const lineOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+        labels: {
+          usePointStyle: true,
+        },
+      },
+    },
+    scales: {
+      xAxes: {
+        grid: {
+          display: false,
+        },
+      },
+    },
+  };
+
+  const chartData2 = {
+    labels: ["09", "10", "11", "12", "01", "02"], // 각 월이 나와야 함
+    datasets: [
+      {
+        data: [33, 53, 60, 41, 44, 65], // 각 월에 맞는 데이터
+        borderColor: "#5D5FEF",
       },
     ],
   };
@@ -214,10 +261,10 @@ function AverageChart() {
     <>
       <ChartTab onClick={setChartView} />
       <Cont>
-        {chartView === "bar" ? (
+        {chartView === "chart" ? (
           <>
-            <Bar options={barOptions} data={chartData} />
-            <CurrentTotalData>
+            <Bar options={barOptions} data={chartData1} />
+            {/* <CurrentTotalData>
               <div className="current">{currentTotalData}점</div>
               <div className="prev">{prevTotalData}점</div>
             </CurrentTotalData>
@@ -226,10 +273,12 @@ function AverageChart() {
                 let datas = <SubjectData>{data}</SubjectData>;
                 return datas;
               })}
-            </div>
+            </div> */}
           </>
         ) : (
-          <Line options={barOptions} data={chartData} />
+          <>
+            <Line options={lineOptions} data={chartData2} />
+          </>
         )}
       </Cont>
     </>
