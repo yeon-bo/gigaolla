@@ -91,6 +91,8 @@ const Class = () => {
     case '행정':
       subjectColor = '#257e0e'
       break
+    default:
+      subjectColor = '#5d5fef'
   }
 
   return (
