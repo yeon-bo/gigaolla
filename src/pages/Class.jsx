@@ -83,8 +83,7 @@ const Class = () => {
         <MessageCont>
           <Message>
             <MessageText>
-              경찰직, 목표 점수 달성도가 90%가 넘은 학생은 N명이며 저번 시험 대비 N%
-              올랐습니다.
+              경찰직, 목표 점수 달성도가 90%가 넘은 학생은 N명이며 저번 시험 대비 N% 올랐습니다.
             </MessageText>
           </Message>
         </MessageCont>
