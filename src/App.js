@@ -14,8 +14,11 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/:subject" element={<Class />} />
-        <Route path="/:subject/:number" element={<Class />} />
+        <Route path="/:subject" element={<Class />}>
+          <Route path="/:subject/:number" element={<Class />} />
+        </Route>
+
+
       </Routes>
     </div>
   )

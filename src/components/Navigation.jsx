@@ -40,14 +40,16 @@ function Navigation() {
   // 클릭시 gnb background css 고정 className = "activeBg" 추가
   //  fixBackground === "직렬" 선택시 아이콘 color 변경 고정
   const [fixBackground, setFixBackground] = useState("");
-
+  const [fixTextColor, setFixTextColor] = useState("");
   const onClickShowFix = (kategorie) => {
     setFixBackground(kategorie);
+    setFixTextColor(kategorie);
   };
   let policemenu = "link police";
   let firemenu = "link fire";
   let adminmenu = "link admin";
   let allmenu = "link allmenu";
+  let checklistmenu = "link checklist";
   if (fixBackground === "allmenu") {
     allmenu += " activeBg";
   } else if (fixBackground === "policemenu") {
@@ -56,7 +58,10 @@ function Navigation() {
     firemenu += " activeBg";
   } else if (fixBackground === "adminmenu") {
     adminmenu += " activeBg";
+  } else if (fixTextColor === "checklistmenu") {
+    checklistmenu += " listtextcolor";
   }
+
   // icon color hover
   const [hoveredIcon, sethoveredIcon] = useState("");
   const onMouseOver = (coloricon) => {
@@ -65,23 +70,28 @@ function Navigation() {
   const onMouseOut = (coloricon) => {
     sethoveredIcon(!coloricon);
   };
-  let allicon = "navicon";
+  let navicon = "navicon";
   if (hoveredIcon === "allmenucolor") {
-    allicon += " allmenuicon";
+    navicon += " allmenuicon";
   } else if (hoveredIcon === "policemenucolor") {
-    allicon += " policeicon";
+    navicon += " policeicon";
   } else if (hoveredIcon === "firemenucolor") {
-    allicon += " fireicon";
+    navicon += " fireicon";
   } else if (hoveredIcon === "adminmenucolor") {
-    allicon += " adminicon";
+    navicon += " adminicon";
+  } else if (hoveredIcon === "checklistmenucolor") {
+    navicon += " checklisticon";
   }
 
-  // 일정관리 클릭시 color 변경 / hover icon/text color 변경
-  const [checklistIconHover, setChecklistIconHover] = useState(false);
-  const [checklistFix, setChecklistFix] = useState(false);
-  const checklistShowFix = () => {
-    setChecklistFix((prev) => !prev);
+  // lnb menu click시 text color 변경 고정
+  const [clickTextColor, setClickTextColor] = useState("");
+  const onClicklnb = (textColor) => {
+    setClickTextColor(textColor);
   };
+  let lnbtextColor = "lnbtext";
+  if (clickTextColor === "classnumber") {
+    lnbtextColor += " clickde_text";
+  }
 
   // 일정관리 라이브러리
   const [startDate, setStartDate] = useState(new Date());
@@ -118,18 +128,14 @@ function Navigation() {
                         : menu
                     }
                     alt="menu"
-                    className={allicon}
+                    className={navicon}
                   />
                   <span className="menutext">전체개요</span>
                 </NavLink>
               </li>
               {/* 전체개요 끝 */}
               {/* 경찰직렬 메뉴 */}
-              <li
-                className="gnb"
-                // onMouseOver={() => setPoliceIconHover(true)}
-                // onMouseOut={() => setPoliceIconHover(false)}
-              >
+              <li className="gnb">
                 <NavLink
                   to="/경찰"
                   className={policemenu}
@@ -152,7 +158,7 @@ function Navigation() {
                         : police
                     }
                     alt="menu"
-                    className={allicon}
+                    className={navicon}
                   />
                   <span className="policetext">경찰직</span>
                 </NavLink>
@@ -193,11 +199,7 @@ function Navigation() {
               </li>
               {/* 경찰직렬 메뉴끝 */}
               {/* 소방직렬 메뉴 */}
-              <li
-                className="gnb"
-                // onMouseOver={() => setFireIconHover(true)}
-                // onMouseOut={() => setFireIconHover(false)}
-              >
+              <li className="gnb">
                 <NavLink
                   to="/소방"
                   className={firemenu}
@@ -220,7 +222,7 @@ function Navigation() {
                         : fire
                     }
                     alt="menu"
-                    className={allicon}
+                    className={navicon}
                   />
                   <span className="firetext">소방직</span>
                 </NavLink>
@@ -279,7 +281,7 @@ function Navigation() {
                         : admin
                     }
                     alt="menu"
-                    className={allicon}
+                    className={navicon}
                   />
                   <span className="admintext">행정직</span>
                 </NavLink>
@@ -317,24 +319,29 @@ function Navigation() {
               <MidLine />
             </ul>
             {/* 일정관리 */}
-            <div
-              className="checklistContainer"
-              onMouseOver={() => setChecklistIconHover(true)}
-              onMouseOut={() => setChecklistIconHover(false)}
-            >
-              <NavLink to="/" className="link" onClick={checklistShowFix}>
+            <div className="checklistContainer">
+              <NavLink
+                to="/"
+                className="link"
+                onClick={checklistmenu}
+                onMouseOver={() => onMouseOver("checklistmenucolor")}
+                onMouseOut={() => onMouseOut("checklistmenucolor")}
+              >
                 <img
                   src={
-                    checklistFix || checklistIconHover
+                    fixTextColor === "checklistmenu" ||
+                    hoveredIcon === "checklistmenucolor"
                       ? checklistColor
                       : checklist
                   }
                   alt="checklist"
-                  className="checklisticon"
+                  className={navicon}
                 />
                 <span
                   className={
-                    checklistFix ? "checklistText white" : "checklistText"
+                    fixTextColor === "checklistmenu"
+                      ? "checklistText white"
+                      : "checklistText"
                   }
                 >
                   일정관리
@@ -344,7 +351,7 @@ function Navigation() {
             {/* 일정관리 끝 */}
             {/* 달력 */}
             <div className="calendarcontiner">
-              <img src={calendar} alt="menu" className={allicon} />
+              <img src={calendar} alt="menu" className={navicon} />
               <DatePicker
                 className="datepicker"
                 selected={startDate}
@@ -547,6 +554,9 @@ const StyledNavigation = styled.div`
               height: 80px;
               line-height: 40px;
               text-align: center;
+              .clickde_text {
+                color: #fff;
+              }
             }
           }
           // 직렬 선택시 직렬 서브메뉴 '전체' font color 변경
