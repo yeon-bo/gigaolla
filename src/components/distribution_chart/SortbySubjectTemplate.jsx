@@ -24,7 +24,7 @@ const Cont = styled.div`
 // 전체 위치 고정
 const TitleCont = styled.div`
   position: relative;
-  margin-bottom: 3em;
+  margin-bottom: 7em;
 `
 // Chart Title
 const Title = styled.span`

@@ -31,9 +31,6 @@ const options = {
         },
       },
     },
-    tooltop: {
-      backgroundColor: '#5D5FEF',
-    },
   },
   scales: {
     x: {
