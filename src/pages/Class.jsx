@@ -9,6 +9,7 @@ import AverageChartWrap from '../components/AverageChartWrap'
 import DistributionChartWrap from '../components/distribution_chart/DistributionChartWrap'
 import DistributionChartTab from '../components/distribution_chart/DistributionChartTap'
 import SortBySubjectWrap from '../components/distribution_chart/SortBySubjectWrap'
+import { useParams } from 'react-router-dom'
 
 const Class = () => {
   // 점수대별 인원 전체 / 과목별 버튼
@@ -29,7 +30,7 @@ const Class = () => {
     width: 82.81em;
     height: 5em;
     margin: 7.5em auto 0;
-    background: #214680;
+    background: ${(props) => props.subjectColor};
     border-radius: 16px;
   `
   // MessageText 가운데 정렬을 위한 wrap
@@ -76,11 +77,27 @@ const Class = () => {
   const Chart2 = styled.div`
     display: flex;
   `
+
+  const { subject } = useParams()
+  // 상단 공지 색깔 변경
+  let subjectColor
+  switch (subject) {
+    case '경찰':
+      subjectColor = '#21468d'
+      break
+    case '소방':
+      subjectColor = '#fd4f3a'
+      break
+    case '행정':
+      subjectColor = '#257e0e'
+      break
+  }
+
   return (
     <Background>
       <Navigation />
       <Cont>
-        <MessageCont>
+        <MessageCont subjectColor={subjectColor}>
           <Message>
             <MessageText>
               경찰직, 목표 점수 달성도가 90%가 넘은 학생은 N명이며 저번 시험 대비 N% 올랐습니다.

@@ -8,7 +8,7 @@ const Cont = styled.div`
   width: 100%;
   min-height: 100%;
   font-family: 'Noto Sans KR', sans-serif;
-  background: #fff;
+  background: ${(props) => props.theme.chartBackgroundColor};
   border-radius: 25px;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04),
     0px 0px 1px rgba(0, 0, 0, 0.04);
@@ -23,7 +23,7 @@ const Title = styled.span`
   font-weight: bold;
   font-size: 1.5em;
   line-height: 3.44rem;
-  color: #545454;
+  color: ${(props) => props.theme.textColor};
 `
 // Chart Detail Wrap
 const DetailCont = styled.div`
