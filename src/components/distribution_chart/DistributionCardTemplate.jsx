@@ -43,7 +43,7 @@ const Detail = styled.span`
   color: #8898aa;
 `
 //컴포..
-const CardTemplate = ({
+const DistributionCardTemplate = ({
   Element,
   Name,
   Count,
@@ -66,8 +66,7 @@ const CardTemplate = ({
           <DetailCount>{Count}</DetailCount>
           {Info}
           <Detail>
-            {year}
-            {month}
+            {year}-{month}
           </Detail>
         </DetailCont>
       </TitleCont>
@@ -83,4 +82,4 @@ const CardTemplate = ({
   )
 }
 
-export default CardTemplate
+export default DistributionCardTemplate
