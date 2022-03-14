@@ -20,7 +20,7 @@
 
 ## Authors
 
-- [@kimminji](https://github.com/yeon-bo)
+- [@kimminji](https://github.com/yeon-bo)
 - [@leedongju](https://github.com/dongduu)
 - [@leearam](https://github.com/aram5130)
 - [@hamdain](https://github.com/dain9812)
