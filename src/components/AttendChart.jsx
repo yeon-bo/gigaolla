@@ -15,6 +15,15 @@ import {
 import { Bar, Line } from "react-chartjs-2";
 import { useParams } from "react-router";
 
+const Cont = styled.div`
+  width: 90%;
+  height: 23em;
+  margin: 3em auto;
+  canvas {
+    max-height: 100% !important;
+  }
+`;
+
 const AttendChart = ({
   chartView,
   startDate,
@@ -28,15 +37,6 @@ const AttendChart = ({
   const [labels, setLabels] = useState([]);
   const [barPercentage, setBarPercentage] = useState(0.5);
   const { subject, number } = useParams();
-
-  const Cont = styled.div`
-    width: 90%;
-    height: 23em;
-    margin: 3em auto;
-    canvas {
-      max-height: 100% !important;
-    }
-  `;
 
   const getProgressYearMonth = () => {
     const total_months =
