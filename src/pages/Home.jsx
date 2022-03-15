@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import Navigation from '../components/Navigation'
+// import Navigation from '../components/Navigation'
 import OverviewCard from '../components/OverviewCard'
 import HomeAttendChartWrap from '../components/HomeAttendChartWrap'
 
@@ -49,6 +49,7 @@ const Home = () => {
       width: 100%;
     }
   `
+
   return (
     <Background>
       {/* <Navigation /> */}

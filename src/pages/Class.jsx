@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import Navigation from '../components/Navigation'
+// import Navigation from '../components/Navigation'
 import SummaryCard from '../components/SummaryCard'
 import AttendChartWrap from '../components/AttendChartWrap'
 import MaxScoreWrap from '../components/MaxScoreWrap'

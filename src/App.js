@@ -11,6 +11,7 @@ import { defaultTheme, darkTheme } from './utils/theme'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { isDarkAtom } from './utils/atoms'
 import Navigation from './components/Navigation'
+import Schedule from './pages/Schedule'
 
 const Darkmode = styled.button`
   width: 3em;
@@ -52,6 +53,7 @@ function App() {
           <Route path="/:subject" element={<Class />}>
             <Route path="/:subject/:number" element={<Class />} />
           </Route>
+          <Route path="/schedule" element={<Schedule />} />
         </Routes>
         {/* 다크모드버튼 */}
         <Darkmode onClick={changeTheme}>
