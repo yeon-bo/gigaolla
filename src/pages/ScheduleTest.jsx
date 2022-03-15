@@ -1,10 +1,16 @@
+import React, { useState } from 'react'
 import styled from 'styled-components'
+
+import CalendarHeader from '../components/schedule/CalendarHeader'
+import Month from '../components/schedule/Month'
+
+import { getScheduleMonth } from '../utils/schedule'
 
 // STYLED COMPONENT
 const Cont = styled.div`
   width: calc(100vw - 286px);
   height: 120em;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   display: flex;
@@ -29,21 +35,26 @@ const MemoZone = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: aqua;
 `
 const MemoCard = styled.div`
   height: 28em;
   width: 28em;
   background-color: beige;
   border-radius: 30px;
-  background-color: aliceblue;
 `
 
 //컴포.
 const Schedule = () => {
+  const [currentMonth, setCurrentMonth] = useState(getScheduleMonth())
+
   return (
     <Cont>
-      <CalendarZone>calendar</CalendarZone>
+      <CalendarZone>
+        {/* 날짜 */}
+        <CalendarHeader />
+        {/* 달력 */}
+        <Month currentMonth={currentMonth} />
+      </CalendarZone>
       <MemoZone>
         <MemoCard>투데이</MemoCard>
         <MemoCard>위클리</MemoCard>

@@ -17,10 +17,12 @@ const Calendar = styled.div`
   top: 0;
   left: 0;
 `
+// const
 
 const Month = ({ currentMonth }) => {
   return (
     <Cont>
+      {/* <span>월화수목금토일</span> */}
       {currentMonth.map((row, idx) => {
         return (
           <Calendar key={idx}>
