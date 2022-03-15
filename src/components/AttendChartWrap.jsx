@@ -10,6 +10,7 @@ const AttendChartWrap = () => {
   const [chartView, setChartView] = useState("bar");
   const [startDate, setStartDate] = useState(date);
   const [endDate, setEndDate] = useState(new Date());
+  const [maxDate, setMaxDate] = useState(new Date());
   const [compareStartDate, setCompareStartDate] = useState(new Date());
   const [compareEndDate, setCompareEndDate] = useState(new Date());
   const [compareAttendPercent, setCompareAttendPercent] = useState(0);
@@ -45,6 +46,8 @@ const AttendChartWrap = () => {
         setStartDate={setStartDate}
         endDate={endDate}
         setEndDate={setEndDate}
+        maxDate={maxDate}
+        setMaxDate={setMaxDate}
         compareStartDate={compareStartDate}
         setCompareStartDate={setCompareStartDate}
         compareEndDate={compareEndDate}

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import reset from "../image/reset.svg";
 import calendar from "../image/calendar.svg";
 import { forwardRef } from "react";
@@ -12,6 +13,8 @@ const ChartTab = ({
   setStartDate,
   endDate,
   setEndDate,
+  maxDate,
+  setMaxDate,
   compareStartDate,
   setCompareStartDate,
   compareEndDate,
@@ -63,19 +66,79 @@ const ChartTab = ({
         .react-datepicker {
           width: 344px;
           height: 258px;
+          border-radius: 25px;
+          border: none;
+          padding: 24px 0;
+          box-sizing: border-box;
+          filter: drop-shadow(0px 16px 24px rgba(0, 0, 0, 0.06))
+            drop-shadow(0px 2px 6px rgba(0, 0, 0, 0.04))
+            drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.04));
+          .react-datepicker__triangle {
+            display: none;
+          }
           .react-datepicker__header {
             background-color: #fff;
             border-bottom: none;
+            border-radius: 25px;
+            padding: 0;
           }
           .react-datepicker__month-container {
             height: 100%;
+            #year {
+              width: 82px;
+              height: 40px;
+              background: #f8f7fa;
+              border-radius: 8px;
+              border: none;
+              padding-left: 16px;
+              box-sizing: border-box;
+              color: #5d5fef;
+              font-size: 14px;
+            }
             .react-datepicker__month {
               display: flex;
               flex-wrap: wrap;
+              .react-datepicker__month-text {
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
               .react-datepicker__month-wrapper {
                 flex-basis: 100%;
                 display: flex;
                 justify-content: space-evenly;
+                .react-datepicker__month--in-range {
+                  background: rgba(93, 95, 239, 0.3);
+                  color: #000;
+                }
+                .react-datepicker__month--range-start,
+                .react-datepicker__month--range-end,
+                .react-datepicker__month-text--keyboard-selected {
+                  background: #5d5fef;
+                  color: #fff;
+                }
+                .react-datepicker__month--disabled {
+                  background: #fff !important;
+                  color: #ccc !important;
+                }
+              }
+            }
+          }
+          &.compare {
+            .react-datepicker__month {
+              .react-datepicker__month-wrapper {
+                .react-datepicker__month--in-range {
+                  background: #fff;
+                }
+                .react-datepicker__month--range-start,
+                .react-datepicker__month--range-end,
+                .react-datepicker__month-text--keyboard-selected {
+                  background: #5d5fef;
+                  color: #fff;
+                }
               }
             }
           }
@@ -105,9 +168,29 @@ const ChartTab = ({
     );
   });
 
+  const MIN_YEAR = 2021;
+  const MAX_YEAR = new Date().getFullYear();
+  let select = [];
+  for (let i = 0; i <= MAX_YEAR - MIN_YEAR; i++) {
+    const option = 2021 + i;
+    select.push(option);
+  }
+  let date = new Date();
+  date.setMonth(date.getMonth() - 5);
+
   return (
     <Tab>
-      <button className="reset" onClick={() => setChartView("bar")}>
+      <button
+        className="reset"
+        onClick={() => {
+          setChartView("bar");
+          setStartDate(date);
+          setEndDate(new Date());
+          setMaxDate(new Date());
+          setCompareStartDate(new Date());
+          setCompareEndDate(new Date());
+        }}
+      >
         <img src={reset} alt="reset" />
       </button>
       <div className="calendarcontainer">
@@ -125,12 +208,24 @@ const ChartTab = ({
           ) : view === "compareBar" ? (
             <DatePicker
               className="datepicker"
-              selected={startDate}
-              onChange={(dates) => {
-                const [start, end] = dates;
-                setCompareStartDate(start);
-                setCompareEndDate(end);
-              }}
+              calendarClassName="compare"
+              renderCustomHeader={({ date, changeYear }) => (
+                <div>
+                  <select
+                    value={new Date(date).getFullYear()}
+                    name="year"
+                    id="year"
+                    onChange={({ target: { value } }) => changeYear(value)}
+                  >
+                    {select.map((option) => (
+                      <option value={option} key={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              selected={compareStartDate}
               startDate={compareStartDate}
               endDate={compareEndDate}
               minDate={new Date("2021/10")}
@@ -141,26 +236,52 @@ const ChartTab = ({
               shouldCloseOnSelect={false}
               locale={ko}
               selectsRange
+              disabledKeyboardNavigation
+              onChange={(dates) => {
+                const [start, end] = dates;
+                setCompareStartDate(start);
+                setCompareEndDate(end);
+              }}
             />
           ) : (
             <DatePicker
               className="datepicker"
+              renderCustomHeader={({ date, changeYear }) => (
+                <div>
+                  <select
+                    value={new Date(date).getFullYear()}
+                    name="year"
+                    id="year"
+                    onChange={({ target: { value } }) => changeYear(value)}
+                  >
+                    {select.map((option) => (
+                      <option value={option} key={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
               selected={startDate}
+              locale={ko}
+              showMonthYearPicker
+              startDate={startDate}
+              endDate={endDate}
+              minDate={new Date("2021/10")}
+              maxDate={maxDate}
+              dateFormat="yyyy년 MM월"
+              customInput={<CustomInput />}
+              shouldCloseOnSelect={false}
+              selectsRange
+              disabledKeyboardNavigation
               onChange={(dates) => {
                 const [start, end] = dates;
                 setStartDate(start);
                 setEndDate(end);
+                let startdate = new Date(start);
+                startdate.setMonth(start.getMonth() + 5);
+                setMaxDate(startdate);
               }}
-              startDate={startDate}
-              endDate={endDate}
-              minDate={new Date("2021/10")}
-              maxDate={new Date()}
-              dateFormat="yyyy년 MM월"
-              showMonthYearPicker
-              customInput={<CustomInput />}
-              shouldCloseOnSelect={false}
-              locale={ko}
-              selectsRange
             />
           )}
         </div>
