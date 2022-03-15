@@ -10,6 +10,7 @@ import Class from '../src/pages/Class'
 import { defaultTheme, darkTheme } from './utils/theme'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { isDarkAtom } from './utils/atoms'
+import Navigation from './components/Navigation'
 
 const Darkmode = styled.button`
   width: 3em;
@@ -42,8 +43,9 @@ function App() {
 
   return (
     <div className="App">
-      <ThemeProvider theme={isDark ? defaultTheme : darkTheme}>
+      <ThemeProvider theme={isDark ? darkTheme : defaultTheme}>
         <Reset />
+        <Navigation />
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

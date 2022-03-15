@@ -51,7 +51,7 @@ const Home = () => {
   `
   return (
     <Background>
-      <Navigation />
+      {/* <Navigation /> */}
       <Cont>
         <Title>OVERVIEW</Title>
         <CardCont>
