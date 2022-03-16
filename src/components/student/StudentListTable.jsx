@@ -11,7 +11,7 @@ const Tr = styled.tr`
   }
 `
 
-// Table Tiㄷtle Row
+// Table Title Row
 const COLUMNS = [
   {
     Header: '과목',
