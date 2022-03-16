@@ -4,11 +4,6 @@ import AttendChart from "./AttendChart";
 import CardTemplate from "./CardTemplate";
 import ChartTab from "./ChartTab";
 
-// 응시율 Wrap
-const Cont = styled.div`
-  width: 100%;
-`;
-
 const AttendChartWrap = () => {
   let date = new Date();
   date.setMonth(date.getMonth() - 5);
@@ -37,6 +32,10 @@ const AttendChartWrap = () => {
     );
   }, [chartView, compareStartDate, compareEndDate]);
 
+  // 응시율 Wrap
+  const Cont = styled.div`
+    width: 100%;
+  `;
   // Element 대신 Chart를 넣어주시면 됩니다. MaxScore 참조
   return (
     <Cont>
