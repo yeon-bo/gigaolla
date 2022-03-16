@@ -12,6 +12,8 @@ import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { isDarkAtom } from './utils/atoms'
 import Navigation from './components/Navigation'
 import Schedule from './pages/Schedule'
+import Students from './pages/Students'
+import StudentDetail from './components/student/StudentDetail'
 
 const Darkmode = styled.button`
   width: 3em;
@@ -51,8 +53,15 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/:subject" element={<Class />}>
-            <Route path="/:subject/:number" element={<Class />} />
+            <Route path="" />
+            <Route path=":number" />
           </Route>
+          <Route path="/:subject/students" element={<Students />} />
+
+          <Route path="/:subject/:number/students" element={<Students />}>
+            <Route path=":name" element={<StudentDetail />} />
+          </Route>
+
           <Route path="/schedule" element={<Schedule />} />
         </Routes>
         {/* 다크모드버튼 */}

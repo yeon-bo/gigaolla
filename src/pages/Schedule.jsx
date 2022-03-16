@@ -3,7 +3,7 @@ import styled from 'styled-components'
 // STYLED COMPONENT
 const Cont = styled.div`
   width: calc(100vw - 286px);
-  height: 120em;
+  height: 130em;
   position: absolute;
   top: 0;
   right: 0;
