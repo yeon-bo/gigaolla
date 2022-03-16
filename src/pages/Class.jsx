@@ -1,90 +1,96 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
-import Navigation from '../components/Navigation'
-import SummaryCard from '../components/SummaryCard'
-import AttendChartWrap from '../components/AttendChartWrap'
-import MaxScoreWrap from '../components/MaxScoreWrap'
-import AverageChartWrap from '../components/AverageChartWrap'
-import DistributionChartWarp from '../components/DistributionChartWarp'
+import MessageText from "../components/MessageText";
+import Navigation from "../components/Navigation";
+import SummaryCard from "../components/SummaryCard";
+import AttendChartWrap from "../components/AttendChartWrap";
+import MaxScoreWrap from "../components/MaxScoreWrap";
+import AverageChartWrap from "../components/AverageChartWrap";
+import DistributionChartWarp from "../components/DistributionChartWarp";
+
+// switch (SUBJECT) {
+//   case "경찰":
+//     color = "경찰";
+//     break;
+//   case "소방":
+//     color = "소방";
+//     break;
+//   default:
+//     color = "행정";
+// }
 
 const Class = () => {
   // 전체 페이지 Wrap
   const Background = styled.div`
     width: 100%;
-  `
+  `;
   // 네비게이션 제외 내용 Wrap
   const Cont = styled.div`
     margin-bottom: 7.63em;
     margin-left: 19.69em;
     padding: 0 2.5em;
-  `
+  `;
+  const PageRound = styled.div`
+    position: fixed;
+    background: #5d5fef;
+    width: 1.88em;
+    height: 100%;
+    top: 0;
+    left: 19.69em;
+    ::after {
+      position: fixed;
+      content: "";
+      width: 1.88em;
+      height: 100%;
+      background: #fff;
+      border-radius: 20px 0 0 20px;
+    }
+  `;
   // 상단 '00직, 목표 점수 달성도가~' 전체 wrap
   const MessageCont = styled.div`
-    width: 82.81em;
-    height: 5em;
-    margin: 7.5em auto 0;
-    background: #214680;
-    border-radius: 16px;
-  `
-  // MessageText 가운데 정렬을 위한 wrap
-  const Message = styled.div`
-    width: 100%;
-    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-  `
-  // '00직, 목표 점수 달성도가~' text
-  const MessageText = styled.span`
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: bold;
-    font-size: 2em;
-    color: #fff;
-    line-height: 2.75rem;
-  `
+  `;
   // 재학생, 응시생, 응시율, 상위 카드 wrap
   const SummaryCardCont = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 3.75em;
-  `
+  `;
   // 차트 wrap
   const ChartCont = styled.div`
     position: relative;
     max-width: 82.5em;
     margin: 0 auto;
     padding-top: 5em;
-  `
+  `;
   // 차트 Title
   const ChartName = styled.div`
     font-weight: bold;
     font-size: 1.63em;
     line-height: 2.19rem;
     margin-bottom: 3.13rem;
-  `
+  `;
   // 점수지표 차트 wrap
   const Chart2 = styled.div`
     display: flex;
-  `
+  `;
   return (
     <Background>
       <Navigation />
       <Cont>
+        <PageRound />
         <MessageCont>
-          <Message>
-            <MessageText>
-              경찰직, 목표 점수 달성도가 90%가 넘은 학생은 N명이며 저번 시험 대비 N%
-              올랐습니다.
-            </MessageText>
-          </Message>
+          <MessageText />
         </MessageCont>
         <SummaryCardCont>
-          <SummaryCard Title={'재학생'} />
-          <SummaryCard Title={'응시생'} />
-          <SummaryCard Title={'응시율'} />
-          <SummaryCard Title={'10%'} />
+          <SummaryCard Title={"재학생"} />
+          <SummaryCard Title={"응시생"} />
+          <SummaryCard Title={"응시율"} />
+          <SummaryCard Title={"10%"} />
         </SummaryCardCont>
         <ChartCont>
           <ChartName>응시지표</ChartName>
@@ -103,7 +109,7 @@ const Class = () => {
         </ChartCont>
       </Cont>
     </Background>
-  )
-}
+  );
+};
 
-export default Class
+export default Class;

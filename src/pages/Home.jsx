@@ -16,6 +16,22 @@ const Home = () => {
     margin-left: 19.69em;
     padding: 0 2.5em;
   `;
+  const PageRound = styled.div`
+    position: fixed;
+    background: #5d5fef;
+    width: 1.88em;
+    height: 100%;
+    top: 0;
+    left: 19.69em;
+    ::after {
+      position: fixed;
+      content: "";
+      width: 1.88em;
+      height: 100%;
+      background: #fff;
+      border-radius: 20px 0 0 20px;
+    }
+  `;
   // OVERVIEW
   const Title = styled.span`
     display: flex;
@@ -53,6 +69,7 @@ const Home = () => {
     <Background>
       <Navigation />
       <Cont>
+        <PageRound />
         <Title>OVERVIEW</Title>
         <CardCont>
           <CardWrap>
