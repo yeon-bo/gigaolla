@@ -55,6 +55,7 @@ const ListArea = styled.div`
 const Students = () => {
   const { thisYear, lastMonth } = getLastMonth()
   const { subject, number } = useParams()
+
   const [canBringData, setCanBringData] = useState(false)
   const [mockData, setMockData] = useState([])
   const [studentDetailInfo, setStudentDetailInfo] = useState()
