@@ -40,9 +40,24 @@ const Class = () => {
     margin-bottom: 7.63em;
     margin-left: 19.69em;
     padding: 0 2.5em;
-
     a {
       text-decoration: none;
+    }
+  `;
+  const PageRound = styled.div`
+    position: fixed;
+    background: #5d5fef;
+    width: 1.88em;
+    height: 100%;
+    top: 0;
+    left: 19.69em;
+    ::after {
+      position: fixed;
+      content: "";
+      width: 1.88em;
+      height: 100%;
+      background: #fff;
+      border-radius: 20px 0 0 20px;
     }
   `;
   // 상단 '00직, 목표 점수 달성도가~' 전체 wrap
@@ -100,11 +115,11 @@ const Class = () => {
   `;
 
   // 상단 공지 색깔 변경
-
   return (
     <Background>
       {/* <Navigation /> */}
       <Cont>
+        <PageRound />
         <MessageCont subjectColor={subjectColor}>
           {/* <MessageCont> */}
           <Message>
