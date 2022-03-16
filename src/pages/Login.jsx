@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { isLoggedIn } from "../utils/atoms";
 import logo from "../image/ollalogoLogin.svg";
 import idIcon from "../image/Username.svg";
@@ -19,20 +19,35 @@ const Background = styled.div`
 `;
 // 로그인 wrap
 const Cont = styled.div`
-  position: absolute;
-  max-width: 20.5em;
+  height: 44.4em;
+  background: #ffffff;
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04),
+    0px 0px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 25px;
+  max-width: 34em;
+  min-width: 34em;
+  max-height: 710px;
   margin: 0 3em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+// 로그인 Inner
+const Inner = styled.div`
+  min-width: 300px;
+  text-align: center;
 `;
 // Logo Img
 const LogoImg = styled.img`
-  max-width: 100%;
+  max-width: 18.75em;
+  margin-bottom: 60px;
 `;
 // Login Wrap
 const LoginCont = styled.div`
   position: relative;
   max-width: 18.75em;
   height: 12.38em;
-  margin: 3.48em auto 0;
 `;
 // Input Wrap
 const InputCont = styled.div`
@@ -84,6 +99,13 @@ const Button = styled.button`
   text-transform: uppercase;
   border: none;
 `;
+const Powered = styled.div`
+  padding-top: 91px;
+  color: #999999;
+  line-height: 22px;
+  font-weight: bold;
+  font-family: "Noto Sans";
+`;
 
 const Login = () => {
   const [userName, setUserName] = useState("");
@@ -106,32 +128,38 @@ const Login = () => {
   return (
     <Background>
       <Cont>
-        <LogoImg src={logo} alt="" />
-        <LoginCont>
-          <InputCont>
-            <Icon src={idIcon} alt="id" />
-            <Input
-              type="text"
-              placeholder="Username"
-              value={userName}
-              onChange={({ target: { value } }) => {
-                setUserName(value);
-              }}
-            />
-          </InputCont>
-          <InputCont>
-            <Icon src={passwordIcon} alt="password" />
-            <Input
-              type="password"
-              placeholder="password"
-              value={password}
-              onChange={({ target: { value } }) => {
-                setPassword(value);
-              }}
-            />
-          </InputCont>
-          <Button onClick={submitHandler}>login</Button>
-        </LoginCont>
+        <Inner>
+          <LogoImg src={logo} alt="" />
+          <LoginCont>
+            <InputCont>
+              <Icon src={idIcon} alt="id" />
+              <Input
+                type="text"
+                placeholder="Username"
+                value={userName}
+                onChange={({ target: { value } }) => {
+                  setUserName(value);
+                }}
+              />
+            </InputCont>
+            <InputCont>
+              <Icon src={passwordIcon} alt="password" />
+              <Input
+                type="password"
+                placeholder="password"
+                value={password}
+                onChange={({ target: { value } }) => {
+                  setPassword(value);
+                }}
+              />
+            </InputCont>
+            <Button onClick={submitHandler}>login</Button>
+          </LoginCont>
+          <Powered>
+            <p>Powered by</p>
+            <p>img</p>
+          </Powered>
+        </Inner>
       </Cont>
     </Background>
   );
