@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Chart as ChartJS, BarElement } from "chart.js";
-import { Bar, Line } from "react-chartjs-2";
-import ChartTab from "./ChartTab";
+import { Bar } from "react-chartjs-2";
 import { useParams } from "react-router-dom";
 import qs from "qs";
-import { Dropdown } from "antd";
 
 const Cont = styled.div`
   width: 800px;
@@ -66,7 +64,6 @@ const year = new Date().getFullYear(); // 현재 년도
 const month = String(new Date().getMonth() - 1).padStart(2, "0"); // 현재 월
 
 function AverageChart() {
-  const [chartView, setChartView] = useState("chart");
   const [currentTotalData, setCurrentTotalData] = useState([]);
   const [currentSubjectdata, setCurrentSubjectData] = useState([]);
   const [prevTotalData, setPrevTotalData] = useState([]);
@@ -228,43 +225,11 @@ function AverageChart() {
     ],
   };
 
-  const lineOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false,
-        labels: {
-          usePointStyle: true,
-        },
-      },
-    },
-    scales: {
-      xAxes: {
-        grid: {
-          display: false,
-        },
-      },
-    },
-  };
-
-  const chartData2 = {
-    labels: ["09", "10", "11", "12", "01", "02"], // 각 월이 나와야 함
-    datasets: [
-      {
-        data: [33, 53, 60, 41, 44, 65], // 각 월에 맞는 데이터
-        borderColor: "#5D5FEF",
-      },
-    ],
-  };
-
   return (
     <>
-      <ChartTab onClick={setChartView} />
       <Cont>
-        {chartView === "chart" ? (
-          <>
-            <Bar options={barOptions} data={chartData1} />
-            {/* <CurrentTotalData>
+        <Bar options={barOptions} data={chartData1} />
+        {/* <CurrentTotalData>
               <div className="current">{currentTotalData}점</div>
               <div className="prev">{prevTotalData}점</div>
             </CurrentTotalData>
@@ -274,12 +239,6 @@ function AverageChart() {
                 return datas;
               })}
             </div> */}
-          </>
-        ) : (
-          <>
-            <Line options={lineOptions} data={chartData2} />
-          </>
-        )}
       </Cont>
     </>
   );
