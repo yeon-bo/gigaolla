@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isLoggedIn } from "../utils/atoms";
 import logo from "../image/ollalogoLogin.svg";
 import idIcon from "../image/Username.svg";
@@ -86,14 +86,15 @@ const Button = styled.button`
 `;
 
 const Login = () => {
-  const setIsLoggedIn = useSetRecoilState(isLoggedIn);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const setIsLoggedIn = useSetRecoilState(isLoggedIn);
+
   const submitHandler = () => {
     try {
       signIn({ userName, password });
-      setIsLoggedIn(true);
+      setIsLoggedIn((value) => !value);
       navigate("/", { replace: true });
     } catch (e) {
       alert("Failed to login");
