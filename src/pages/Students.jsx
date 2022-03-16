@@ -94,7 +94,6 @@ const Students = () => {
             setCanBringData={setCanBringData}
           />
         </ListArea>
-
         {canBringData ? (
           <StudentDetail studentDetailInfo={studentDetailInfo} />
         ) : (

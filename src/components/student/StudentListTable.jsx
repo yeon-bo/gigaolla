@@ -24,30 +24,84 @@ const COLUMNS = [
   {
     Header: '당월점수',
     accessor: '당월점수',
-    sortType: 'basic',
   },
   {
     Header: '이름',
     accessor: '회원명',
-    sortType: 'basic',
+    sortType: 'string',
   },
   {
     Header: '순위',
     accessor: '반별순위',
-    sortType: 'basic',
   },
 ]
 
 const StudentListTable = ({ getStudentDetailInfo, mockData, setCanBringData }) => {
+  // const StudentListTable = ({ mockData }) => {
   const columns = useMemo(() => COLUMNS, [])
-  const data = mockData
+  const data = useMemo(() => mockData, [mockData])
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
+  const tableInstance = useTable(
     {
       data: data,
       columns: columns,
     },
     useSortBy
+  )
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance
+
+  return (
+    <table {...getTableProps()}>
+      <thead>
+        {headerGroups.map((headerGroup) => {
+          return (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => {
+                return (
+                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                    {column.render('Header')}
+                    {/* <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽 ' : ' 🔼 ') : ''}</span> */}
+                  </th>
+                )
+              })}
+            </tr>
+          )
+        })}
+      </thead>
+      <tbody {...getTableBodyProps()}>
+        {rows.map((row) => {
+          prepareRow(row)
+          return (
+            <Tr {...row.getRowProps()}>
+              {row.cells.map((cell) => {
+                // console.log(cell.row.original)
+                return (
+                  <td
+                    onClick={() => {
+                      getStudentDetailInfo(cell.row.original)
+                      setCanBringData(true)
+                    }}
+                    {...cell.getCellProps()}
+                  >
+                    {cell.render('Cell')}
+                  </td>
+                )
+              })}
+            </Tr>
+          )
+        })}
+        {/* {mockData.map((data, idx) => {
+          return (
+            <StudentListItem
+              key={idx}
+              data={data}
+              getStudentDetailInfo={getStudentDetailInfo}
+              setCanBringData={setCanBringData}
+            />
+          )
+        })} */}
+      </tbody>
+    </table>
   )
 
   // const tableInstance = useTable(
@@ -95,48 +149,6 @@ const StudentListTable = ({ getStudentDetailInfo, mockData, setCanBringData }) =
   //     </tbody>
   //   </table>
   // )
-  return (
-    <table {...getTableProps()}>
-      <thead>
-        {headerGroups.map((headerGroup) => {
-          return (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => {
-                return (
-                  <th {...column.getHeaderProps(column.getSortBytoggleProps)}>
-                    {column.render('Header')}
-                    <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽 ' : ' 🔼 ') : ''}</span>
-                  </th>
-                )
-              })}
-            </tr>
-          )
-        })}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row) => {
-          prepareRow(row)
-          return (
-            <Tr {...row.getRowProps()}>
-              {row.cells.map((cell) => {
-                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-              })}
-            </Tr>
-          )
-        })}
-        {/* {mockData.map((data, idx) => {
-          return (
-            <StudentListItem
-              key={idx}
-              data={data}
-              getStudentDetailInfo={getStudentDetailInfo}
-              setCanBringData={setCanBringData}
-            />
-          )
-        })} */}
-      </tbody>
-    </table>
-  )
 }
 
 export default StudentListTable
