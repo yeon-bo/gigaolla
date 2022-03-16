@@ -60,7 +60,7 @@ const DatePickerWrap = styled.div`
     letter-spacing: -0.6px;
   }
   .react-datepicker {
-    width: 688px;
+    width: 344px;
     height: 258px;
     border-radius: 25px;
     border: none;
@@ -80,7 +80,6 @@ const DatePickerWrap = styled.div`
     }
     .react-datepicker__month-container {
       height: 100%;
-      width: 50%;
       #year {
         width: 82px;
         height: 40px;
@@ -238,7 +237,6 @@ const ChartTab = ({
               locale={ko}
               selectsRange
               disabledKeyboardNavigation
-              monthsShown={2}
               onChange={(dates) => {
                 const [start, end] = dates;
                 setCompareStartDate(start);
@@ -275,7 +273,6 @@ const ChartTab = ({
               customInput={<CustomInput />}
               selectsRange
               disabledKeyboardNavigation
-              monthsShown={2}
               onChange={(dates) => {
                 const [start, end] = dates;
                 setStartDate(start);

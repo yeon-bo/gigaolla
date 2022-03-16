@@ -175,7 +175,15 @@ const AttendChart = ({
     };
 
     fetchData();
-  }, [subject, number, chartView]);
+  }, [
+    subject,
+    number,
+    chartView,
+    startDate,
+    endDate,
+    compareStartDate,
+    compareEndDate,
+  ]);
 
   ChartJS.register(
     CategoryScale,
