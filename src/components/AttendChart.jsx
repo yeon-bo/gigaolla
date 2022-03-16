@@ -14,12 +14,17 @@ import {
 } from "chart.js";
 import { Bar, Line } from "react-chartjs-2";
 import { useParams } from "react-router";
-import ChartTab from "./ChartTab";
 
-const AttendChart = () => {
+const AttendChart = ({
+  chartView,
+  startDate,
+  endDate,
+  setCompareAttendPercent,
+}) => {
   const [totalStudentArr, setTotalStudentArr] = useState([]);
   const [testedStudentArr, setTestedStudentArr] = useState([]);
-  const [chartView, setChartView] = useState("bar");
+  const [labels, setLabels] = useState([]);
+  const [barPercentage, setBarPercentage] = useState(0.5);
   const { subject, number } = useParams();
 
   const Cont = styled.div`
@@ -31,6 +36,22 @@ const AttendChart = () => {
     }
   `;
 
+  const getCompareYearMonth = () => {
+    const compareStartDate = new Date(startDate);
+    const compareEndDate = new Date(endDate);
+    const YearMonth = [
+      {
+        year: compareStartDate.getFullYear(),
+        month: compareStartDate.getMonth() + 1,
+      },
+      {
+        year: compareEndDate.getFullYear(),
+        month: compareEndDate.getMonth() + 1,
+      },
+    ];
+    return { YearMonth };
+  };
+
   const getYearMonth = () => {
     const date = new Date();
     const nowYear = date.getFullYear();
@@ -38,7 +59,7 @@ const AttendChart = () => {
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
     let YearMonth = [];
-    for (let i = 0; i <= 5; i++) {
+    for (let i = 1; i <= 6; i++) {
       YearMonth.unshift({ year, month });
       month--;
       if (month === 0) {
@@ -56,8 +77,6 @@ const AttendChart = () => {
     month = getYearMonth().nowMonth
   ) => {
     month = month < 10 ? `0${month}` : month;
-    let totalStudent = 0;
-    let testedStudent = 0;
 
     const BASE_URL = "https://kimcodi.kr/external_api/dashboard/";
     const SUC_CODE = "001";
@@ -71,56 +90,68 @@ const AttendChart = () => {
         ? `${BASE_URL}numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${subject}`
         : `${BASE_URL}numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${subject}&classn=${number}`;
 
-    await axios.get(totalUrl).then((res) => {
-      if (res.data.code === SUC_CODE) {
-        totalStudent = res.data.result[0].STUDENT_COUNT;
-      } else {
-        return;
-      }
-    });
+    let totalStudent = await axios.get(totalUrl);
+    totalStudent =
+      totalStudent.data.code === SUC_CODE
+        ? totalStudent.data.result[0].STUDENT_COUNT
+        : 0;
 
-    await axios.get(testedUrl).then((res) => {
-      if (res.data.code === SUC_CODE) {
-        testedStudent = res.data.result[0].STUDENT_COUNT;
-      } else {
-        return;
-      }
-    });
+    let testedStudent = await axios.get(testedUrl);
+    testedStudent =
+      testedStudent.data.code === SUC_CODE
+        ? testedStudent.data.result[0].STUDENT_COUNT
+        : 0;
 
     // 응시율
-    let attendPercent = ((testedStudent / totalStudent) * 100).toFixed(1);
-    attendPercent = attendPercent === "NaN" ? 0 : attendPercent;
+    let attendPercent = await ((testedStudent / totalStudent) * 100).toFixed(1);
 
     return { totalStudent, testedStudent, attendPercent };
   };
 
-  const { YearMonth } = getYearMonth();
-  const labels = YearMonth.map((label) =>
-    label.month < 10 ? `0${label.month}` : label.month
-  );
-
   useEffect(() => {
     const fetchData = async () => {
-      const { totalStudentData, testedStudentData, attendPercentData } =
-        await YearMonth.reduce(
-          async (_acc, cur) => {
-            const { totalStudent, testedStudent, attendPercent } =
-              await getStudentData(subject, number, cur.year, cur.month);
-            const acc = await _acc;
-            acc["totalStudentData"].push(totalStudent);
-            acc["testedStudentData"].push(testedStudent);
-            acc["attendPercentData"].push(attendPercent);
-            return acc;
-          },
-          { totalStudentData: [], testedStudentData: [], attendPercentData: [] }
-        );
+      const { YearMonth } =
+        chartView !== "compareBar" ? getYearMonth() : getCompareYearMonth();
+
+      const {
+        totalStudentData,
+        testedStudentData,
+        attendPercentData,
+        chartLabelData,
+      } = await YearMonth.reduce(
+        async (_acc, cur) => {
+          const { totalStudent, testedStudent, attendPercent } =
+            await getStudentData(subject, number, cur.year, cur.month);
+          const acc = await _acc;
+          const monthLabel = cur.month < 10 ? `0${cur.month}` : cur.month;
+          const attendPercentLabel = attendPercent + "%";
+          acc["totalStudentData"].push(totalStudent);
+          acc["testedStudentData"].push(testedStudent);
+          acc["attendPercentData"].push(attendPercent);
+          acc["chartLabelData"].push([monthLabel, attendPercentLabel]);
+          return acc;
+        },
+        {
+          totalStudentData: [],
+          testedStudentData: [],
+          attendPercentData: [],
+          chartLabelData: [],
+        }
+      );
+      const arrIndex = attendPercentData.length;
+      let compareAttend =
+        attendPercentData[arrIndex - 1] - attendPercentData[arrIndex - 2];
+      compareAttend = compareAttend >= 0 ? `+ ${compareAttend}` : compareAttend;
+      setCompareAttendPercent(compareAttend);
       setTotalStudentArr(totalStudentData);
       setTestedStudentArr(testedStudentData);
+      setLabels(chartLabelData);
+      setBarPercentage(chartView === "compareBar" ? 0.2 : 0.5);
       return;
     };
 
     fetchData();
-  }, [subject, number]);
+  }, [subject, number, chartView]);
 
   ChartJS.register(
     CategoryScale,
@@ -143,16 +174,43 @@ const AttendChart = () => {
           usePointStyle: true,
           pointStyle: "circle",
           padding: 20,
+          font: {
+            size: 20,
+          },
         },
       },
       tooltip: {
         backgroundColor: "#5D5FEF",
         xAlign: "center",
         yAlign: "bottom",
+        padding: {
+          top: 9,
+          bottom: 9,
+          left: 15,
+          right: 15,
+        },
+        callbacks: {
+          title: (context) => {
+            let title = "";
+            title = context.formattedValue;
+            return title;
+          },
+        },
+      },
+    },
+    layout: {
+      padding: {
+        top: 30,
       },
     },
     scales: {
       xAxes: {
+        ticks: {
+          font: {
+            size: 20,
+            lineHeight: 2.2,
+          },
+        },
         grid: {
           display: false,
         },
@@ -175,7 +233,7 @@ const AttendChart = () => {
     datasets: [
       {
         label: "재학생",
-        barPercentage: 0.6,
+        barPercentage: barPercentage,
         categoryPercentage: 0.5,
         data: totalStudentArr,
         backgroundColor: "#8898AA",
@@ -183,7 +241,7 @@ const AttendChart = () => {
       },
       {
         label: "응시생",
-        barPercentage: 0.6,
+        barPercentage: barPercentage,
         categoryPercentage: 0.5,
         data: testedStudentArr,
         backgroundColor: "#5D5FEF",
@@ -194,8 +252,7 @@ const AttendChart = () => {
 
   return (
     <Cont>
-      <ChartTab onClick={setChartView} />
-      {chartView === "bar" ? (
+      {chartView !== "line" ? (
         <Bar options={barOptions} data={chartData} />
       ) : (
         <Line options={barOptions} data={chartData} />

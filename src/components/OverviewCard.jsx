@@ -153,17 +153,17 @@ const OverviewCard = ({ Class, Color }) => {
     padding-bottom: 31.82%;
     background: #fff;
     border-radius: 25px;
+    overflow: hidden;
     box-shadow: 0px 17px 26px rgba(0, 0, 0, 0.06),
       0px 2px 6.5px rgba(0, 0, 0, 0.04), 0px 0px 1.09208px rgba(0, 0, 0, 0.04);
-    overflow: hidden;
-    @media screen and (max-width: 1712px) {
-      font-size: 0.9346vw;
-    }
   `;
   const Cont = styled.div`
     padding: 1.56em;
     box-sizing: border-box;
     font-family: "Noto Sans KR", sans-serif;
+    @media screen and (max-width: 1712px) {
+      font-size: 0.9346vw;
+    }
   `;
   const ClassName = styled.span`
     font-size: 2.13em;
@@ -247,6 +247,7 @@ const OverviewCard = ({ Class, Color }) => {
         : "#fb4646"
       : "#000"};
   `;
+
   const Chart = styled.div`
     margin-top: 1.13em;
     width: 5.94em;
@@ -280,6 +281,7 @@ const OverviewCard = ({ Class, Color }) => {
         : "#fb4646"
       : "#000"};
   `;
+
   const ScoreAllCont = styled.div`
     display: flex;
     margin-top: 3.8em;
@@ -327,119 +329,117 @@ const OverviewCard = ({ Class, Color }) => {
       : "#000"};
   `;
   return (
-    <ContWrap>
-      {loading ? (
-        <Cont>
-          <ClassName>{Class}직</ClassName>
-          <IconCont>
-            <Icon>
-              {Class !== "경찰" ? (
-                Class === "소방" ? (
-                  <FireIcon color="white" />
-                ) : (
-                  <AdminIcon color="white" />
-                )
+    <>
+      <Cont>
+        <ClassName>{Class}직</ClassName>
+        <IconCont>
+          <Icon>
+            {Class !== "경찰" ? (
+              Class === "소방" ? (
+                <FireIcon color="white" />
               ) : (
-                <PoliceIcon color="white" />
-              )}
-            </Icon>
-          </IconCont>
-          <StudentCounterCont>
-            <StudentCounter>
-              <Student>재학생</Student>
-              <Counter>
-                <Number>{totalStudent}</Number>명
-              </Counter>
-              <Increase>
-                <TotalCount>
-                  {totalMinusLast !== 0
-                    ? totalMinusLast > 0
-                      ? `+${totalMinusLast}명`
-                      : `${totalMinusLast}명`
-                    : "-"}
-                </TotalCount>
-              </Increase>
-            </StudentCounter>
-            <StudentCounter>
-              <Line></Line>
-              <Student>응시생</Student>
-              <Counter>
-                <Number>{attendStudent}</Number>명
-              </Counter>
-              <Increase>
-                <AttendCount>
-                  {attendMinusLast !== 0
-                    ? attendMinusLast > 0
-                      ? `+${attendMinusLast}명`
-                      : `${attendMinusLast}명`
-                    : "-"}
-                </AttendCount>
-              </Increase>
-            </StudentCounter>
-            <StudentCounter>
-              <Student>응시율</Student>
-              <Chart></Chart>
-              <ChartScoreCont>
-                <ScoreCont>
-                  <Score>
-                    <ScoreNumber>{TestRate}</ScoreNumber>%
-                  </Score>
-                  <ScoreIncrease>
-                    <ChartSCount>
-                      {TestRateMinusLast !== 0
-                        ? TestRateMinusLast > 0
-                          ? `+${TestRateMinusLast}%`
-                          : `${TestRateMinusLast}%`
-                        : "-"}
-                    </ChartSCount>
-                  </ScoreIncrease>
-                </ScoreCont>
-              </ChartScoreCont>
-            </StudentCounter>
-          </StudentCounterCont>
-          <ScoreAllCont>
-            <ScoreCont>
-              <ScoreName>평균점수</ScoreName>
-              <Score>
-                <ScoreNumber>{totalScore}</ScoreNumber>점
-              </Score>
-              <ScoreIncrease>
-                {TestMinusLast !== 0
-                  ? TestMinusLast > 0
-                    ? `+${TestMinusLast}점`
-                    : `${TestMinusLast}점`
+                <AdminIcon color="white" />
+              )
+            ) : (
+              <PoliceIcon color="white" />
+            )}
+          </Icon>
+        </IconCont>
+        <StudentCounterCont>
+          <StudentCounter>
+            <Student>재학생</Student>
+            <Counter>
+              <Number>{totalStudent}</Number>명
+            </Counter>
+            <Increase>
+              <TotalCount>
+                {totalMinusLast !== 0
+                  ? totalMinusLast > 0
+                    ? `+${totalMinusLast}명`
+                    : `${totalMinusLast}명`
                   : "-"}
-              </ScoreIncrease>
-            </ScoreCont>
-            <ScoreCont>
-              <ScoreName>점수향상</ScoreName>
-              <Score>
-                <ScoreNumber>
-                  {TestIncrease !== "0"
-                    ? TestIncrease > 0
-                      ? `+${TestIncrease}`
-                      : `${TestIncrease}`
-                    : "0"}
-                </ScoreNumber>
-                %
-              </Score>
-            </ScoreCont>
-            <ScoreCont>
-              <ScoreName>상위10%</ScoreName>
-              <Score>
-                <ScoreNumber>{topTotalScore}</ScoreNumber>점
-              </Score>
-            </ScoreCont>
-            <ScoreCont>
-              <ScoreName>하위10%</ScoreName>
-              <Score>
-                <ScoreNumber>{losTotalScore}</ScoreNumber>점
-              </Score>
-            </ScoreCont>
-          </ScoreAllCont>
-        </Cont>
-      ) : null}
-    </ContWrap>
+              </TotalCount>
+            </Increase>
+          </StudentCounter>
+          <StudentCounter>
+            <Line></Line>
+            <Student>응시생</Student>
+            <Counter>
+              <Number>{attendStudent}</Number>명
+            </Counter>
+            <Increase>
+              <AttendCount>
+                {attendMinusLast !== 0
+                  ? attendMinusLast > 0
+                    ? `+${attendMinusLast}명`
+                    : `${attendMinusLast}명`
+                  : "-"}
+              </AttendCount>
+            </Increase>
+          </StudentCounter>
+          <StudentCounter>
+            <Student>응시율</Student>
+            <Chart></Chart>
+            <ChartScoreCont>
+              <ScoreCont>
+                <Score>
+                  <ScoreNumber>{TestRate}</ScoreNumber>%
+                </Score>
+                <ScoreIncrease>
+                  <ChartSCount>
+                    {TestRateMinusLast !== 0
+                      ? TestRateMinusLast > 0
+                        ? `+${TestRateMinusLast}%`
+                        : `${TestRateMinusLast}%`
+                      : "-"}
+                  </ChartSCount>
+                </ScoreIncrease>
+              </ScoreCont>
+            </ChartScoreCont>
+          </StudentCounter>
+        </StudentCounterCont>
+        <ScoreAllCont>
+          <ScoreCont>
+            <ScoreName>평균점수</ScoreName>
+            <Score>
+              <ScoreNumber>{totalScore}</ScoreNumber>점
+            </Score>
+            <ScoreIncrease>
+              {TestMinusLast !== 0
+                ? TestMinusLast > 0
+                  ? `+${TestMinusLast}점`
+                  : `${TestMinusLast}점`
+                : "-"}
+            </ScoreIncrease>
+          </ScoreCont>
+          <ScoreCont>
+            <ScoreName>점수향상</ScoreName>
+            <Score>
+              <ScoreNumber>
+                {TestIncrease !== "0"
+                  ? TestIncrease > 0
+                    ? `+${TestIncrease}`
+                    : `${TestIncrease}`
+                  : "0"}
+              </ScoreNumber>
+              %
+            </Score>
+          </ScoreCont>
+          <ScoreCont>
+            <ScoreName>상위10%</ScoreName>
+            <Score>
+              <ScoreNumber>{topTotalScore}</ScoreNumber>점
+            </Score>
+          </ScoreCont>
+          <ScoreCont>
+            <ScoreName>하위10%</ScoreName>
+            <Score>
+              <ScoreNumber>{losTotalScore}</ScoreNumber>점
+            </Score>
+          </ScoreCont>
+        </ScoreAllCont>
+      </Cont>
+    </>
   );
 };
 

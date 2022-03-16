@@ -11,17 +11,9 @@ import {
 import { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
 import { useParams } from 'react-router-dom'
-import { getLastMonth } from '../utils/getLastMonth'
+import { getLastMonth } from '../../utils/getLastMonth'
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-)
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 // OPTION
 const options = {
@@ -95,7 +87,8 @@ const DistributionChart = () => {
         setAdminSubjectData(result)
       }
     })()
-  }, [])
+  }, [thisYear, lastMonth, CLASS, SERIES, params.number])
+
   useEffect(() => {
     ;(async () => {
       if (!params.number) {
@@ -112,7 +105,8 @@ const DistributionChart = () => {
         setAdminLawSubjectData(result)
       }
     })()
-  }, [])
+  }, [thisYear, lastMonth, CLASS, SERIES, params.number])
+
   useEffect(() => {
     ;(async () => {
       if (!params.number) {
@@ -129,7 +123,8 @@ const DistributionChart = () => {
         setKoreanSubjectData(result)
       }
     })()
-  }, [])
+  }, [thisYear, lastMonth, CLASS, SERIES, params.number])
+
   useEffect(() => {
     ;(async () => {
       if (!params.number) {
@@ -146,7 +141,8 @@ const DistributionChart = () => {
         setHistorySubjectData(result)
       }
     })()
-  }, [])
+  }, [thisYear, lastMonth, CLASS, SERIES, params.number])
+
   useEffect(() => {
     ;(async () => {
       if (!params.number) {
@@ -163,7 +159,7 @@ const DistributionChart = () => {
         setEngSubjectData(result)
       }
     })()
-  }, [])
+  }, [thisYear, lastMonth, CLASS, SERIES, params.number])
 
   //리턴..
   return (
@@ -200,7 +196,7 @@ const DistributionChart = () => {
             pointBorderWidth: 4,
           },
           {
-            label: '소방한국사',
+            label: '영어',
             data: engSubjectData.map((item) => item.COUNT),
             borderColor: '#A293FF',
             backgroundColor: '#A293FF',
