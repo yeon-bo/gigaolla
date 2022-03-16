@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { unstable_batchedUpdates } from "react-dom";
 import axios from "axios";
 import styled from "styled-components";
 import {
@@ -15,10 +16,21 @@ import {
 import { Bar, Line } from "react-chartjs-2";
 import { useParams } from "react-router";
 
+const Cont = styled.div`
+  width: 90%;
+  height: 23em;
+  margin: 3em auto;
+  canvas {
+    max-height: 100% !important;
+  }
+`;
+
 const AttendChart = ({
   chartView,
   startDate,
   endDate,
+  compareStartDate,
+  compareEndDate,
   setCompareAttendPercent,
 }) => {
   const [totalStudentArr, setTotalStudentArr] = useState([]);
@@ -27,18 +39,25 @@ const AttendChart = ({
   const [barPercentage, setBarPercentage] = useState(0.5);
   const { subject, number } = useParams();
 
-  const Cont = styled.div`
-    width: 90%;
-    height: 23em;
-    margin: 3em auto;
-    canvas {
-      max-height: 100% !important;
+  const getProgressYearMonth = () => {
+    const total_months =
+      (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+      (endDate.getMonth() - startDate.getMonth());
+    let year = endDate.getFullYear();
+    let month = endDate.getMonth() + 1;
+    let YearMonth = [];
+    for (let i = 0; i <= total_months; i++) {
+      YearMonth.unshift({ year, month });
+      month--;
+      if (month === 0) {
+        month = 12;
+        year = year - 1;
+      }
     }
-  `;
+    return { YearMonth };
+  };
 
   const getCompareYearMonth = () => {
-    const compareStartDate = new Date(startDate);
-    const compareEndDate = new Date(endDate);
     const YearMonth = [
       {
         year: compareStartDate.getFullYear(),
@@ -111,7 +130,11 @@ const AttendChart = ({
   useEffect(() => {
     const fetchData = async () => {
       const { YearMonth } =
-        chartView !== "compareBar" ? getYearMonth() : getCompareYearMonth();
+        chartView === "bar"
+          ? getYearMonth()
+          : chartView === "compareBar"
+          ? getCompareYearMonth()
+          : getProgressYearMonth();
 
       const {
         totalStudentData,
@@ -123,12 +146,13 @@ const AttendChart = ({
           const { totalStudent, testedStudent, attendPercent } =
             await getStudentData(subject, number, cur.year, cur.month);
           const acc = await _acc;
-          const monthLabel = cur.month < 10 ? `0${cur.month}` : cur.month;
+          const month = cur.month < 10 ? `0${cur.month}` : cur.month;
+          const dateLabel = `${cur.year}.${month}`;
           const attendPercentLabel = attendPercent + "%";
           acc["totalStudentData"].push(totalStudent);
           acc["testedStudentData"].push(testedStudent);
           acc["attendPercentData"].push(attendPercent);
-          acc["chartLabelData"].push([monthLabel, attendPercentLabel]);
+          acc["chartLabelData"].push([dateLabel, attendPercentLabel]);
           return acc;
         },
         {
@@ -141,17 +165,28 @@ const AttendChart = ({
       const arrIndex = attendPercentData.length;
       let compareAttend =
         attendPercentData[arrIndex - 1] - attendPercentData[arrIndex - 2];
+      compareAttend = compareAttend.toFixed(1);
       compareAttend = compareAttend >= 0 ? `+ ${compareAttend}` : compareAttend;
-      setCompareAttendPercent(compareAttend);
-      setTotalStudentArr(totalStudentData);
-      setTestedStudentArr(testedStudentData);
-      setLabels(chartLabelData);
-      setBarPercentage(chartView === "compareBar" ? 0.2 : 0.5);
+      unstable_batchedUpdates(() => {
+        setCompareAttendPercent(compareAttend);
+        setTotalStudentArr(totalStudentData);
+        setTestedStudentArr(testedStudentData);
+        setLabels(chartLabelData);
+        setBarPercentage(chartView === "compareBar" ? 0.2 : 0.5);
+      });
       return;
     };
 
     fetchData();
-  }, [subject, number, chartView]);
+  }, [
+    subject,
+    number,
+    chartView,
+    startDate,
+    endDate,
+    compareStartDate,
+    compareEndDate,
+  ]);
 
   ChartJS.register(
     CategoryScale,
