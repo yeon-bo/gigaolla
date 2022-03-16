@@ -1,51 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import { Outlet, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import StudentListHeader from '../components/student/StudentListHeader'
 import StudentListTable from '../components/student/StudentListTable'
 import StudentDetail from '../components/student/StudentDetail'
+import StudentDetailSkeleton from '../components/student/StudentDetailSkeleton'
+import { getLastMonth } from '../utils/getLastMonth'
 
 const Cont = styled.div`
   width: calc(100vw - 315px);
   height: 130em;
-  margin-left: 20em;
+  margin-left: 19em;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* position: absolute; */
-  /* top: 0; */
-  /* right: 0; */
+  background-color: ${(props) => props.theme.mainBackground};
 `
 
 const UserListContainer = styled.div`
   display: flex;
-  /* align-items: center; */
   justify-content: center;
-  /* height: 106.5em; */
   width: 90em;
   margin-top: 5em;
-  /* margin-left: 24em; */
-
-  /* input {
-    border: none;
-    border-radius: 12px;
-    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
-    padding: 10px;
-    font-size: 21px;
-    color: #999;
-    outline: none;
-    width: 33.4em;
-  } */
 `
 
 const ListArea = styled.div`
   width: 100%;
-  background: #ffffff;
+  background: ${(props) => props.theme.backgroundColor};
+  color: ${(props) => props.theme.textColor};
   box-shadow: 0px 1px 12px rgba(0, 0, 0, 0.3);
   border-radius: 25px;
-  /* height: 90%; */
   margin-top: 30px;
+  margin-bottom: 20px;
   padding: 30px 0;
 
   table {
@@ -57,7 +44,6 @@ const ListArea = styled.div`
     td {
       text-align: center;
       padding: 8px;
-      /* background-color: yellow; */
     }
     th:nth-of-type(1) {
       padding: 30px 0;
@@ -67,10 +53,33 @@ const ListArea = styled.div`
 
 //컴포.
 const Students = () => {
+  const { thisYear, lastMonth } = getLastMonth()
   const { subject, number } = useParams()
-
+  const [canBringData, setCanBringData] = useState(false)
+  const [mockData, setMockData] = useState([])
   const [studentDetailInfo, setStudentDetailInfo] = useState()
-  console.log(subject, number)
+
+  useEffect(() => {
+    ;(async () => {
+      if (!number) {
+        const response = await fetch(
+          `https://kimcodi.kr/external_api/dashboard/studentInfoOfClassByMonth.php?yyyy=${thisYear}&mm=${lastMonth}&class=${subject}`
+        )
+        const { result } = await response.json()
+        setMockData(result)
+      } else {
+        const response = await fetch(
+          `https://kimcodi.kr/external_api/dashboard/studentInfoOfClassByMonth.php?yyyy=${thisYear}&mm=${lastMonth}&class=${subject}&classn=${number}`
+        )
+        const { result } = await response.json()
+        setMockData(result)
+      }
+    })()
+  }, [thisYear, lastMonth, subject, number])
+
+  const getStudentDetailInfo = (studentData) => {
+    setStudentDetailInfo(studentData)
+  }
 
   return (
     <Cont>
@@ -78,9 +87,18 @@ const Students = () => {
 
       <UserListContainer>
         <ListArea>
-          <StudentListTable />
+          <StudentListTable
+            mockData={mockData}
+            getStudentDetailInfo={getStudentDetailInfo}
+            setCanBringData={setCanBringData}
+          />
         </ListArea>
-        <StudentDetail />
+
+        {canBringData ? (
+          <StudentDetail studentDetailInfo={studentDetailInfo} />
+        ) : (
+          <StudentDetailSkeleton />
+        )}
         {/* <Outlet /> */}
       </UserListContainer>
     </Cont>

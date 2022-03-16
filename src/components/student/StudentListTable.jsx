@@ -1,10 +1,7 @@
-import React, { useState } from 'react'
-import { mockStudentData } from '../../utils/studentMockData'
+import React from 'react'
 import StudentListItem from './StudentListItem'
 
-const StudentListTable = () => {
-  const [mockData, setMockData] = useState(mockStudentData)
-
+const StudentListTable = ({ getStudentDetailInfo, mockData, setCanBringData }) => {
   return (
     <table>
       <thead>
@@ -20,18 +17,15 @@ const StudentListTable = () => {
       <tbody>
         {/* 2행 */}
         {mockData.map((data, idx) => {
-          return <StudentListItem key={idx} data={data} />
+          return (
+            <StudentListItem
+              key={idx}
+              data={data}
+              getStudentDetailInfo={getStudentDetailInfo}
+              setCanBringData={setCanBringData}
+            />
+          )
         })}
-
-        {/* <tr>
-      <td>
-        <BlueRedBall></BlueRedBall>
-      </td>
-      <td>경찰1반</td>
-      <td>185</td>
-      <td>홍길동</td>
-      <td>1</td>
-    </tr> */}
       </tbody>
     </table>
   )
