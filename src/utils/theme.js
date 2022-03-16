@@ -11,7 +11,7 @@ export const defaultTheme = {
 }
 
 export const darkTheme = {
-  mainBackground: '#111',
+  mainBackground: '#222',
   backgroundColor: '#333',
   chartBackgroundColor: '#444',
   textColor: '#fff',
