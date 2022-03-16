@@ -2,92 +2,144 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
-import PoliceIcon from "../image/PoliceIcon.svg";
+import PoliceIcon from "../image/PoliceIcon.jsx";
+import FireIcon from "../image/FireIcon.jsx";
+import AdminIcon from "../image/AdminIcon.jsx";
 
 const OverviewCard = ({ Class, Color }) => {
+  const [loading, setLoading] = useState(false);
   const [totalStudent, setTotalStudent] = useState("");
+  const [lastTotalStudent, setLastTotalStudent] = useState("");
   const [attendStudent, setAttendStudent] = useState("");
+  const [lastAttendStudent, setLastAttendStudent] = useState("");
   const [totalScore, setTotalScore] = useState("");
   const [lastTotalScore, setLastTotalScore] = useState("");
   const [topTotalScore, setTopTotalScore] = useState("");
   const [losTotalScore, setLowTotalScore] = useState("");
 
   const fetchData = async () => {
+    const URL = "https://kimcodi.kr/external_api/dashboard/";
     let today = new Date();
     let year = today.getFullYear();
     let lastMonth = today.getMonth();
     let month = today.getMonth() + 1;
-    // const totalUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${Class}`;
-    // const attendedUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${Class}`;
-    // const scoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php?%20yyyy=${year}&mm=${month}&series=${Class}`;
-    // const lastScoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php?%20yyyy=${year}&mm=${lastMonth}&series=${Class}`;
-    // const topScoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesTopLowPerByMonth.php?yyyy=${year}&mm=${month}&toplow=top&per=10&series=${Class}`;
-    // const lowScoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesTopLowPerByMonth.php?yyyy=${year}&mm=${month}&toplow=low&per=10&series=${Class}`;
-    //화면 구현 확인용 URL
-    const totalUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTotalStudentsByMonth.php?yyyy=2021&mm=12&class=${Class}`;
-    const attendedUrl = `https://kimcodi.kr/external_api/dashboard/numberOfTestedStudentsByMonth.php?yyyy=2021&mm=12&class=${Class}`;
-    const scoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php?%20yyyy=2021&mm=12&series=${Class}`;
-    const lastScoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php?%20yyyy=2021&mm=11&series=${Class}`;
-    const topScoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesTopLowPerByMonth.php?yyyy=2021&mm=12&toplow=top&per=10&series=${Class}`;
-    const lowScoreUrl = `https://kimcodi.kr/external_api/dashboard/avgOfSeriesTopLowPerByMonth.php?yyyy=2021&mm=12&toplow=low&per=10&series=${Class}`;
+    const totalUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${
+      month <= 9 ? "0" + month : month
+    }&class=${Class}`;
+    const LastTotalUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${
+      lastMonth <= 9 ? "0" + lastMonth : lastMonth
+    }&class=${Class}`;
+    const attendedUrl = `${URL}numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${
+      month <= 9 ? "0" + month : month
+    }&class=${Class}`;
+    const LastAttendedUrl = `${URL}numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${
+      lastMonth <= 9 ? "0" + lastMonth : lastMonth
+    }&class=${Class}`;
+    const scoreUrl = `${URL}avgOfSeriesByMonth.php?%20yyyy=${year}&mm=${
+      month <= 9 ? "0" + month : month
+    }&series=${Class}`;
+    const lastScoreUrl = `${URL}avgOfSeriesByMonth.php?%20yyyy=${year}&mm=${
+      lastMonth <= 9 ? "0" + lastMonth : lastMonth
+    }&series=${Class}`;
+    const topScoreUrl = `${URL}avgOfSeriesTopLowPerByMonth.php?yyyy=${year}&mm=${
+      month <= 9 ? "0" + month : month
+    }&toplow=top&per=10&series=${Class}`;
+    const lowScoreUrl = `${URL}avgOfSeriesTopLowPerByMonth.php?yyyy=${year}&mm=${
+      month <= 9 ? "0" + month : month
+    }&toplow=low&per=10&series=${Class}`;
 
-    await axios.get(totalUrl).then((res) => {
-      if (res.data.code === "001") {
-        setTotalStudent(res.data.result[0].STUDENT_COUNT);
-      } else {
-        return;
-      }
-    });
-    await axios.get(attendedUrl).then((res) => {
-      if (res.data.code === "001") {
-        setAttendStudent(res.data.result[0].STUDENT_COUNT);
-      } else {
-        return;
-      }
-    });
+    await Promise.all([
+      axios.get(totalUrl).then((res) => {
+        if (res.data.code === "001") {
+          setTotalStudent(res.data.result[0].STUDENT_COUNT);
+        } else {
+          return;
+        }
+      }),
+      axios.get(LastTotalUrl).then((res) => {
+        if (res.data.code === "001") {
+          setLastTotalStudent(res.data.result[0].STUDENT_COUNT);
+        } else {
+          return;
+        }
+      }),
 
-    await axios.get(scoreUrl).then((res) => {
-      if (res.data.code === "001") {
-        setTotalScore(Math.round(res.data.result[0].AVG));
-      } else {
-        return;
-      }
-    });
+      axios.get(attendedUrl).then((res) => {
+        if (res.data.code === "001") {
+          setAttendStudent(res.data.result[0].STUDENT_COUNT);
+        } else {
+          return;
+        }
+      }),
+      axios.get(LastAttendedUrl).then((res) => {
+        if (res.data.code === "001") {
+          setLastAttendStudent(res.data.result[0].STUDENT_COUNT);
+        } else {
+          return;
+        }
+      }),
 
-    await axios.get(lastScoreUrl).then((res) => {
-      if (res.data.code === "001") {
-        setLastTotalScore(Math.round(res.data.result[0].AVG));
-      } else {
-        return;
-      }
-    });
+      axios.get(scoreUrl).then((res) => {
+        if (res.data.code === "001") {
+          setTotalScore(Math.round(res.data.result[0].AVG));
+        } else {
+          return;
+        }
+      }),
 
-    await axios.get(topScoreUrl).then((res) => {
-      if (res.data.code === "001") {
-        setTopTotalScore(Math.round(res.data.result[0].AVG));
-      } else {
-        return;
-      }
-    });
+      axios.get(lastScoreUrl).then((res) => {
+        if (res.data.code === "001") {
+          setLastTotalScore(Math.round(res.data.result[0].AVG));
+        } else {
+          return;
+        }
+      }),
 
-    await axios.get(lowScoreUrl).then((res) => {
-      if (res.data.code === "001") {
-        setLowTotalScore(Math.round(res.data.result[0].AVG));
-      } else {
-        return;
-      }
-    });
+      axios.get(topScoreUrl).then((res) => {
+        if (res.data.code === "001") {
+          setTopTotalScore(Math.round(res.data.result[0].AVG));
+        } else {
+          return;
+        }
+      }),
+
+      axios.get(lowScoreUrl).then((res) => {
+        if (res.data.code === "001") {
+          setLowTotalScore(Math.round(res.data.result[0].AVG));
+        } else {
+          return;
+        }
+      }),
+      setLoading(true),
+    ]);
   };
-
-  const TestRate = Math.floor(
+  let totalMinusLast = Math.floor(
+    parseInt(totalStudent) - parseInt(lastTotalStudent)
+  );
+  let attendMinusLast = Math.floor(
+    parseInt(attendStudent) - parseInt(lastAttendStudent)
+  );
+  let lastTestRate = Math.floor(
+    (parseInt(lastAttendStudent) / parseInt(lastTotalStudent)) * 100
+  );
+  let TestRate = Math.floor(
     (parseInt(attendStudent) / parseInt(totalStudent)) * 100
   );
-  const TestMinusLast = Math.floor(
+  let TestRateMinusLast = Math.floor(
+    parseInt(TestRate) - parseInt(lastTestRate)
+  );
+  let TestMinusLast = Math.floor(
     parseInt(totalScore) - parseInt(lastTotalScore)
   );
-  const TestIncrease = Math.floor(
+  let TestIncrease = Math.floor(
     (parseInt(totalScore) / parseInt(lastTotalScore)) * 100
   );
+  TestIncrease =
+    String(TestIncrease) !== "NaN"
+      ? String(TestIncrease) === "Infinity"
+        ? totalScore
+        : TestIncrease
+      : "0";
 
   useEffect(() => {
     fetchData();
@@ -101,16 +153,17 @@ const OverviewCard = ({ Class, Color }) => {
     padding-bottom: 31.82%;
     background: #fff;
     border-radius: 25px;
+    overflow: hidden;
     box-shadow: 0px 17px 26px rgba(0, 0, 0, 0.06),
       0px 2px 6.5px rgba(0, 0, 0, 0.04), 0px 0px 1.09208px rgba(0, 0, 0, 0.04);
-    @media screen and (max-width: 1712px) {
-      font-size: 0.9346vw;
-    }
   `;
   const Cont = styled.div`
     padding: 1.56em;
     box-sizing: border-box;
     font-family: "Noto Sans KR", sans-serif;
+    @media screen and (max-width: 1712px) {
+      font-size: 0.9346vw;
+    }
   `;
   const ClassName = styled.span`
     font-size: 2.13em;
@@ -129,7 +182,7 @@ const OverviewCard = ({ Class, Color }) => {
     background-color: ${Color};
     border-radius: 2em;
   `;
-  const Icon = styled.img`
+  const Icon = styled.div`
     width: 2em;
   `;
   const StudentCounterCont = styled.div`
@@ -179,8 +232,22 @@ const OverviewCard = ({ Class, Color }) => {
     margin-top: 0.83em;
     text-align: right;
     line-height: 1.36em;
-    color: #2dce89;
   `;
+  const TotalCount = styled.span`
+    color: ${totalMinusLast !== 0
+      ? totalMinusLast > 0
+        ? "#2dce89"
+        : "#fb4646"
+      : "#000"};
+  `;
+  const AttendCount = styled.span`
+    color: ${attendMinusLast !== 0
+      ? attendMinusLast > 0
+        ? "#2dce89"
+        : "#fb4646"
+      : "#000"};
+  `;
+
   const Chart = styled.div`
     margin-top: 1.13em;
     width: 5.94em;
@@ -207,6 +274,14 @@ const OverviewCard = ({ Class, Color }) => {
     top: 3.73em;
     right: 1.55em;
   `;
+  const ChartSCount = styled.span`
+    color: ${TestRateMinusLast !== 0
+      ? TestRateMinusLast > 0
+        ? "#2dce89"
+        : "#fb4646"
+      : "#000"};
+  `;
+
   const ScoreAllCont = styled.div`
     display: flex;
     margin-top: 3.8em;
@@ -247,14 +322,28 @@ const OverviewCard = ({ Class, Color }) => {
     font-size: 0.75em;
     line-height: 1.33em;
     margin-top: 0.2em;
-    color: #2dce89;
+    color: ${TestIncrease !== ""
+      ? TestIncrease > 0
+        ? "#2dce89"
+        : "#fb4646"
+      : "#000"};
   `;
   return (
-    <ContWrap>
+    <>
       <Cont>
         <ClassName>{Class}직</ClassName>
         <IconCont>
-          <Icon src={PoliceIcon} alt="policeIcon" fill="#FFF" />
+          <Icon>
+            {Class !== "경찰" ? (
+              Class === "소방" ? (
+                <FireIcon color="white" />
+              ) : (
+                <AdminIcon color="white" />
+              )
+            ) : (
+              <PoliceIcon color="white" />
+            )}
+          </Icon>
         </IconCont>
         <StudentCounterCont>
           <StudentCounter>
@@ -262,7 +351,15 @@ const OverviewCard = ({ Class, Color }) => {
             <Counter>
               <Number>{totalStudent}</Number>명
             </Counter>
-            <Increase>+123명</Increase>
+            <Increase>
+              <TotalCount>
+                {totalMinusLast !== 0
+                  ? totalMinusLast > 0
+                    ? `+${totalMinusLast}명`
+                    : `${totalMinusLast}명`
+                  : "-"}
+              </TotalCount>
+            </Increase>
           </StudentCounter>
           <StudentCounter>
             <Line></Line>
@@ -270,7 +367,15 @@ const OverviewCard = ({ Class, Color }) => {
             <Counter>
               <Number>{attendStudent}</Number>명
             </Counter>
-            <Increase>+3명</Increase>
+            <Increase>
+              <AttendCount>
+                {attendMinusLast !== 0
+                  ? attendMinusLast > 0
+                    ? `+${attendMinusLast}명`
+                    : `${attendMinusLast}명`
+                  : "-"}
+              </AttendCount>
+            </Increase>
           </StudentCounter>
           <StudentCounter>
             <Student>응시율</Student>
@@ -280,7 +385,15 @@ const OverviewCard = ({ Class, Color }) => {
                 <Score>
                   <ScoreNumber>{TestRate}</ScoreNumber>%
                 </Score>
-                <ScoreIncrease>+2.5%</ScoreIncrease>
+                <ScoreIncrease>
+                  <ChartSCount>
+                    {TestRateMinusLast !== 0
+                      ? TestRateMinusLast > 0
+                        ? `+${TestRateMinusLast}%`
+                        : `${TestRateMinusLast}%`
+                      : "-"}
+                  </ChartSCount>
+                </ScoreIncrease>
               </ScoreCont>
             </ChartScoreCont>
           </StudentCounter>
@@ -292,14 +405,22 @@ const OverviewCard = ({ Class, Color }) => {
               <ScoreNumber>{totalScore}</ScoreNumber>점
             </Score>
             <ScoreIncrease>
-              {TestMinusLast >= 0 ? `+${TestMinusLast}` : `-${TestMinusLast}`}점
+              {TestMinusLast !== 0
+                ? TestMinusLast > 0
+                  ? `+${TestMinusLast}점`
+                  : `${TestMinusLast}점`
+                : "-"}
             </ScoreIncrease>
           </ScoreCont>
           <ScoreCont>
             <ScoreName>점수향상</ScoreName>
             <Score>
               <ScoreNumber>
-                {TestIncrease >= 0 ? `+${TestIncrease}` : -`${TestIncrease}`}
+                {TestIncrease !== "0"
+                  ? TestIncrease > 0
+                    ? `+${TestIncrease}`
+                    : `${TestIncrease}`
+                  : "0"}
               </ScoreNumber>
               %
             </Score>
@@ -307,18 +428,18 @@ const OverviewCard = ({ Class, Color }) => {
           <ScoreCont>
             <ScoreName>상위10%</ScoreName>
             <Score>
-              <ScoreNumber>{topTotalScore}</ScoreNumber>%
+              <ScoreNumber>{topTotalScore}</ScoreNumber>점
             </Score>
           </ScoreCont>
           <ScoreCont>
             <ScoreName>하위10%</ScoreName>
             <Score>
-              <ScoreNumber>{losTotalScore}</ScoreNumber>%
+              <ScoreNumber>{losTotalScore}</ScoreNumber>점
             </Score>
           </ScoreCont>
         </ScoreAllCont>
       </Cont>
-    </ContWrap>
+    </>
   );
 };
 

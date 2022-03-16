@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-import Navigation from "../components/Navigation";
+// import Navigation from '../components/Navigation'
 import OverviewCard from "../components/OverviewCard";
 import HomeAttendChartWrap from "../components/HomeAttendChartWrap";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   // 전체 페이지 Wrap
@@ -16,6 +17,23 @@ const Home = () => {
     margin-left: 19.69em;
     padding: 0 2.5em;
   `;
+  const PageRound = styled.div`
+    position: fixed;
+    background: #5d5fef;
+    width: 1.88em;
+    height: 100%;
+    top: 0;
+    left: 19.69em;
+    ::after {
+      position: fixed;
+      content: "";
+      width: 1.88em;
+      height: 100%;
+      background: #fff;
+      border-radius: 20px 0 0 20px;
+    }
+  `;
+
   // OVERVIEW
   const Title = styled.span`
     display: flex;
@@ -48,17 +66,43 @@ const Home = () => {
     @media screen and (max-width: 1712px) {
       width: 100%;
     }
+
+    & > a {
+      text-decoration: none;
+      color: #000;
+      display: block;
+      position: relative;
+      box-sizing: border-box;
+      width: 31.82%;
+      height: 0;
+      padding-bottom: 31.82%;
+      background: #fff;
+      border-radius: 25px;
+      box-shadow: 0px 17px 26px rgba(0, 0, 0, 0.06),
+        0px 2px 6.5px rgba(0, 0, 0, 0.04), 0px 0px 1.09208px rgba(0, 0, 0, 0.04);
+      @media screen and (max-width: 1712px) {
+        font-size: 0.9346vw;
+      }
+    }
   `;
+
   return (
     <Background>
-      <Navigation />
+      {/* <Navigation /> */}
       <Cont>
+        <PageRound />
         <Title>OVERVIEW</Title>
         <CardCont>
           <CardWrap>
-            <OverviewCard Class={"경찰"} Color={"#21468d"} />
-            <OverviewCard Class={"소방"} Color={"#fd4f3a"} />
-            <OverviewCard Class={"행정"} Color={"#257e0e"} />
+            <Link to="/경찰/students">
+              <OverviewCard Class={"경찰"} Color={"#21468d"} />
+            </Link>
+            <Link to="/소방/students">
+              <OverviewCard Class={"소방"} Color={"#fd4f3a"} />
+            </Link>
+            <Link to="/행정/students">
+              <OverviewCard Class={"행정"} Color={"#257e0e"} />
+            </Link>
           </CardWrap>
         </CardCont>
         <ChartCont>
