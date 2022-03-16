@@ -105,7 +105,7 @@ const StudentListTable = ({ getStudentDetailInfo, mockData, setCanBringData }) =
                 return (
                   <th {...column.getHeaderProps(column.getSortBytoggleProps)}>
                     {column.render('Header')}
-                    <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
+                    <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽 ' : ' 🔼 ') : ''}</span>
                   </th>
                 )
               })}
