@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { unstable_batchedUpdates } from "react-dom";
 import axios from "axios";
 import styled from "styled-components";
 import {
@@ -166,11 +167,13 @@ const AttendChart = ({
         attendPercentData[arrIndex - 1] - attendPercentData[arrIndex - 2];
       compareAttend = compareAttend.toFixed(1);
       compareAttend = compareAttend >= 0 ? `+ ${compareAttend}` : compareAttend;
-      setCompareAttendPercent(compareAttend);
-      setTotalStudentArr(totalStudentData);
-      setTestedStudentArr(testedStudentData);
-      setLabels(chartLabelData);
-      setBarPercentage(chartView === "compareBar" ? 0.2 : 0.5);
+      unstable_batchedUpdates(() => {
+        setCompareAttendPercent(compareAttend);
+        setTotalStudentArr(totalStudentData);
+        setTestedStudentArr(testedStudentData);
+        setLabels(chartLabelData);
+        setBarPercentage(chartView === "compareBar" ? 0.2 : 0.5);
+      });
       return;
     };
 
