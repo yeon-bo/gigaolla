@@ -5,7 +5,6 @@ import { Outlet, useParams } from 'react-router-dom'
 import StudentListHeader from '../components/student/StudentListHeader'
 import StudentListTable from '../components/student/StudentListTable'
 import StudentDetail from '../components/student/StudentDetail'
-import { mockStudentData } from '../utils/studentMockData'
 
 const Cont = styled.div`
   width: calc(100vw - 315px);
@@ -69,6 +68,8 @@ const ListArea = styled.div`
 //컴포.
 const Students = () => {
   const { subject, number } = useParams()
+
+  const [studentDetailInfo, setStudentDetailInfo] = useState()
   console.log(subject, number)
 
   return (
@@ -80,7 +81,7 @@ const Students = () => {
           <StudentListTable />
         </ListArea>
         <StudentDetail />
-        <Outlet />
+        {/* <Outlet /> */}
       </UserListContainer>
     </Cont>
   )

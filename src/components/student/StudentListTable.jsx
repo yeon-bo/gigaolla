@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { mockStudentData } from '../../utils/studentMockData'
-import StudentList from './StudentList'
+import StudentListItem from './StudentListItem'
 
 const StudentListTable = () => {
   const [mockData, setMockData] = useState(mockStudentData)
@@ -20,7 +20,7 @@ const StudentListTable = () => {
       <tbody>
         {/* 2행 */}
         {mockData.map((data, idx) => {
-          return <StudentList key={idx} data={data} />
+          return <StudentListItem key={idx} data={data} />
         })}
 
         {/* <tr>
