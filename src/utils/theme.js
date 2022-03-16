@@ -10,8 +10,14 @@ export const defaultTheme = {
 }
 
 export const darkTheme = {
+<<<<<<< HEAD
   backgroundColor: '#000',
   chartBackgroundColor: '#222',
+=======
+  mainBackground: '#222',
+  backgroundColor: '#333',
+  chartBackgroundColor: '#444',
+>>>>>>> develop
   textColor: '#fff',
   sidebarColor: '#e5e5e5',
 
