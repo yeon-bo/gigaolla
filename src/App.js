@@ -13,6 +13,9 @@ import { isDarkAtom } from "./utils/atoms";
 import Navigation from "./components/Navigation";
 import { signIn } from "./utils/auth";
 import PrivateRoute from "./lib/PrivateRoute";
+import Schedule from "./pages/Schedule";
+import Students from "./pages/Students";
+import StudentDetail from "./components/student/StudentDetail";
 
 const Darkmode = styled.button`
   width: 3em;
@@ -55,9 +58,18 @@ function App() {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/:subject" element={<PrivateRoute />}>
             <Route path="/:subject" element={<Class />}>
-              <Route path="/:subject/:number" />
+              <Route path="" />
+              <Route path=":number" />
             </Route>
           </Route>
+
+          {/* <Route path="/:subject/students" element={<Students />} />
+
+          <Route path="/:subject/:number/students" element={<Students />}>
+            <Route path=":name" element={<StudentDetail />} />
+          </Route>
+
+          <Route path="/schedule" element={<Schedule />} /> */}
         </Routes>
         {/* 다크모드버튼 */}
         <Darkmode onClick={changeTheme}>

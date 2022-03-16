@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-import Navigation from "../components/Navigation";
+// import Navigation from '../components/Navigation'
 import SummaryCard from "../components/SummaryCard";
 import AttendChartWrap from "../components/AttendChartWrap";
 import MaxScoreWrap from "../components/MaxScoreWrap";
@@ -9,12 +9,12 @@ import AverageChartWrap from "../components/AverageChartWrap";
 import DistributionChartWrap from "../components/distribution_chart/DistributionChartWrap";
 import DistributionChartTab from "../components/distribution_chart/DistributionChartTap";
 import SortBySubjectWrap from "../components/distribution_chart/SortBySubjectWrap";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 const Class = () => {
   // 점수대별 인원 전체 / 과목별 버튼
   const [distributionTotal, setDistributionTotal] = useState(true);
-  const { subject } = useParams();
+  const { subject, number } = useParams();
 
   let subjectColor;
   switch (subject) {
@@ -40,14 +40,18 @@ const Class = () => {
     margin-bottom: 7.63em;
     margin-left: 19.69em;
     padding: 0 2.5em;
+
+    a {
+      text-decoration: none;
+    }
   `;
   // 상단 '00직, 목표 점수 달성도가~' 전체 wrap
   const MessageCont = styled.div`
     width: 82.81em;
     height: 5em;
     margin: 7.5em auto 0;
-    /* background: ${(props) => props.subjectColor}; */
-    background-color: #21468d;
+    background: ${(props) => props.subjectColor};
+    /* background-color: #21468d; */
     border-radius: 16px;
   `;
   // MessageText 가운데 정렬을 위한 wrap
@@ -110,12 +114,25 @@ const Class = () => {
             </MessageText>
           </Message>
         </MessageCont>
-        <SummaryCardCont>
-          <SummaryCard Title={"재학생"} />
-          <SummaryCard Title={"응시생"} />
-          <SummaryCard Title={"응시율"} />
-          <SummaryCard Title={"10%"} />
-        </SummaryCardCont>
+        {number ? (
+          <Link to={`/${subject}/${number}/students`}>
+            <SummaryCardCont>
+              <SummaryCard Title={"재학생"} />
+              <SummaryCard Title={"응시생"} />
+              <SummaryCard Title={"응시율"} />
+              <SummaryCard Title={"10%"} />
+            </SummaryCardCont>
+          </Link>
+        ) : (
+          <Link to={`/${subject}/students`}>
+            <SummaryCardCont>
+              <SummaryCard Title={"재학생"} />
+              <SummaryCard Title={"응시생"} />
+              <SummaryCard Title={"응시율"} />
+              <SummaryCard Title={"10%"} />
+            </SummaryCardCont>
+          </Link>
+        )}
         <ChartCont>
           <ChartName>응시지표</ChartName>
           <AttendChartWrap />

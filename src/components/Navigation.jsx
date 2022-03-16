@@ -308,7 +308,7 @@ function Navigation() {
             {/* 일정관리 */}
             <div className="checklistContainer">
               <NavLink
-                to="/"
+                to="/schedule"
                 className="link"
                 onClick={checklistmenu}
                 onMouseOver={() => onMouseOver('checklistmenucolor')}
