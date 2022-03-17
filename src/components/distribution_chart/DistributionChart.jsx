@@ -40,7 +40,7 @@ const DistributionChart = ({ distributionTotal }) => {
   // const COLOR = ['#FBA869', '#42C366', '#70A6E8', '#FFDB5C', '#A293FF']
 
   const { thisYear, lastMonth } = getLastMonth()
-
+  console.log(typeof lastMonth)
   const [policeSubjectData, setPoliceSubjectData] = useState([])
   const [criminalSubjectData, setCriminalSubjectData] = useState([])
   const [lawSubjectData, setLawSubjectData] = useState([])
