@@ -1,29 +1,29 @@
-import React from "react";
-import { Reset } from "styled-reset";
-import { Routes, Route } from "react-router-dom";
-import styled, { ThemeProvider } from "styled-components";
-import { CgDarkMode } from "react-icons/cg";
+import React from 'react'
+import { Reset } from 'styled-reset'
+import { Routes, Route } from 'react-router-dom'
+import styled, { ThemeProvider } from 'styled-components'
+import { CgDarkMode } from 'react-icons/cg'
 
-import Home from "../src/pages/Home";
-import Login from "../src/pages/Login";
-import Class from "../src/pages/Class";
-import { defaultTheme, darkTheme } from "./utils/theme";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { isDarkAtom, isLoggedIn } from "./utils/atoms";
-import Navigation from "./components/Navigation";
-import PrivateRoute from "./lib/PrivateRoute";
-import Schedule from "./pages/Schedule";
-import Students from "./pages/Students";
-import StudentDetail from "./components/student/StudentDetail";
-import logout from "./image/logout.svg";
-import logoutColor from "./image/logout_color.svg";
-import { createGlobalStyle } from "styled-components";
+import Home from '../src/pages/Home'
+import Login from '../src/pages/Login'
+import Class from '../src/pages/Class'
+import { defaultTheme, darkTheme } from './utils/theme'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { isDarkAtom, isLoggedIn } from './utils/atoms'
+import Navigation from './components/Navigation'
+import PrivateRoute from './lib/PrivateRoute'
+import Schedule from './pages/Schedule'
+import Students from './pages/Students'
+import StudentDetail from './components/student/StudentDetail'
+import logout from './image/logout.svg'
+import logoutColor from './image/logout_color.svg'
+import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
   body{
     background-color: ${(props) => props.theme.mainBackground};
   }
-`;
+`
 
 const Darkmode = styled.button`
   width: 3em;
@@ -43,7 +43,7 @@ const Darkmode = styled.button`
     cursor: pointer;
     position: absolute;
   }
-`;
+`
 const LogoutBtn = styled.button`
   width: 10em;
   height: 3em;
@@ -63,28 +63,37 @@ const LogoutBtn = styled.button`
   img {
     padding-right: 10px;
   }
-`;
+`
+
+const HiddenNavigation = styled.div`
+  &.hidden {
+    display: none;
+  }
+`
 
 function App() {
   // RECOIL : 다크모드
-  const isDark = useRecoilValue(isDarkAtom);
-  const setIsDark = useSetRecoilState(isDarkAtom);
+  const isDark = useRecoilValue(isDarkAtom)
+  const setIsDark = useSetRecoilState(isDarkAtom)
   const changeTheme = () => {
-    setIsDark((prev) => !prev);
-  };
+    setIsDark((prev) => !prev)
+  }
   // RECOIL : 로그인, 로그아웃
-  const isLogged = useRecoilValue(isLoggedIn);
+  const isLogged = useRecoilValue(isLoggedIn)
   const logoutHandler = () => {
-    localStorage.removeItem("isLoggedIn");
-    window.location.reload();
-  };
+    localStorage.removeItem('isLoggedIn')
+    window.location.reload()
+  }
 
   return (
     <div className="App">
       <ThemeProvider theme={isDark ? darkTheme : defaultTheme}>
         <Reset />
         <GlobalStyle />
-        <Navigation />
+        <HiddenNavigation className={isLogged ? '' : 'hidden'}>
+          <Navigation />
+        </HiddenNavigation>
+        {/* <Navigation /> */}
         <Routes>
           <Route exact path="/" element={<PrivateRoute />}>
             <Route path="/" element={<Home />} />
@@ -115,13 +124,13 @@ function App() {
             Logout
           </LogoutBtn>
         ) : (
-          ""
+          ''
         )}
         <Darkmode onClick={changeTheme}>
           <CgDarkMode />
         </Darkmode>
       </ThemeProvider>
     </div>
-  );
+  )
 }
-export default App;
+export default App
