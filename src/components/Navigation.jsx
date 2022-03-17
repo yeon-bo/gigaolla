@@ -181,6 +181,11 @@ function Navigation() {
 export default Navigation
 
 const StyledNavigation = styled.div`
+  *,
+  *::before,
+  *::after {
+    box-sizing: content-box;
+  }
   font-family: 'Noto Sans KR', sans-serif;
   /* min-height: 100vh; */
   overflow-x: hidden;

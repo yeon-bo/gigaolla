@@ -65,6 +65,7 @@ const LogoutBtn = styled.button`
   img {
     padding-right: 10px;
   }
+  box-sizing: border-box;
 `
 const HiddenNavigation = styled.div`
   &.hidden {
