@@ -22,6 +22,7 @@ const Cont = styled.div`
   margin-bottom: 7.63em;
   margin-left: 19.69em;
   padding: 0 2.5em;
+
   a {
     text-decoration: none;
   }
