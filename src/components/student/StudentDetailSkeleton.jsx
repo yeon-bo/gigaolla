@@ -14,6 +14,8 @@ const ListArea = styled.div`
   margin-top: 30px;
   margin-left: 5em;
   padding: 30px 0;
+  color: ${(props) => props.theme.textColor};
+  background-color: ${(props) => props.theme.backgroundColor};
 `
 
 const Header = styled.header`
@@ -53,7 +55,7 @@ const InfoContainer = styled.div`
   align-items: center;
 
   span:nth-of-type(1) {
-    color: grey;
+    color: ${(props) => props.theme.chartTitleColor};
   }
   span:nth-of-type(2) {
     font-size: 20px;

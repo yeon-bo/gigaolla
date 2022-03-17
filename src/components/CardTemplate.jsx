@@ -58,7 +58,12 @@ const CardTemplate = ({
   compareStartDate,
   compareEndDate,
   Info,
+  filterSubject,
   setCompareAttendPercent,
+  filterClass,
+  setFilterClass,
+  total,
+  setTotal,
 }) => {
   // Card Template Wrap
 
@@ -81,10 +86,15 @@ const CardTemplate = ({
         month={month}
         chartView={chartView}
         startDate={startDate}
+        filterSubject={filterSubject}
         endDate={endDate}
         compareStartDate={compareStartDate}
         compareEndDate={compareEndDate}
         setCompareAttendPercent={setCompareAttendPercent}
+        filterClass={filterClass}
+        setFilterClass={setFilterClass}
+        total={total}
+        setTotal={setTotal}
       />
     </Cont>
   );

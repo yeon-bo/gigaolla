@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-// import NavigationCalender from "../components/NavigationCalendar";
 import NavigationPolicemenu from "../components/NavigationPolicemenu";
 import NavigationFiremenu from "../components/NavigationFiremenu";
 import NavigationAdminmenu from "../components/NavigationAdminmenu";
@@ -10,6 +9,7 @@ import NavigationStudentAdmin from "../components/NavigationStudentAdmin";
 import logo from "../image/ollalogo.svg";
 import menu from "../image/menu_gray.svg";
 import menuColor from "../image/menu_color.svg";
+import textLogo from "../image/text_logo.svg";
 import clsx from "clsx";
 
 function Navigation() {
@@ -37,7 +37,7 @@ function Navigation() {
   } else if (fixBackground === "policemenu") {
   } else if (fixBackground === "firemenu") {
   } else if (fixBackground === "adminmenu") {
-  } else if (fixTextColor === "checklistmenu") {
+  } else if (fixTextColor === "studentAdminmenu") {
   }
 
   // icon color hover
@@ -52,7 +52,7 @@ function Navigation() {
   } else if (hoveredIcon === "policemenucolor") {
   } else if (hoveredIcon === "firemenucolor") {
   } else if (hoveredIcon === "adminmenucolor") {
-  } else if (hoveredIcon === "checklistmenucolor") {
+  } else if (hoveredIcon === "studentAdminmenucolor") {
   }
 
   // lnb menu click시 text color 변경
@@ -164,13 +164,14 @@ function Navigation() {
               <MidLine />
             </ul>
             {/* 학생관리 */}
-            <div className="checklistContainer">
+            <div className="studentAdminContainer">
               <NavigationStudentAdmin
                 fixTextColor={fixTextColor}
                 onMouseOver={onMouseOver}
                 onMouseOut={onMouseOut}
                 hoveredIcon={hoveredIcon}
               />
+              <img className="textlogo" src={textLogo} alt="textLogo" />
             </div>
           </div>
         </div>
@@ -178,7 +179,6 @@ function Navigation() {
     </div>
   );
 }
-
 export default Navigation;
 
 const StyledNavigation = styled.div`
@@ -200,7 +200,7 @@ const StyledNavigation = styled.div`
     width: 286px;
     height: 100%;
     background: ${(props) => props.theme.navbackgroundColor};
-    border-left: 29px solid ${(props) => props.theme.navbackgroundColor};
+    padding-left: 29px;
     overflow: hidden;
     font-weight: 500;
     font-size: 22px;
@@ -372,7 +372,7 @@ const StyledNavigation = styled.div`
         }
       }
     }
-    .checklistContainer {
+    .studentAdminContainer {
       width: 285px;
       height: 80px;
       font-weight: 500;
@@ -384,8 +384,8 @@ const StyledNavigation = styled.div`
         text-decoration: none;
         color: ${(props) => props.theme.navtextColor};
         img {
-          width: 28px;
-          padding: 25px;
+          width: 38px;
+          padding: 20px;
           margin-left: 3px;
         }
         span {
@@ -402,6 +402,13 @@ const StyledNavigation = styled.div`
         .white {
           color: #fff;
         }
+      }
+      .textlogo {
+        position: relative;
+        top: 50px;
+        left: -10px;
+        width: 282px;
+        height: 60px;
       }
     }
   }
