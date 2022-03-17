@@ -194,8 +194,8 @@ const StyledNavigation = styled.div`
     position: fixed;
     width: 286px;
     height: 100%;
-    background: #5d5fef;
-    border-left: 29px solid #5d5fef;
+    background: ${(props) => props.theme.navbackgroundColor};
+    border-left: 29px solid ${(props) => props.theme.navbackgroundColor};
     overflow: hidden;
     font-weight: 500;
     font-size: 22px;
@@ -213,29 +213,29 @@ const StyledNavigation = styled.div`
           width: 286px;
           display: flex;
           text-decoration: none;
-          color: #c7c7c7;
+          color: ${(props) => props.theme.navtextColor};
           &:hover {
-            background: #fff;
+            background: ${(props) => props.theme.navactivebackgroundColor};
             border-top-left-radius: 30px;
             border-bottom-left-radius: 30px;
             .menutext {
               &:hover {
-                color: #5d5fef;
+                color: ${(props) => !props.theme.navGnbToptext};
               }
             }
             .policetext {
               &:hover {
-                color: #161aec;
+                color: ${(props) => props.theme.policeColor};
               }
             }
             .firetext {
               &:hover {
-                color: #fd4f3a;
+                color: ${(props) => props.theme.fireColor};
               }
             }
             .admintext {
               &:hover {
-                color: #257e0e;
+                color: ${(props) => props.theme.adminColor};
               }
             }
           }
@@ -248,18 +248,19 @@ const StyledNavigation = styled.div`
             height: 50px;
             background: transparent;
             border-radius: 50%;
-            box-shadow: 35px 35px 0 10px #fff;
+            box-shadow: 35px 35px 0 10px
+              ${(props) => props.theme.navactivebackgroundColor};
           }
           &:hover span::after {
             content: "";
             position: absolute;
             left: 155px;
-            bottom: -50px;
+            bottom: -52px;
             width: 50px;
             height: 50px;
             background: transparent;
             border-radius: 50%;
-            box-shadow: 35px -35px 0 10px #fff;
+            box-shadow: 35px -35px 0 10px ${(props) => props.theme.navactivebackgroundColor};
           }
 
           img,
@@ -285,7 +286,7 @@ const StyledNavigation = styled.div`
         /* active 클릭시 gnb background, fontcolor css 고정*/
         .activeBg {
           width: 100%;
-          background: #fff;
+          background: ${(props) => props.theme.navactivebackgroundColor};
           border-top-left-radius: 30px;
           border-bottom-left-radius: 30px;
           span::before {
@@ -297,7 +298,8 @@ const StyledNavigation = styled.div`
             height: 50px;
             background: transparent;
             border-radius: 50%;
-            box-shadow: 35px 35px 0 10px #fff;
+            box-shadow: 35px 35px 0 10px
+              ${(props) => props.theme.navactivebackgroundColor};
           }
           span::after {
             content: "";
@@ -308,19 +310,19 @@ const StyledNavigation = styled.div`
             height: 50px;
             background: transparent;
             border-radius: 50%;
-            box-shadow: 35px -35px 0 10px #fff;
+            box-shadow: 35px -35px 0 10px ${(props) => props.theme.navactivebackgroundColor};
           }
           .menutext {
-            color: #5d5fef;
+            color: ${(props) => props.theme.navGnbToptext};
           }
           .policetext {
-            color: #161aec;
+            color: ${(props) => props.theme.policeColor};
           }
           .firetext {
-            color: #fd4f3a;
+            color: ${(props) => props.theme.fireColor};
           }
           .admintext {
-            color: #257e0e;
+            color: ${(props) => props.theme.adminColor};
           }
         }
       }
@@ -328,13 +330,13 @@ const StyledNavigation = styled.div`
       .lnbcontainer {
         width: 315px;
         height: 100%;
-        background: #5d5fef;
+        background: ${(props) => props.theme.navbackgroundColor};
         /* overflow: hidden; */
         font-weight: 400;
         font-size: 18px;
         li {
           list-style: none;
-          background: #5d5fef;
+          background: ${(props) => props.theme.navbackgroundColor};
           .lnblink {
             display: block;
             width: 100%;
@@ -344,7 +346,7 @@ const StyledNavigation = styled.div`
             line-height: 40px;
             font-size: 18px;
             text-decoration: none;
-            color: #c7c7c7;
+            color: ${(props) => props.theme.navtextColor};
             p {
               position: relative;
               display: block;
@@ -375,7 +377,7 @@ const StyledNavigation = styled.div`
         width: 100%;
         display: flex;
         text-decoration: none;
-        color: #c7c7c7;
+        color: ${(props) => props.theme.navtextColor};
         img {
           width: 28px;
           padding: 25px;

@@ -8,6 +8,12 @@ export const defaultTheme = {
   policeColor: '#21468d',
   fireColor: '#fd4f3a',
   adminColor: '#257e0e',
+
+  navbackgroundColor: '#5d5fef',
+  navactivebackgroundColor: '#fff',
+  navGnbToptext: '#c7c7c7',
+  navtextColor: '#c7c7c7',
+  navchangetextColor: '#fff'
 }
 
 export const darkTheme = {
@@ -20,4 +26,10 @@ export const darkTheme = {
   policeColor: '#21468d',
   fireColor: '#fd4f3a',
   adminColor: '#257e0e',
+
+  navbackgroundColor: '#333333',
+  navactivebackgroundColor: '#000',
+  navtextColor: '#c7c7c7',
+  navGnbToptext: '#fff',
+  navchangetextColor: '#fff'
 }
