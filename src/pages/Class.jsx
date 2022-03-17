@@ -10,6 +10,7 @@ import DistributionChartWrap from '../components/distribution_chart/Distribution
 import DistributionChartTab from '../components/distribution_chart/DistributionChartTap'
 import SortBySubjectWrap from '../components/distribution_chart/SortBySubjectWrap'
 import { useParams, Link } from 'react-router-dom'
+import SummaryCardPercent from '../components/SummaryCardPercent'
 
 // 전체 페이지 Wrap
 const Background = styled.div`
@@ -134,19 +135,19 @@ const Class = () => {
         {number ? (
           <Link to={`/${subject}/${number}/students`}>
             <SummaryCardCont>
-              <SummaryCard Title={'재학생'} />
-              <SummaryCard Title={'응시생'} />
-              <SummaryCard Title={'응시율'} />
-              <SummaryCard Title={'10%'} />
+              <SummaryCard Title={'재학생'} Subject={subject} Number={number} />
+              <SummaryCard Title={'응시생'} Subject={subject} Number={number} />
+              <SummaryCard Title={'응시율'} Subject={subject} Number={number} />
+              <SummaryCard Title={'반등수'} Subject={subject} Number={number} />
             </SummaryCardCont>
           </Link>
         ) : (
           <Link to={`/${subject}/students`}>
             <SummaryCardCont>
-              <SummaryCard Title={'재학생'} />
-              <SummaryCard Title={'응시생'} />
-              <SummaryCard Title={'응시율'} />
-              <SummaryCard Title={'10%'} />
+              <SummaryCard Title={'재학생'} Subject={subject} />
+              <SummaryCard Title={'응시생'} Subject={subject} />
+              <SummaryCard Title={'응시율'} Subject={subject} />
+              <SummaryCardPercent Subject={subject} />
             </SummaryCardCont>
           </Link>
         )}
