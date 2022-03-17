@@ -12,57 +12,13 @@ import {
 import { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
 import { useParams } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
+import { isDarkAtom } from '../../utils/atoms'
 import { getLastMonth } from '../../utils/getLastMonth'
 
 // var qs = require('qs')
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
-
-// OPTION
-const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
-      align: 'end',
-      labels: {
-        padding: 5,
-        usePointStyle: true,
-        font: {
-          size: 20,
-          padding: 10,
-          // color: 'red',
-        },
-      },
-    },
-    tooltop: {
-      backgroundColor: '#5D5FEF',
-    },
-  },
-  scales: {
-    x: {
-      ticks: {
-        color: 'grey',
-      },
-      scaleLabel: {
-        display: true,
-      },
-      grid: {
-        display: false,
-        drawBorder: false,
-      },
-    },
-    y: {
-      ticks: {
-        color: 'grey',
-      },
-      grid: {
-        display: false,
-        drawBorder: false,
-      },
-    },
-  },
-}
 
 // LABEL
 const labels = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, '100 (점)']
@@ -76,6 +32,7 @@ const labels = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, '100 (점)']
 //컴포..
 const DistributionChart = ({ distributionTotal }) => {
   const params = useParams()
+  const isDark = useRecoilValue(isDarkAtom)
 
   const SERIES = params.subject // 경찰, 소방, 행정
   const CLASS = params.number // 1, 2, ...
@@ -88,6 +45,58 @@ const DistributionChart = ({ distributionTotal }) => {
   const [criminalSubjectData, setCriminalSubjectData] = useState([])
   const [lawSubjectData, setLawSubjectData] = useState([])
 
+  // OPTION
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+        align: 'end',
+        labels: {
+          padding: 15,
+          usePointStyle: true,
+          color: isDark ? '#fff' : '#95a5a6',
+          font: {
+            size: 20,
+            padding: 10,
+            // color: 'red',
+          },
+        },
+      },
+      tooltop: {
+        backgroundColor: '#5D5FEF',
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: isDark ? '#fff' : '#95a5a6',
+          font: {
+            size: 20,
+          },
+        },
+        scaleLabel: {
+          display: true,
+        },
+        grid: {
+          display: false,
+          drawBorder: false,
+        },
+      },
+      y: {
+        ticks: {
+          color: isDark ? '#fff' : '#95a5a6',
+          font: {
+            size: 20,
+          },
+        },
+        grid: {
+          display: false,
+          drawBorder: false,
+        },
+      },
+    },
+  }
   // const [data, setData] = useState([])
 
   // useEffect(() => {
