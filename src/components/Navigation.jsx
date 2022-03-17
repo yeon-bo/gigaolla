@@ -1,40 +1,28 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
+// import NavigationCalender from "../components/NavigationCalendar";
+import NavigationPolicemenu from '../components/NavigationPolicemenu'
+import NavigationFiremenu from '../components/NavigationFiremenu'
+import NavigationAdminmenu from '../components/NavigationAdminmenu'
+import NavigationStudentAdmin from '../components/NavigationStudentAdmin'
 // icon link
 import logo from '../image/ollalogo.svg'
 import menu from '../image/menu_gray.svg'
 import menuColor from '../image/menu_color.svg'
-import police from '../image/police_gray.svg'
-import policeColor from '../image/police_color.svg'
-import fire from '../image/fire_gray.svg'
-import fireColor from '../image/fire_color.svg'
-import admin from '../image/admin_gray.svg'
-import adminColor from '../image/admin_color.svg'
-import checklist from '../image/checklist_gray.svg'
-import checklistColor from '../image/checklist_white.svg'
-import calendar from '../image/calendar.svg'
-// calender
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
+import clsx from 'clsx'
 
-// 서브 네비게이션
-// (다른 직렬을 선택하면 열려있는 직렬서브 네비 닫힘)
 function Navigation() {
+  // 서브 네비게이션 (다른 직렬을 선택하면 열려있는 직렬서브 네비 닫힘)
+  //직렬별 lnb menu className = "hidden" (display="none")
+  // clsx classnames
   const [openedSection, setOpenedSetion] = useState('')
   const onClickSection = (job) => {
     setOpenedSetion(job)
   }
-  //직렬별 lnb menu className = "hidden" (display="none")
-  let policelnb = 'lnbcontainer police hidden'
-  let firelnb = 'lnbcontainer fire hidden'
-  let adminlnb = 'lnbcontainer admin hidden'
   if (openedSection === 'police') {
-    policelnb = 'lnbcontainer police'
   } else if (openedSection === 'fire') {
-    firelnb = 'lnbcontainer fire'
   } else if (openedSection === 'admin') {
-    adminlnb = 'lnbcontainer admin'
   }
 
   // 클릭시 gnb background css 고정 className = "activeBg" 추가
@@ -45,21 +33,11 @@ function Navigation() {
     setFixBackground(kategorie)
     setFixTextColor(kategorie)
   }
-  let policemenu = 'link police'
-  let firemenu = 'link fire'
-  let adminmenu = 'link admin'
-  let allmenu = 'link allmenu'
-  let checklistmenu = 'link checklist'
   if (fixBackground === 'allmenu') {
-    allmenu += ' activeBg'
   } else if (fixBackground === 'policemenu') {
-    policemenu += ' activeBg'
   } else if (fixBackground === 'firemenu') {
-    firemenu += ' activeBg'
   } else if (fixBackground === 'adminmenu') {
-    adminmenu += ' activeBg'
   } else if (fixTextColor === 'checklistmenu') {
-    checklistmenu += ' listtextcolor'
   }
 
   // icon color hover
@@ -70,31 +48,34 @@ function Navigation() {
   const onMouseOut = (coloricon) => {
     sethoveredIcon(!coloricon)
   }
-  let navicon = 'navicon'
   if (hoveredIcon === 'allmenucolor') {
-    navicon += ' allmenuicon'
   } else if (hoveredIcon === 'policemenucolor') {
-    navicon += ' policeicon'
   } else if (hoveredIcon === 'firemenucolor') {
-    navicon += ' fireicon'
   } else if (hoveredIcon === 'adminmenucolor') {
-    navicon += ' adminicon'
   } else if (hoveredIcon === 'checklistmenucolor') {
-    navicon += ' checklisticon'
   }
 
-  // lnb menu click시 text color 변경 고정
+  // lnb menu click시 text color 변경
   const [clickTextColor, setClickTextColor] = useState('')
-  const onClicklnb = (textColor) => {
-    setClickTextColor(textColor)
+  const onClicklnb = (classtext) => {
+    setClickTextColor(classtext)
   }
-  let lnbtextColor = 'lnbtext'
-  if (clickTextColor === 'classnumber') {
-    lnbtextColor += ' clickde_text'
+  if (clickTextColor === 'Pclass0') {
+  } else if (clickTextColor === 'Pclass1') {
+  } else if (clickTextColor === 'Pclass2') {
+  } else if (clickTextColor === 'Pclass3') {
+  } else if (clickTextColor === 'Pclass5') {
   }
-
-  // 일정관리 라이브러리
-  const [startDate, setStartDate] = useState(new Date())
+  if (clickTextColor === 'Fclass0') {
+  } else if (clickTextColor === 'Fclass1') {
+  } else if (clickTextColor === 'Fclass2') {
+  } else if (clickTextColor === 'Fclass3') {
+  }
+  if (clickTextColor === 'Aclass0') {
+  } else if (clickTextColor === 'Aclass1') {
+  } else if (clickTextColor === 'Aclass2') {
+  } else if (clickTextColor === 'Aclass3') {
+  }
 
   return (
     <div>
@@ -109,7 +90,9 @@ function Navigation() {
               <li className="gnb">
                 <NavLink
                   to="/"
-                  className={allmenu}
+                  className={clsx('link allmenu', {
+                    activeBg: fixBackground === 'allmenu',
+                  })}
                   onClick={() => {
                     onClickShowFix('allmenu')
                   }}
@@ -127,7 +110,9 @@ function Navigation() {
                         : menu
                     }
                     alt="menu"
-                    className={navicon}
+                    className={clsx('navicon', {
+                      allmenuicon: hoveredIcon === 'allmenucolor',
+                    })}
                   />
                   <span className="menutext">전체개요</span>
                 </NavLink>
@@ -135,222 +120,57 @@ function Navigation() {
               {/* 전체개요 끝 */}
               {/* 경찰직렬 메뉴 */}
               <li className="gnb">
-                <NavLink
-                  to="/경찰"
-                  className={policemenu}
-                  onClick={() => {
-                    onClickSection('police')
-                    onClickShowFix('policemenu')
-                  }}
-                  onMouseOver={() => {
-                    onMouseOver('policemenucolor')
-                  }}
-                  onMouseOut={() => {
-                    onMouseOut('policemenucolor')
-                  }}
-                >
-                  <img
-                    src={
-                      fixBackground === 'policemenu' || hoveredIcon === 'policemenucolor'
-                        ? policeColor
-                        : police
-                    }
-                    alt="menu"
-                    className={navicon}
-                  />
-                  <span className="policetext">경찰직</span>
-                </NavLink>
-                {/* 경찰 lnb */}
-                <div className={policelnb}>
-                  <ul className="lnb">
-                    <li>
-                      <NavLink className={policemenu ? 'lnblink fontWhite' : 'lnblink'} to="/경찰">
-                        <p>전체</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/경찰/1">
-                        <p>1반</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/경찰/2">
-                        <p>2반</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/경찰/3">
-                        <p>3반</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/경찰/5">
-                        <p>5반</p>
-                      </NavLink>
-                    </li>
-                  </ul>
-                </div>
-                {/* 경찰 lnb 끝 */}
+                <NavigationPolicemenu
+                  fixBackground={fixBackground}
+                  onClickShowFix={onClickShowFix}
+                  onClickSection={onClickSection}
+                  onMouseOver={onMouseOver}
+                  onMouseOut={onMouseOut}
+                  hoveredIcon={hoveredIcon}
+                  openedSection={openedSection}
+                  onClicklnb={onClicklnb}
+                  clickTextColor={clickTextColor}
+                />
               </li>
-              {/* 경찰직렬 메뉴끝 */}
               {/* 소방직렬 메뉴 */}
               <li className="gnb">
-                <NavLink
-                  to="/소방"
-                  className={firemenu}
-                  onClick={() => {
-                    onClickSection('fire')
-                    onClickShowFix('firemenu')
-                  }}
-                  onMouseOver={() => {
-                    onMouseOver('firemenucolor')
-                  }}
-                  onMouseOut={() => {
-                    onMouseOut('firemenucolor')
-                  }}
-                >
-                  <img
-                    src={
-                      fixBackground === 'firemenu' || hoveredIcon === 'firemenucolor'
-                        ? fireColor
-                        : fire
-                    }
-                    alt="menu"
-                    className={navicon}
-                  />
-                  <span className="firetext">소방직</span>
-                </NavLink>
-                {/* 소방 lnb */}
-                <div className={firelnb}>
-                  <ul className="lnb">
-                    <li>
-                      <NavLink className={firemenu ? 'lnblink fontWhite' : 'lnblink '} to="/소방">
-                        <p>전체</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/소방/1">
-                        <p>1반</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/소방/2">
-                        <p>2반</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/소방/3">
-                        <p>3반</p>
-                      </NavLink>
-                    </li>
-                  </ul>
-                </div>
-                {/* 소방 lnb 끝 */}
+                <NavigationFiremenu
+                  fixBackground={fixBackground}
+                  onClickShowFix={onClickShowFix}
+                  onClickSection={onClickSection}
+                  onMouseOver={onMouseOver}
+                  onMouseOut={onMouseOut}
+                  hoveredIcon={hoveredIcon}
+                  openedSection={openedSection}
+                  onClicklnb={onClicklnb}
+                  clickTextColor={clickTextColor}
+                />
               </li>
-              {/* 소방직렬 메뉴끔 */}
-              {/* 행정직렬 메뉴끔 */}
+              {/* 행정직렬 메뉴 */}
               <li className="gnb">
-                <NavLink
-                  to="/행정"
-                  className={adminmenu}
-                  onClick={() => {
-                    onClickSection('admin')
-                    onClickShowFix('adminmenu')
-                  }}
-                  onMouseOver={() => {
-                    onMouseOver('adminmenucolor')
-                  }}
-                  onMouseOut={() => {
-                    onMouseOut('adminmenucolor')
-                  }}
-                >
-                  <img
-                    src={
-                      fixBackground === 'adminmenu' || hoveredIcon === 'adminmenucolor'
-                        ? adminColor
-                        : admin
-                    }
-                    alt="menu"
-                    className={navicon}
-                  />
-                  <span className="admintext">행정직</span>
-                </NavLink>
-                {/* 행정 lnb */}
-                <div className={adminlnb}>
-                  <ul className="lnb">
-                    <li>
-                      <NavLink className={adminmenu ? 'lnblink fontWhite' : 'lnblink '} to="/행정">
-                        <p>전체</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/행정/1">
-                        <p>1반</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/행정/2">
-                        <p>2반</p>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink className="lnblink" to="/행정/3">
-                        <p>3반</p>
-                      </NavLink>
-                    </li>
-                  </ul>
-                </div>
-                {/* 행정 lnb 끝 */}
+                <NavigationAdminmenu
+                  fixBackground={fixBackground}
+                  onClickShowFix={onClickShowFix}
+                  onClickSection={onClickSection}
+                  onMouseOver={onMouseOver}
+                  onMouseOut={onMouseOut}
+                  hoveredIcon={hoveredIcon}
+                  openedSection={openedSection}
+                  onClicklnb={onClicklnb}
+                  clickTextColor={clickTextColor}
+                />
               </li>
-              {/* 행정직렬 메뉴끔 */}
               <MidLine />
             </ul>
-            {/* 일정관리 */}
+            {/* 학생관리 */}
             <div className="checklistContainer">
-              <NavLink
-                to="/schedule"
-                className="link"
-                onClick={checklistmenu}
-                onMouseOver={() => onMouseOver('checklistmenucolor')}
-                onMouseOut={() => onMouseOut('checklistmenucolor')}
-              >
-                <img
-                  src={
-                    fixTextColor === 'checklistmenu' || hoveredIcon === 'checklistmenucolor'
-                      ? checklistColor
-                      : checklist
-                  }
-                  alt="checklist"
-                  className={navicon}
-                />
-                <span
-                  className={
-                    fixTextColor === 'checklistmenu' ? 'checklistText white' : 'checklistText'
-                  }
-                >
-                  일정관리
-                </span>
-              </NavLink>
-            </div>
-            {/* 일정관리 끝 */}
-            {/* 달력 */}
-            <div className="calendarcontiner">
-              <img src={calendar} alt="menu" className={navicon} />
-              <DatePicker
-                className="datepicker"
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
+              <NavigationStudentAdmin
+                fixTextColor={fixTextColor}
+                onMouseOver={onMouseOver}
+                onMouseOut={onMouseOut}
+                hoveredIcon={hoveredIcon}
               />
-              <div className="todolist">
-                <p>
-                  <span className="time">08:00 AM</span>경찰직 모의고사
-                </p>
-                <p>
-                  <span className="time">10:30 AM</span>관리자 회의
-                </p>
-              </div>
             </div>
-            {/* 달력 끝 */}
           </div>
         </div>
       </StyledNavigation>
@@ -373,8 +193,8 @@ const StyledNavigation = styled.div`
     position: fixed;
     width: 286px;
     height: 100%;
-    background: #5d5fef;
-    border-left: 29px solid #5d5fef;
+    background: ${(props) => props.theme.navbackgroundColor};
+    border-left: 29px solid ${(props) => props.theme.navbackgroundColor};
     overflow: hidden;
     font-weight: 500;
     font-size: 22px;
@@ -392,30 +212,30 @@ const StyledNavigation = styled.div`
           width: 286px;
           display: flex;
           text-decoration: none;
-          color: #c7c7c7;
+          color: ${(props) => props.theme.navtextColor};
           &:hover {
-            background: #fff;
+            background: ${(props) => props.theme.navactivebackgroundColor};
             border-top-left-radius: 30px;
             border-bottom-left-radius: 30px;
-          }
-          .menutext {
-            &:hover {
-              color: #5d5fef;
+            .menutext {
+              &:hover {
+                color: ${(props) => props.theme.navGnbTopActivetext};
+              }
             }
-          }
-          .policetext {
-            &:hover {
-              color: #161aec;
+            .policetext {
+              &:hover {
+                color: ${(props) => props.theme.policeColor};
+              }
             }
-          }
-          .firetext {
-            &:hover {
-              color: #fd4f3a;
+            .firetext {
+              &:hover {
+                color: ${(props) => props.theme.fireColor};
+              }
             }
-          }
-          .admintext {
-            &:hover {
-              color: #257e0e;
+            .admintext {
+              &:hover {
+                color: ${(props) => props.theme.adminColor};
+              }
             }
           }
           &:hover span::before {
@@ -427,18 +247,18 @@ const StyledNavigation = styled.div`
             height: 50px;
             background: transparent;
             border-radius: 50%;
-            box-shadow: 35px 35px 0 10px #fff;
+            box-shadow: 35px 35px 0 10px ${(props) => props.theme.navactivebackgroundColor};
           }
           &:hover span::after {
             content: '';
             position: absolute;
             left: 155px;
-            bottom: -50px;
+            bottom: -52px;
             width: 50px;
             height: 50px;
             background: transparent;
             border-radius: 50%;
-            box-shadow: 35px -35px 0 10px #fff;
+            box-shadow: 35px -35px 0 10px ${(props) => props.theme.navactivebackgroundColor};
           }
 
           img,
@@ -464,7 +284,7 @@ const StyledNavigation = styled.div`
         /* active 클릭시 gnb background, fontcolor css 고정*/
         .activeBg {
           width: 100%;
-          background: #fff;
+          background: ${(props) => props.theme.navactivebackgroundColor};
           border-top-left-radius: 30px;
           border-bottom-left-radius: 30px;
           span::before {
@@ -476,7 +296,7 @@ const StyledNavigation = styled.div`
             height: 50px;
             background: transparent;
             border-radius: 50%;
-            box-shadow: 35px 35px 0 10px #fff;
+            box-shadow: 35px 35px 0 10px ${(props) => props.theme.navactivebackgroundColor};
           }
           span::after {
             content: '';
@@ -487,22 +307,19 @@ const StyledNavigation = styled.div`
             height: 50px;
             background: transparent;
             border-radius: 50%;
-            box-shadow: 35px -35px 0 10px #fff;
+            box-shadow: 35px -35px 0 10px ${(props) => props.theme.navactivebackgroundColor};
           }
           .menutext {
-            color: #5d5fef;
+            color: ${(props) => props.theme.navGnbTopActivetext};
           }
           .policetext {
-            color: #161aec;
+            color: ${(props) => props.theme.policeColor};
           }
           .firetext {
-            color: #fd4f3a;
+            color: ${(props) => props.theme.fireColor};
           }
           .admintext {
-            color: #257e0e;
-          }
-          .lnb:first-child {
-            color: #fff;
+            color: ${(props) => props.theme.adminColor};
           }
         }
       }
@@ -510,13 +327,13 @@ const StyledNavigation = styled.div`
       .lnbcontainer {
         width: 315px;
         height: 100%;
-        background: #5d5fef;
+        background: ${(props) => props.theme.navbackgroundColor};
         /* overflow: hidden; */
         font-weight: 400;
         font-size: 18px;
         li {
           list-style: none;
-          background: #5d5fef;
+          background: ${(props) => props.theme.navbackgroundColor};
           .lnblink {
             display: block;
             width: 100%;
@@ -526,11 +343,7 @@ const StyledNavigation = styled.div`
             line-height: 40px;
             font-size: 18px;
             text-decoration: none;
-            color: #c7c7c7;
-            p:hover:nth-child(n + 2) {
-              font-weight: 700;
-              color: #fff;
-            }
+            color: ${(props) => props.theme.navtextColor};
             p {
               position: relative;
               display: block;
@@ -539,33 +352,29 @@ const StyledNavigation = styled.div`
               height: 80px;
               line-height: 40px;
               text-align: center;
-              .clickde_text {
-                color: #fff;
-              }
             }
           }
-          // 직렬 선택시 직렬 서브메뉴 '전체' font color 변경
-          .fontWhite {
-            color: #fff;
-          }
+        }
+        // 직렬 선택시 직렬 서브메뉴 '전체' font color 변경
+        .clickde_text {
+          color: #fff;
         }
         &.hidden {
           display: none;
         }
       }
     }
-
     .checklistContainer {
       width: 285px;
       height: 80px;
       font-weight: 500;
-      font-size: 20px;
+      font-size: 22px;
       .link {
         position: relative;
         width: 100%;
         display: flex;
         text-decoration: none;
-        color: #c7c7c7;
+        color: ${(props) => props.theme.navtextColor};
         img {
           width: 28px;
           padding: 25px;
@@ -587,48 +396,6 @@ const StyledNavigation = styled.div`
         }
       }
     }
-    .calendarcontiner {
-      position: relative;
-      /* display: block; */
-      top: 30px;
-      left: 19px;
-      border-radius: solid 1px red;
-      .datepicker {
-        width: 220px;
-        height: 58px;
-        background: #f0f7ff;
-        border: none;
-        border-radius: 11px;
-        font-size: 20px;
-        text-align: center;
-        &:focus {
-          outline: none;
-        }
-      }
-      img {
-        position: absolute;
-        top: 14px;
-        left: 10px;
-        z-index: 1;
-      }
-      .todolist {
-        display: block;
-        width: 225px;
-        margin-top: 22px;
-        font-size: 16px;
-        color: #fff;
-        p {
-          margin-bottom: 17px;
-          font-weight: 500;
-          span {
-            font-size: 13px;
-            color: #dadada;
-            font-weight: 400;
-            margin: 0 15px 0 15px;
-          }
-        }
-      }
-    }
   }
 `
 
@@ -636,6 +403,6 @@ const StyledNavigation = styled.div`
 const MidLine = styled.div`
   width: 220px;
   height: 1px;
-  margin: 10px 47px 30px 18px;
+  margin: 10px 47px 10px 18px;
   border-top: 1px solid #c4c4c4;
 `
