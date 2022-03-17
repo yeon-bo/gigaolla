@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,57 +9,49 @@ import {
   Title,
   Tooltip,
   Legend,
-} from "chart.js";
-import { Line } from "react-chartjs-2";
-import qs from "qs";
+} from 'chart.js'
+import { Line } from 'react-chartjs-2'
+import qs from 'qs'
 
-const URL = "https://kimcodi.kr/external_api/dashboard/";
-const TOTAL_Url = `${URL}numberOfTotalStudentsByMonth.php`;
-const TEST_Url = `${URL}numberOfTestedStudentsByMonth.php`;
+const URL = 'https://kimcodi.kr/external_api/dashboard/'
+const TOTAL_Url = `${URL}numberOfTotalStudentsByMonth.php`
+const TEST_Url = `${URL}numberOfTestedStudentsByMonth.php`
 
-ChartJS.register(LineElement);
+ChartJS.register(LineElement)
 
 // 이번 달, 이번 년도 구하기
-let monthArr = [];
-let label = [];
+let monthArr = []
+let label = []
 
 // 월 배열 구하기
 const getMonth = () => {
-  const date = new Date();
-  let year = date.getFullYear();
-  let month = date.getMonth() + 1;
+  const date = new Date()
+  let year = date.getFullYear()
+  let month = date.getMonth() + 1
 
   for (let i = 1; i <= 6; i++) {
-    month = month < 10 ? `0${month}` : `${month}`;
-    monthArr.unshift({ year, month });
-    label.unshift(month);
-    month--;
+    month = month < 10 ? `0${month}` : `${month}`
+    monthArr.unshift({ year, month })
+    label.unshift(month)
+    month--
     if (month === 0) {
-      month = 12;
-      year = year - 1;
+      month = 12
+      year = year - 1
     }
   }
-  return monthArr;
-};
-getMonth();
+  return monthArr
+}
+getMonth()
 
 const HomeAttendChart = () => {
-  ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-  );
+  ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
   // OPTION
   const options = {
     responsive: true,
     plugins: {
       legend: {
-        position: "top",
-        align: "end",
+        position: 'top',
+        align: 'end',
         labels: {
           padding: 10,
           usePointStyle: true,
@@ -70,7 +62,7 @@ const HomeAttendChart = () => {
         },
       },
       tooltop: {
-        backgroundColor: "#5D5FEF",
+        backgroundColor: '#5D5FEF',
       },
     },
     scales: {
@@ -90,14 +82,14 @@ const HomeAttendChart = () => {
         },
       },
     },
-  };
+  }
 
-  const [policeData, setPoliceData] = useState([]);
-  const [fireData, setFireData] = useState([]);
-  const [adminData, setAdminData] = useState([]);
+  const [policeData, setPoliceData] = useState([])
+  const [fireData, setFireData] = useState([])
+  const [adminData, setAdminData] = useState([])
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const subjectData = await Promise.all(
         monthArr.map(async (i) => {
           const resTotal = await fetch(
@@ -105,24 +97,24 @@ const HomeAttendChart = () => {
               yyyy: i.year,
               mm: i.month,
             })}&class=경찰`
-          );
-          const totalData = (await resTotal.json()).result[0].STUDENT_COUNT;
+          )
+          const totalData = (await resTotal.json()).result[0].STUDENT_COUNT
           const resttest = await fetch(
             `${TEST_Url}?${qs.stringify({
               yyyy: i.year,
               mm: i.month,
             })}&class=경찰`
-          );
-          const testData = (await resttest.json()).result[0].STUDENT_COUNT;
-          return Math.round((testData / totalData) * 100);
+          )
+          const testData = (await resttest.json()).result[0].STUDENT_COUNT
+          return Math.round((testData / totalData) * 100)
         })
-      );
-      setPoliceData(subjectData);
-    })().catch(console.error);
-  }, [monthArr]);
+      )
+      setPoliceData(subjectData)
+    })().catch(console.error)
+  }, [monthArr])
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const subjectData = await Promise.all(
         monthArr.map(async (i) => {
           const resTotal = await fetch(
@@ -130,24 +122,24 @@ const HomeAttendChart = () => {
               yyyy: i.year,
               mm: i.month,
             })}&class=소방`
-          );
-          const totalData = (await resTotal.json()).result[0].STUDENT_COUNT;
+          )
+          const totalData = (await resTotal.json()).result[0].STUDENT_COUNT
           const resttest = await fetch(
             `${TEST_Url}?${qs.stringify({
               yyyy: i.year,
               mm: i.month,
             })}&class=소방`
-          );
-          const testData = (await resttest.json()).result[0].STUDENT_COUNT;
-          return Math.round((testData / totalData) * 100);
+          )
+          const testData = (await resttest.json()).result[0].STUDENT_COUNT
+          return Math.round((testData / totalData) * 100)
         })
-      );
-      setFireData(subjectData);
-    })().catch(console.error);
-  }, [monthArr]);
+      )
+      setFireData(subjectData)
+    })().catch(console.error)
+  }, [monthArr])
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const subjectData = await Promise.all(
         monthArr.map(async (i) => {
           const resTotal = await fetch(
@@ -155,48 +147,48 @@ const HomeAttendChart = () => {
               yyyy: i.year,
               mm: i.month,
             })}&class=행정`
-          );
-          const totalData = (await resTotal.json()).result[0].STUDENT_COUNT;
+          )
+          const totalData = (await resTotal.json()).result[0].STUDENT_COUNT
           const resttest = await fetch(
             `${TEST_Url}?${qs.stringify({
               yyyy: i.year,
               mm: i.month,
             })}&class=행정`
-          );
-          const testData = (await resttest.json()).result[0].STUDENT_COUNT;
-          return Math.round((testData / totalData) * 100);
+          )
+          const testData = (await resttest.json()).result[0].STUDENT_COUNT
+          return Math.round((testData / totalData) * 100)
         })
-      );
-      setAdminData(subjectData);
-    })().catch(console.error);
-  }, [monthArr]);
+      )
+      setAdminData(subjectData)
+    })().catch(console.error)
+  }, [monthArr])
 
   const chartData = {
     labels: label,
     datasets: [
       {
-        label: "경찰직",
+        label: '경찰직',
         data: policeData,
-        borderColor: "#21468d",
-        backgroundColor: "#21468d",
+        borderColor: '#21468d',
+        backgroundColor: '#21468d',
         pointBorderWidth: 4,
       },
       {
-        label: "소방직",
+        label: '소방직',
         data: fireData,
-        borderColor: "#fd4f3a",
-        backgroundColor: "#fd4f3a",
+        borderColor: '#fd4f3a',
+        backgroundColor: '#fd4f3a',
         pointBorderWidth: 4,
       },
       {
-        label: "행정직",
+        label: '행정직',
         data: adminData,
-        borderColor: "#257e0e",
-        backgroundColor: "#257e0e",
+        borderColor: '#257e0e',
+        backgroundColor: '#257e0e',
         pointBorderWidth: 4,
       },
     ],
-  };
-  return <Line data={chartData} options={options} />;
-};
-export default HomeAttendChart;
+  }
+  return <Line data={chartData} options={options} />
+}
+export default HomeAttendChart
