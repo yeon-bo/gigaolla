@@ -4,13 +4,15 @@ import { Chart as ChartJS, BarElement } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { useParams } from "react-router-dom";
 import qs from "qs";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../utils/atoms";
 
 const Cont = styled.div`
-  width: 850px;
+  width: 100%;
   margin-top: 100px;
 `;
 const CurrentTotalData = styled.div`
-  width: 81px;
+  width: 100%;
   height: 39px;
   color: #fff;
   font-weight: 600;
@@ -63,16 +65,18 @@ function getPrevMonthAndYear() {
 const year = new Date().getFullYear(); // 현재 년도
 const month = String(new Date().getMonth() - 1).padStart(2, "0"); // 현재 월
 
-function AverageChart({ compareStartDate, compareEndDate }) {
+function AverageChart({ compareStartDate, compareEndDate, total, setTotal }) {
   const [currentTotalData, setCurrentTotalData] = useState([]);
   const [currentSubjectdata, setCurrentSubjectData] = useState([]);
   const [prevTotalData, setPrevTotalData] = useState([]);
   const [prevSubjectdata, setPrevSubjectData] = useState([]);
   const [labels, setLabels] = useState([]);
+  const isDark = useRecoilValue(isDarkAtom);
 
   const params = useParams();
   const SUBJECT = params.subject;
   const subject = subjects[SUBJECT];
+  let compareTotal = 0;
 
   const YearMonth = [
     {
@@ -102,6 +106,7 @@ function AverageChart({ compareStartDate, compareEndDate }) {
           series: SUBJECT,
         })}`
       );
+
       currentTotal.push(Math.round((await res.json()).result[0].AVG));
       setCurrentTotalData(currentTotal);
       setLabels(["총점", ...subject]);
@@ -138,6 +143,7 @@ function AverageChart({ compareStartDate, compareEndDate }) {
           series: SUBJECT,
         })}`
       );
+
       prevTotal.push(Math.round((await res.json()).result[0].AVG));
       setPrevTotalData(prevTotal);
     })().catch(console.error);
@@ -162,6 +168,9 @@ function AverageChart({ compareStartDate, compareEndDate }) {
     })().catch(console.error);
   }, [subject, compareStartDate, compareEndDate]);
 
+  compareTotal = currentTotalData[0] - prevTotalData[0];
+  setTotal(compareTotal);
+
   const barOptions = {
     indexAxis: "y",
     responsive: true,
@@ -173,6 +182,9 @@ function AverageChart({ compareStartDate, compareEndDate }) {
         align: "end",
         labels: {
           padding: 20,
+          color: () => {
+            return isDark ? "#fff" : "#121212";
+          },
           usePointStyle: true,
           pointStyle: "circle",
           font: {
@@ -195,6 +207,9 @@ function AverageChart({ compareStartDate, compareEndDate }) {
           display: false,
         },
         ticks: {
+          color: () => {
+            return isDark ? "#fff" : "#121212";
+          },
           font: {
             size: 20,
           },

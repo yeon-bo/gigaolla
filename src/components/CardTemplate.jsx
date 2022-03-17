@@ -59,6 +59,8 @@ const CardTemplate = ({
   setCompareAttendPercent,
   filterClass,
   setFilterClass,
+  total,
+  setTotal,
 }) => {
   // Card Template Wrap
 
@@ -88,6 +90,8 @@ const CardTemplate = ({
         setCompareAttendPercent={setCompareAttendPercent}
         filterClass={filterClass}
         setFilterClass={setFilterClass}
+        total={total}
+        setTotal={setTotal}
       />
     </Cont>
   );

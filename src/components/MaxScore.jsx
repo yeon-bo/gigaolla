@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import qs from "qs";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../utils/atoms";
 
 // 당월 최고 점수 Wrap
 const Cont = styled.div`
@@ -22,6 +24,7 @@ const Text = styled.span`
   justify-content: center;
   font-size: 1.25em;
   line-height: 1.69rem;
+  color: ${(props) => props.theme.chartTitleColor};
   + span {
     margin-top: 3.75rem;
   }
@@ -50,6 +53,8 @@ const MaxScore = () => {
   const SUBJECT = params.subject;
   const subject = subjects[SUBJECT];
   const [maxScore, setMaxScore] = useState([]);
+  const isDark = useRecoilValue(isDarkAtom);
+
   let total = 0;
   let score = [];
 

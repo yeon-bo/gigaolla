@@ -35,6 +35,7 @@ const AverageChartWrap = () => {
   const [compareEndDate, setCompareEndDate] = useState(new Date()); // 일단 현재 날짜
   const [info, setInfo] = useState(" 전달 대비 응시율");
   const [filterClass, setFilterClass] = useState(subject[0]);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     if (!compareStartDate || !compareEndDate) return;
@@ -47,7 +48,7 @@ const AverageChartWrap = () => {
 
     setInfo(
       chartView === "compareBar"
-        ? ` ${startYear}.${startMonth} 대비 ${endYear}.${endMonth} 응시율`
+        ? ` ${startYear}.${startMonth} 대비 ${endYear}.${endMonth} 평균 총점`
         : " 전달 대비 평균 총점"
     );
   }, [chartView, compareStartDate, compareEndDate]);
@@ -76,9 +77,11 @@ const AverageChartWrap = () => {
           endDate={endDate}
           compareStartDate={compareStartDate}
           compareEndDate={compareEndDate}
+          total={total}
+          setTotal={setTotal}
           Name={"평균비교"}
-          Count={"+ 2.1%"}
-          Info={" 전달 대비 평균 총점"}
+          Count={total + "점"}
+          Info={info}
         ></CardTemplate>
       ) : (
         <>
@@ -98,8 +101,8 @@ const AverageChartWrap = () => {
             filterClass={filterClass}
             setFilterClass={setFilterClass}
             Name={"평균추이"}
-            Count={"+ 2.1%"}
-            Info={" 전달 대비 평균 총점"}
+            Count={total + "점"}
+            Info={info}
           ></CardTemplate>
         </>
       )}
