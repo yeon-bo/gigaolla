@@ -11,16 +11,8 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { logDOM } from "@testing-library/react";
 
 const HomeAttendChart = () => {
-  const [tatalpolice, setTatalpolice] = useState("");
-  const [tatalfire, setTatalfire] = useState("");
-  const [tataladmin, setTataladmin] = useState("");
-  const [testpolice, setTestpolice] = useState("");
-  const [testfire, setTestfire] = useState("");
-  const [testadmin, setTestadmin] = useState("");
-
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -30,7 +22,6 @@ const HomeAttendChart = () => {
     Tooltip,
     Legend
   );
-
   // OPTION
   const options = {
     responsive: true,
@@ -69,7 +60,6 @@ const HomeAttendChart = () => {
       },
     },
   };
-
   const getYearMonth = () => {
     const date = new Date();
     const nowYear = date.getFullYear();
@@ -94,58 +84,63 @@ const HomeAttendChart = () => {
   ) => {
     month = month < 10 ? `0${month}` : month;
     const URL = "https://kimcodi.kr/external_api/dashboard/";
+    let tatalpolice = 0;
+    let tatalfire = 0;
+    let tataladmin = 0;
+    let testpolice = 0;
+    let testfire = 0;
+    let testadmin = 0;
+
     const tatalPoliceUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=경찰`;
     const tatalFireUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=소방`;
     const tatalAdminUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=행정`;
     const testPoliceUrl = `${URL}numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=경찰`;
     const testFireUrl = `${URL}numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=소방`;
     const testAdminUrl = `${URL}numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=행정`;
-
     await Promise.all([
       axios.get(tatalPoliceUrl).then((res) => {
         if (res.data.code === "001") {
-          setTatalpolice(res.data.result[0].STUDENT_COUNT);
+          tatalpolice = res.data.result[0].STUDENT_COUNT;
         } else {
           return;
         }
       }),
       axios.get(tatalFireUrl).then((res) => {
         if (res.data.code === "001") {
-          setTatalfire(res.data.result[0].STUDENT_COUNT);
+          tatalfire = res.data.result[0].STUDENT_COUNT;
         } else {
           return;
         }
       }),
       axios.get(tatalAdminUrl).then((res) => {
         if (res.data.code === "001") {
-          setTataladmin(res.data.result[0].STUDENT_COUNT);
+          tataladmin = res.data.result[0].STUDENT_COUNT;
         } else {
           return;
         }
       }),
       axios.get(testPoliceUrl).then((res) => {
         if (res.data.code === "001") {
-          setTestpolice(res.data.result[0].STUDENT_COUNT);
+          testpolice = res.data.result[0].STUDENT_COUNT;
         } else {
           return;
         }
       }),
       axios.get(testFireUrl).then((res) => {
         if (res.data.code === "001") {
-          setTestfire(res.data.result[0].STUDENT_COUNT);
+          testfire = res.data.result[0].STUDENT_COUNT;
         } else {
           return;
         }
       }),
       axios.get(testAdminUrl).then((res) => {
         if (res.data.code === "001") {
-          setTestadmin(res.data.result[0].STUDENT_COUNT);
+          testadmin = res.data.result[0].STUDENT_COUNT;
         } else {
           return;
         }
       }),
     ]);
-
     //응시율
     let attendPolice = ((testpolice / tatalpolice) * 100).toFixed(1);
     attendPolice = attendPolice === "NaN" ? 0 : attendPolice;
@@ -153,13 +148,12 @@ const HomeAttendChart = () => {
     attendFire = attendFire === "NaN" ? 0 : attendFire;
     let attendAdmin = ((testadmin / tataladmin) * 100).toFixed(1);
     attendAdmin = attendAdmin === "NaN" ? 0 : attendAdmin;
-
     return { attendPolice, attendFire, attendAdmin };
   };
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData()]);
 
   const ym = getYearMonth().YearMonth;
   const labels = ym.map((label) =>
@@ -168,7 +162,6 @@ const HomeAttendChart = () => {
   let policeData = [];
   let fireData = [];
   let adminData = [];
-
   ym.map((data) =>
     fetchData(data.year, data.month).then((res) =>
       policeData.push(res.attendPolice)
@@ -211,8 +204,6 @@ const HomeAttendChart = () => {
       },
     ],
   };
-
   return <Line data={chartData} options={options} />;
 };
-
 export default HomeAttendChart;
