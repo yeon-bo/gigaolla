@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useTable, useSortBy, useFilters } from "react-table";
 import styled from "styled-components";
-import search from "../../image/search.svg";
+import search from "../../image/Search.svg";
 import searchDark from "../../image/search_gray.svg";
 import {
   TiArrowUnsorted,

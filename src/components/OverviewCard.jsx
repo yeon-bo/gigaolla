@@ -272,8 +272,10 @@ const OverviewCard = ({ Class, Color }) => {
   `;
 
   const ScoreAllCont = styled.div`
+    position: absolute;
+    width: 87%;
     display: flex;
-    margin-top: 3.8em;
+    bottom: 3.25em;
     justify-content: space-between;
   `;
   const ScoreCont = styled.div`
