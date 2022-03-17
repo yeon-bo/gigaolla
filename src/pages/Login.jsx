@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-import { useSetRecoilState } from "recoil";
-import { isLoggedIn } from "../utils/atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isDarkAtom, isLoggedIn } from "../utils/atoms";
 import logo from "../image/ollaedu_logo.svg";
 import footerLogo from "../image/eduhash_logo.svg";
 import idIcon from "../image/Username.svg";
+import idIconDark from "../image/user_dark.svg";
 import passwordIcon from "../image/Password.svg";
+import passwordIconDark from "../image/lock_dark.svg";
 import { signIn } from "../utils/auth";
 
 // 전체 페이지 Wrap
@@ -21,7 +23,7 @@ const Background = styled.div`
 // 로그인 wrap
 const Cont = styled.div`
   height: 44.4em;
-  background: #ffffff;
+  background: ${(props) => props.theme.chartBackgroundColor};
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04),
     0px 0px 1px rgba(0, 0, 0, 0.04);
   border-radius: 25px;
@@ -71,13 +73,14 @@ const Input = styled.input`
   border: 1px solid #545454;
   border-radius: 4px;
   box-sizing: border-box;
-  color: #545454;
+  background: ${(props) => props.theme.chartBackgroundColor};
+  color: ${(props) => props.theme.chartTitleColor};
   font-size: 0.88em;
   line-height: 1.25rem;
   font-family: "Roboto", sans-serif;
   letter-spacing: 0.13em;
   ::placeholder {
-    color: #999;
+    color: ${(props) => props.theme.inputTextColor};
     text-transform: uppercase;
   }
 `;
@@ -117,6 +120,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const setIsLoggedIn = useSetRecoilState(isLoggedIn);
+  const isDark = useRecoilValue(isDarkAtom);
 
   const submitHandler = () => {
     try {
@@ -137,7 +141,11 @@ const Login = () => {
           <LogoImg src={logo} alt="" />
           <LoginCont>
             <InputCont>
-              <Icon src={idIcon} alt="id" />
+              {isDark ? (
+                <Icon src={idIconDark} alt="id" />
+              ) : (
+                <Icon src={idIcon} alt="id" />
+              )}
               <Input
                 type="text"
                 placeholder="Username"
@@ -148,7 +156,11 @@ const Login = () => {
               />
             </InputCont>
             <InputCont>
-              <Icon src={passwordIcon} alt="password" />
+              {isDark ? (
+                <Icon src={passwordIconDark} alt="password" />
+              ) : (
+                <Icon src={passwordIcon} alt="password" />
+              )}
               <Input
                 type="password"
                 placeholder="password"

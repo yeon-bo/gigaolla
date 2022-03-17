@@ -2,9 +2,13 @@ import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import reset from "../image/reset.svg";
-import calendar from "../image/calendar.svg";
+import resetDark from "../image/reset_dark.svg";
+import calendar from "../image/tab_calendar.svg";
+import calendarDark from "../image/tab_calendar_dark.svg";
 import { forwardRef } from "react";
 import { ko } from "date-fns/esm/locale";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../utils/atoms";
 
 const Tab = styled.div`
   display: flex;
@@ -16,8 +20,8 @@ const Button = styled.button`
   cursor: pointer;
   padding: 10px 20px;
   margin-left: 10px;
-  background: ${(props) => props.theme.backgroundColor};
-  color: ${(props) => props.theme.textColor};
+  background: ${(props) => props.theme.btnBackgroundColor};
+  color: ${(props) => props.theme.chartTitleColor};
   border-radius: 8px;
   border: none;
   &.active {
@@ -54,7 +58,7 @@ const DatePickerWrap = styled.div`
   padding: 11px 15px 10px 48px;
   box-sizing: border-box;
   border-radius: 8px;
-  background: ${(props) => props.theme.backgroundColor};
+  background: ${(props) => props.theme.btnBackgroundColor};
   color: ${(props) => props.theme.textColor};
   .custom-input {
     font-family: "Noto Sans";
@@ -157,6 +161,7 @@ const ChartTab = ({
   compareEndDate,
   setCompareEndDate,
 }) => {
+  const isDark = useRecoilValue(isDarkAtom);
   const CustomInput = forwardRef(({ value, onClick }, ref) => {
     const compareValue = value.split("-").join(",");
     const lineValue = value.split("-").join("~");
@@ -194,10 +199,19 @@ const ChartTab = ({
           setCompareEndDate(new Date());
         }}
       >
-        <img src={reset} alt="reset" />
+        {isDark ? (
+          <img src={resetDark} alt="resetDark" />
+        ) : (
+          <img src={reset} alt="reset" />
+        )}
       </Button>
       <CalendarContainer>
-        <img src={calendar} alt="calendar" className="navicon" />
+        {isDark ? (
+          <img src={calendarDark} alt="calendarDark" className="navicon" />
+        ) : (
+          <img src={calendar} alt="calendar" className="navicon" />
+        )}
+
         <DatePickerWrap>
           {view === "bar" ? (
             <DatePicker
