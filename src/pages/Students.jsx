@@ -101,7 +101,7 @@ const Skeleton = styled.div`
   height: 6em;
   background-color: #bdc3c7;
   margin-top: 15em;
-  border-radius: 15px;
+  /* border-radius: 15px; */
   animation: ${loadingAnimation} 2s cubic-bezier(0.11, 0.93, 0.83, 1.25);
 `
 
@@ -122,6 +122,14 @@ const Students = () => {
           `https://kimcodi.kr/external_api/dashboard/studentInfoOfClassByMonth.php?yyyy=${thisYear}&mm=${lastMonth}&class=${subject}`
         )
         const { result } = await response.json()
+        result.map((student) => {
+          if (student.당월점수 == 0) {
+            student.당월점수 = '-'
+            student.과목 = '🔴'
+          } else {
+            student.과목 = '🔵'
+          }
+        })
         setMockData(result)
         setIsLoading(false)
       } else {
@@ -129,6 +137,14 @@ const Students = () => {
           `https://kimcodi.kr/external_api/dashboard/studentInfoOfClassByMonth.php?yyyy=${thisYear}&mm=${lastMonth}&class=${subject}&classn=${number}`
         )
         const { result } = await response.json()
+        result.map((student) => {
+          if (student.당월점수 == 0) {
+            student.당월점수 = '-'
+            student.과목 = '🔴'
+          } else {
+            student.과목 = '🔵'
+          }
+        })
         setMockData(result)
         setIsLoading(false)
       }
@@ -146,7 +162,10 @@ const Students = () => {
       {isLoading ? (
         <UserListContainerLoading>
           <ListAreaLoading>
-            <Skeleton />
+            {/* <Skeleton /> */}
+            <Box sx={{ display: 'flex' }}>
+              <CircularProgress />
+            </Box>
           </ListAreaLoading>
           <ListAreaLoading>
             <Box sx={{ display: 'flex' }}>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { unstable_batchedUpdates } from "react-dom";
 import axios from "axios";
 import styled from "styled-components";
 import {
@@ -14,11 +15,24 @@ import {
 } from "chart.js";
 import { Bar, Line } from "react-chartjs-2";
 import { useParams } from "react-router";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../utils/atoms";
+
+const Cont = styled.div`
+  width: 90%;
+  height: 23em;
+  margin: 3em auto;
+  canvas {
+    max-height: 100% !important;
+  }
+`;
 
 const AttendChart = ({
   chartView,
   startDate,
   endDate,
+  compareStartDate,
+  compareEndDate,
   setCompareAttendPercent,
 }) => {
   const [totalStudentArr, setTotalStudentArr] = useState([]);
@@ -26,19 +40,27 @@ const AttendChart = ({
   const [labels, setLabels] = useState([]);
   const [barPercentage, setBarPercentage] = useState(0.5);
   const { subject, number } = useParams();
+  const isDark = useRecoilValue(isDarkAtom);
 
-  const Cont = styled.div`
-    width: 90%;
-    height: 23em;
-    margin: 3em auto;
-    canvas {
-      max-height: 100% !important;
+  const getProgressYearMonth = () => {
+    const total_months =
+      (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+      (endDate.getMonth() - startDate.getMonth());
+    let year = endDate.getFullYear();
+    let month = endDate.getMonth() + 1;
+    let YearMonth = [];
+    for (let i = 0; i <= total_months; i++) {
+      YearMonth.unshift({ year, month });
+      month--;
+      if (month === 0) {
+        month = 12;
+        year = year - 1;
+      }
     }
-  `;
+    return { YearMonth };
+  };
 
   const getCompareYearMonth = () => {
-    const compareStartDate = new Date(startDate);
-    const compareEndDate = new Date(endDate);
     const YearMonth = [
       {
         year: compareStartDate.getFullYear(),
@@ -150,8 +172,68 @@ const AttendChart = ({
   };
 
   useEffect(() => {
+<<<<<<< HEAD
+=======
+    const fetchData = async () => {
+      const { YearMonth } =
+        chartView === "bar"
+          ? getYearMonth()
+          : chartView === "compareBar"
+          ? getCompareYearMonth()
+          : getProgressYearMonth();
+
+      const {
+        totalStudentData,
+        testedStudentData,
+        attendPercentData,
+        chartLabelData,
+      } = await YearMonth.reduce(
+        async (_acc, cur) => {
+          const { totalStudent, testedStudent, attendPercent } =
+            await getStudentData(subject, number, cur.year, cur.month);
+          const acc = await _acc;
+          const month = cur.month < 10 ? `0${cur.month}` : cur.month;
+          const dateLabel = `${cur.year}.${month}`;
+          const attendPercentLabel = attendPercent + "%";
+          acc["totalStudentData"].push(totalStudent);
+          acc["testedStudentData"].push(testedStudent);
+          acc["attendPercentData"].push(attendPercent);
+          acc["chartLabelData"].push([dateLabel, attendPercentLabel]);
+          return acc;
+        },
+        {
+          totalStudentData: [],
+          testedStudentData: [],
+          attendPercentData: [],
+          chartLabelData: [],
+        }
+      );
+      const arrIndex = attendPercentData.length;
+      let compareAttend =
+        attendPercentData[arrIndex - 1] - attendPercentData[arrIndex - 2];
+      compareAttend = compareAttend.toFixed(1);
+      compareAttend = compareAttend >= 0 ? `+ ${compareAttend}` : compareAttend;
+      unstable_batchedUpdates(() => {
+        setCompareAttendPercent(compareAttend);
+        setTotalStudentArr(totalStudentData);
+        setTestedStudentArr(testedStudentData);
+        setLabels(chartLabelData);
+        setBarPercentage(chartView === "compareBar" ? 0.2 : 0.5);
+      });
+      return;
+    };
+
+>>>>>>> 2fbb403bdb408a1dd5dcb47808f2dc36c30dfc87
     fetchData();
-  }, [subject, number, chartView]);
+  }, [
+    subject,
+    number,
+    chartView,
+    startDate,
+    endDate,
+    compareStartDate,
+    compareEndDate,
+  ]);
 
   ChartJS.register(
     CategoryScale,
@@ -174,6 +256,9 @@ const AttendChart = ({
           usePointStyle: true,
           pointStyle: "circle",
           padding: 20,
+          color: () => {
+            return isDark ? "#fff" : "#121212";
+          },
           font: {
             size: 20,
           },
@@ -206,6 +291,9 @@ const AttendChart = ({
     scales: {
       xAxes: {
         ticks: {
+          color: () => {
+            return isDark ? "#fff" : "#545454";
+          },
           font: {
             size: 20,
             lineHeight: 2.2,

@@ -8,7 +8,8 @@ const Tab = styled.div`
     cursor: pointer;
     padding: 10px 20px;
     margin-left: 10px;
-    background: #f4f4f4;
+    background-color: ${(props) => props.theme.backgroundColor};
+    color: ${(props) => props.theme.textColor};
     border-radius: 8px;
     border: none;
 

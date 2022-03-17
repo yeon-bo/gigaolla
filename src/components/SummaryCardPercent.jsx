@@ -9,7 +9,7 @@ const Cont = styled.div`
   width: 19.31em;
   height: 7.5em;
   font-family: "Noto Sans KR", sans-serif;
-  background: #ffffff;
+  background: ${(props) => props.theme.backgroundColor};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   display: flex;

@@ -25,18 +25,25 @@ const options = {
       labels: {
         padding: 10,
         usePointStyle: true,
+        color: '#95a5a6',
         font: {
           size: 15,
           padding: 10,
         },
       },
     },
-    tooltop: {
-      backgroundColor: '#5D5FEF',
-    },
+    // tooltop: {
+    //   backgroundColor: '#5D5FEF',
+    // },
   },
   scales: {
     x: {
+      ticks: {
+        color: '#95a5a6',
+        font: {
+          size: 20,
+        },
+      },
       scaleLabel: {
         display: true,
       },
@@ -49,6 +56,12 @@ const options = {
       grid: {
         display: false,
         drawBorder: false,
+      },
+      ticks: {
+        color: '#95a5a6',
+        font: {
+          size: 20,
+        },
       },
     },
   },

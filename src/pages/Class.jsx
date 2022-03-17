@@ -27,7 +27,7 @@ const Cont = styled.div`
 `
 const PageRound = styled.div`
   position: fixed;
-  background: #5d5fef;
+  background: ${(props) => props.theme.navbackgroundColor};
   width: 1.88em;
   height: 100%;
   top: 0;
@@ -37,7 +37,7 @@ const PageRound = styled.div`
     content: '';
     width: 1.88em;
     height: 100%;
-    background: #fff;
+    background: ${(props) => props.theme.mainBackground};
     border-radius: 20px 0 0 20px;
   }
 `
