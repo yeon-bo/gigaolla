@@ -42,6 +42,9 @@ const Detail = styled.span`
   line-height: 1.44rem;
   color: #8898aa;
 `;
+const InfoCont = styled.span`
+  color: ${(props) => props.theme.chartTitleColor};
+`;
 //컴포..
 const CardTemplate = ({
   Element,
@@ -66,7 +69,7 @@ const CardTemplate = ({
         <Title>{Name}</Title>
         <DetailCont>
           <DetailCount>{Count}</DetailCount>
-          {Info}
+          <InfoCont>{Info}</InfoCont>
           <Detail>
             {year}
             {month}

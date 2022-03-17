@@ -1,8 +1,10 @@
 export const defaultTheme = {
   mainBackground: "#fff",
   backgroundColor: "#fff",
+  btnBackgroundColor: "#F4F4F4",
   chartBackgroundColor: "#fff",
   chartTitleColor: "#545454",
+  inputTextColor: "#999",
   textColor: "#000",
   ollaTextColor: "#5d5fef",
   sidebarColor: "#5d5fef",
@@ -22,8 +24,10 @@ export const defaultTheme = {
 export const darkTheme = {
   mainBackground: "#000",
   backgroundColor: "#333",
+  btnBackgroundColor: "#333",
   chartBackgroundColor: "#222",
   chartTitleColor: "#fff",
+  inputTextColor: "#fff",
   textColor: "#fff",
   ollaTextColor: "#fff",
   sidebarColor: "#e5e5e5",
