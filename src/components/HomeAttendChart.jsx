@@ -171,10 +171,6 @@ const HomeAttendChart = () => {
     })().catch(console.error);
   }, [monthArr]);
 
-  console.log(policeData);
-  console.log(fireData);
-  console.log(adminData);
-
   const chartData = {
     labels: label,
     datasets: [
