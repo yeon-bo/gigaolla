@@ -16,7 +16,10 @@ import { getLastMonth } from "../utils/getLastMonth";
 // 전체 페이지 Wrap
 const Background = styled.div`
   width: 100%;
+<<<<<<< HEAD
   /* background-color: red; */
+=======
+>>>>>>> 75d8b85a2d6ec038d6280b3a191fc183e075a65c
 `;
 // 네비게이션 제외 내용 Wrap
 const Cont = styled.div`
@@ -33,7 +36,6 @@ const PageRound = styled.div`
   width: 1.88em;
   height: 100%;
   top: 0;
-  /* left: 19.69em; */
   left: 19.69em;
   ::after {
     position: fixed;
