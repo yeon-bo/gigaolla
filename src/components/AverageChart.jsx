@@ -103,6 +103,7 @@ function AverageChart() {
   const barOptions = {
     indexAxis: 'y',
     responsive: true,
+
     plugins: {
       legend: {
         display: true,
