@@ -122,6 +122,14 @@ const Students = () => {
           `https://kimcodi.kr/external_api/dashboard/studentInfoOfClassByMonth.php?yyyy=${thisYear}&mm=${lastMonth}&class=${subject}`
         );
         const { result } = await response.json();
+        result.map((student) => {
+          if (student.당월점수 == 0) {
+            student.당월점수 = "-";
+            student.과목 = "🔴";
+          } else {
+            student.과목 = "🔵";
+          }
+        });
         setMockData(result);
         setIsLoading(false);
       } else {
@@ -129,6 +137,14 @@ const Students = () => {
           `https://kimcodi.kr/external_api/dashboard/studentInfoOfClassByMonth.php?yyyy=${thisYear}&mm=${lastMonth}&class=${subject}&classn=${number}`
         );
         const { result } = await response.json();
+        result.map((student) => {
+          if (student.당월점수 == 0) {
+            student.당월점수 = "-";
+            student.과목 = "🔴";
+          } else {
+            student.과목 = "🔵";
+          }
+        });
         setMockData(result);
         setIsLoading(false);
       }

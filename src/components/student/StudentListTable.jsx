@@ -2,6 +2,11 @@ import React, { useMemo } from "react";
 import { useTable, useSortBy, useFilters } from "react-table";
 import styled from "styled-components";
 import Search from "../../image/Search.svg";
+import {
+  TiArrowUnsorted,
+  TiArrowSortedUp,
+  TiArrowSortedDown,
+} from "react-icons/ti";
 
 const Tr = styled.tr`
   cursor: pointer;
@@ -34,6 +39,9 @@ const Img = styled.img`
   right: 35px;
   top: 50%;
   transform: translateY(-50%);
+`;
+const Arrow = styled.span`
+  margin-left: 3px;
 `;
 
 function SelectColumnFilter({
@@ -70,7 +78,7 @@ function SelectColumnFilter({
 // Table Title Row
 const COLUMNS = [
   {
-    Header: "과목",
+    Header: "응시여부",
     accessor: "과목",
   },
   {
@@ -138,7 +146,17 @@ const StudentListTable = ({
                       {...column.getHeaderProps(column.getSortByToggleProps())}
                     >
                       {column.render("Header")}
-                      {/* <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽 ' : ' 🔼 ') : ''}</span> */}
+                      <Arrow>
+                        {column.isSorted ? (
+                          column.isSortedDesc ? (
+                            <TiArrowSortedDown />
+                          ) : (
+                            <TiArrowSortedUp />
+                          )
+                        ) : (
+                          <TiArrowUnsorted />
+                        )}
+                      </Arrow>
                     </th>
                   );
                 })}
