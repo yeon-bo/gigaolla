@@ -15,6 +15,7 @@ import SummaryCardPercent from '../components/SummaryCardPercent'
 // 전체 페이지 Wrap
 const Background = styled.div`
   width: 100%;
+  /* background-color: red; */
 `
 // 네비게이션 제외 내용 Wrap
 const Cont = styled.div`
@@ -31,6 +32,7 @@ const PageRound = styled.div`
   width: 1.88em;
   height: 100%;
   top: 0;
+  /* left: 19.69em; */
   left: 19.69em;
   ::after {
     position: fixed;

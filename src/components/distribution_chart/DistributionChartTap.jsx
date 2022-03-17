@@ -10,6 +10,8 @@ const Tab = styled.div`
     margin-left: 10px;
     background-color: ${(props) => props.theme.backgroundColor};
     color: ${(props) => props.theme.textColor};
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    font-size: 15px;
     border-radius: 8px;
     border: none;
 

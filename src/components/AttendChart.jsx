@@ -172,8 +172,6 @@ const AttendChart = ({
   };
 
   useEffect(() => {
-<<<<<<< HEAD
-=======
     const fetchData = async () => {
       const { YearMonth } =
         chartView === "bar"
@@ -222,8 +220,6 @@ const AttendChart = ({
       });
       return;
     };
-
->>>>>>> 2fbb403bdb408a1dd5dcb47808f2dc36c30dfc87
     fetchData();
   }, [
     subject,
