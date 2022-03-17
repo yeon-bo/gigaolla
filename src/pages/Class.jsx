@@ -1,21 +1,22 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useState } from 'react'
+import styled from 'styled-components'
 
 // import Navigation from '../components/Navigation'
-import SummaryCard from "../components/SummaryCard";
-import AttendChartWrap from "../components/AttendChartWrap";
-import MaxScoreWrap from "../components/MaxScoreWrap";
-import AverageChartWrap from "../components/AverageChartWrap";
-import DistributionChartWrap from "../components/distribution_chart/DistributionChartWrap";
-import DistributionChartTab from "../components/distribution_chart/DistributionChartTap";
-import SortBySubjectWrap from "../components/distribution_chart/SortBySubjectWrap";
-import { useParams, Link } from "react-router-dom";
-import SummaryCardPercent from "../components/SummaryCardPercent";
+import SummaryCard from '../components/SummaryCard'
+import AttendChartWrap from '../components/AttendChartWrap'
+import MaxScoreWrap from '../components/MaxScoreWrap'
+import AverageChartWrap from '../components/AverageChartWrap'
+import DistributionChartWrap from '../components/distribution_chart/DistributionChartWrap'
+import DistributionChartTab from '../components/distribution_chart/DistributionChartTap'
+import SortBySubjectWrap from '../components/distribution_chart/SortBySubjectWrap'
+import { useParams, Link } from 'react-router-dom'
+import SummaryCardPercent from '../components/SummaryCardPercent'
 
 // 전체 페이지 Wrap
 const Background = styled.div`
   width: 100%;
-`;
+  /* background-color: red; */
+`
 // 네비게이션 제외 내용 Wrap
 const Cont = styled.div`
   margin-bottom: 7.63em;
@@ -24,23 +25,24 @@ const Cont = styled.div`
   a {
     text-decoration: none;
   }
-`;
+`
 const PageRound = styled.div`
   position: fixed;
   background: ${(props) => props.theme.navbackgroundColor};
   width: 1.88em;
   height: 100%;
   top: 0;
+  /* left: 19.69em; */
   left: 19.69em;
   ::after {
     position: fixed;
-    content: "";
+    content: '';
     width: 1.88em;
     height: 100%;
     background: ${(props) => props.theme.mainBackground};
     border-radius: 20px 0 0 20px;
   }
-`;
+`
 // 상단 '00직, 목표 점수 달성도가~' 전체 wrap
 
 // MessageText 가운데 정렬을 위한 wrap
@@ -50,62 +52,62 @@ const Message = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
+`
 // '00직, 목표 점수 달성도가~' text
 const MessageText = styled.span`
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-weight: bold;
   font-size: 2em;
   color: #fff;
   line-height: 2.75rem;
-`;
+`
 // 재학생, 응시생, 응시율, 상위 카드 wrap
 const SummaryCardCont = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 3.75em;
-`;
+`
 // 차트 wrap
 const ChartCont = styled.div`
   position: relative;
   max-width: 82.5em;
   margin: 0 auto;
   padding-top: 5em;
-`;
+`
 // 차트 Title
 const ChartName = styled.div`
   font-weight: bold;
   font-size: 1.63em;
   line-height: 2.19rem;
   margin-bottom: 3.13rem;
-`;
+`
 const DistributionChartName = styled(ChartName)`
   margin-bottom: 1rem;
-`;
+`
 // 점수지표 차트 wrap
 const Chart2 = styled.div`
   display: flex;
-`;
+`
 
 const Class = () => {
   // 점수대별 인원 전체 / 과목별 버튼
-  const [distributionTotal, setDistributionTotal] = useState(true);
-  const { subject, number } = useParams();
+  const [distributionTotal, setDistributionTotal] = useState(true)
+  const { subject, number } = useParams()
 
-  let subjectColor;
+  let subjectColor
   switch (subject) {
-    case "경찰":
-      subjectColor = "#21468d";
-      break;
-    case "소방":
-      subjectColor = "#fd4f3a";
-      break;
-    case "행정":
-      subjectColor = "#257e0e";
-      break;
+    case '경찰':
+      subjectColor = '#21468d'
+      break
+    case '소방':
+      subjectColor = '#fd4f3a'
+      break
+    case '행정':
+      subjectColor = '#257e0e'
+      break
     default:
-      subjectColor = "#5d5fef";
+      subjectColor = '#5d5fef'
   }
 
   const MessageCont = styled.div`
@@ -115,7 +117,7 @@ const Class = () => {
     background: ${(props) => props.subjectColor};
     /* background-color: #21468d; */
     border-radius: 16px;
-  `;
+  `
 
   // 상단 공지 색깔 변경
   return (
@@ -127,26 +129,26 @@ const Class = () => {
           {/* <MessageCont> */}
           <Message>
             <MessageText>
-              {subject}직 {number ? `${number}반` : ""}, 목표 점수 달성도가
-              90%가 넘은 학생은 N명이며 저번 시험 대비 N% 올랐습니다.
+              {subject}직 {number ? `${number}반` : ''}, 목표 점수 달성도가 90%가 넘은 학생은
+              N명이며 저번 시험 대비 N% 올랐습니다.
             </MessageText>
           </Message>
         </MessageCont>
         {number ? (
           <Link to={`/${subject}/${number}/students`}>
             <SummaryCardCont>
-              <SummaryCard Title={"재학생"} Subject={subject} Number={number} />
-              <SummaryCard Title={"응시생"} Subject={subject} Number={number} />
-              <SummaryCard Title={"응시율"} Subject={subject} Number={number} />
-              <SummaryCard Title={"반등수"} Subject={subject} Number={number} />
+              <SummaryCard Title={'재학생'} Subject={subject} Number={number} />
+              <SummaryCard Title={'응시생'} Subject={subject} Number={number} />
+              <SummaryCard Title={'응시율'} Subject={subject} Number={number} />
+              <SummaryCard Title={'반등수'} Subject={subject} Number={number} />
             </SummaryCardCont>
           </Link>
         ) : (
           <Link to={`/${subject}/students`}>
             <SummaryCardCont>
-              <SummaryCard Title={"재학생"} Subject={subject} />
-              <SummaryCard Title={"응시생"} Subject={subject} />
-              <SummaryCard Title={"응시율"} Subject={subject} />
+              <SummaryCard Title={'재학생'} Subject={subject} />
+              <SummaryCard Title={'응시생'} Subject={subject} />
+              <SummaryCard Title={'응시율'} Subject={subject} />
               <SummaryCardPercent Subject={subject} />
             </SummaryCardCont>
           </Link>
@@ -167,15 +169,11 @@ const Class = () => {
             <span>점수대별 인원수</span>
             <DistributionChartTab setDistributionTotal={setDistributionTotal} />
           </DistributionChartName>
-          {distributionTotal ? (
-            <DistributionChartWrap />
-          ) : (
-            <SortBySubjectWrap />
-          )}
+          {distributionTotal ? <DistributionChartWrap /> : <SortBySubjectWrap />}
         </ChartCont>
       </Cont>
     </Background>
-  );
-};
+  )
+}
 
-export default Class;
+export default Class

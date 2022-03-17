@@ -1,48 +1,48 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { Chart as ChartJS, LineElement } from "chart.js";
-import { Line } from "react-chartjs-2";
-import { useParams } from "react-router-dom";
-import qs from "qs";
+import React, { useState, useEffect } from 'react'
+import styled from 'styled-components'
+import { Chart as ChartJS, LineElement } from 'chart.js'
+import { Line } from 'react-chartjs-2'
+import { useParams } from 'react-router-dom'
+import qs from 'qs'
 
 const subjects = {
-  경찰: ["경찰학", "형사법", "헌법"],
-  행정: ["행정학", "국어", "한국사", "행정법", "영어"],
-  소방: ["소방학개론", "소방한국사", "소방영어", "소방관계법규", "소방행정법"],
-};
+  경찰: ['경찰학', '형사법', '헌법'],
+  행정: ['행정학', '국어', '한국사', '행정법', '영어'],
+  소방: ['소방학개론', '소방한국사', '소방영어', '소방관계법규', '소방행정법'],
+}
 
 const Cont = styled.div`
   width: 100%;
   margin-top: 64px;
-`;
+`
 
-const SUBJECT_URL = `https://kimcodi.kr/external_api/dashboard/avgOfSubjectByMonth.php`;
+const SUBJECT_URL = `https://kimcodi.kr/external_api/dashboard/avgOfSubjectByMonth.php`
 
-ChartJS.register(LineElement);
+ChartJS.register(LineElement)
 
 // 이번 달, 이번 년도 구하기
-let monthArr = [];
-let label = [];
+let monthArr = []
+let label = []
 
 // 월 배열 구하기
 const getMonth = () => {
-  const date = new Date();
-  let year = date.getFullYear();
-  let month = date.getMonth() + 1;
+  const date = new Date()
+  let year = date.getFullYear()
+  let month = date.getMonth() + 1
 
   for (let i = 1; i <= 6; i++) {
-    month = month < 10 ? `0${month}` : `${month}`;
-    monthArr.unshift({ year, month });
-    label.unshift(month);
-    month--;
+    month = month < 10 ? `0${month}` : `${month}`
+    monthArr.unshift({ year, month })
+    label.unshift(month)
+    month--
     if (month === 0) {
-      month = 12;
-      year = year - 1;
+      month = 12
+      year = year - 1
     }
   }
-  return monthArr;
-};
-getMonth();
+  return monthArr
+}
+getMonth()
 
 function AverageChart2({
   filterSubject,
@@ -51,32 +51,32 @@ function AverageChart2({
   setFilterClass,
   filterClass,
 }) {
-  const params = useParams();
-  const SUBJECT = params.subject;
-  const subject = subjects[SUBJECT];
-  const [currentSubjectdata, setCurrentSubjectData] = useState([]);
-  const subjectWithColor = [];
-  const borderColor = ["#FBA869", "#42C366", "#70A6E8", "#FFDB5C", "#A293FF"];
+  const params = useParams()
+  const SUBJECT = params.subject
+  const subject = subjects[SUBJECT]
+  const [currentSubjectdata, setCurrentSubjectData] = useState([])
+  const subjectWithColor = []
+  const borderColor = ['#FBA869', '#42C366', '#70A6E8', '#FFDB5C', '#A293FF']
 
   function subjectAddColor(subjectName, subjectColor) {
     let willReturn = {
       subjectName: subjectName,
       subjectColor: subjectColor,
-    };
-    return willReturn;
+    }
+    return willReturn
   }
 
   function runSubjectAddColor() {
     for (let i = 0; i < subject.length; i++) {
-      subjectWithColor.push(subjectAddColor(subject[i], borderColor[i]));
+      subjectWithColor.push(subjectAddColor(subject[i], borderColor[i]))
     }
   }
 
   function getColor(filterClass) {
-    runSubjectAddColor();
+    runSubjectAddColor()
     for (let i = 0; i < subject.length; i++) {
       if (filterClass === subjectWithColor[i].subjectName) {
-        return subjectWithColor[i].subjectColor;
+        return subjectWithColor[i].subjectColor
       }
     }
   }
@@ -91,13 +91,13 @@ function AverageChart2({
         year: compareEndDate.getFullYear(),
         month: compareEndDate.getMonth() + 1,
       },
-    ];
-    return { YearMonth };
-  };
+    ]
+    return { YearMonth }
+  }
 
   // 과목별 평균
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const subjectData = await Promise.all(
         monthArr.map(async (i) => {
           const res = await fetch(
@@ -106,14 +106,14 @@ function AverageChart2({
               mm: i.month,
               subject: filterSubject,
             })}`
-          );
-          return Math.round((await res.json()).result[0].AVG);
+          )
+          return Math.round((await res.json()).result[0].AVG)
         })
-      );
-      runSubjectAddColor();
-      setCurrentSubjectData(subjectData);
-    })().catch(console.error);
-  }, [monthArr, filterSubject]);
+      )
+      runSubjectAddColor()
+      setCurrentSubjectData(subjectData)
+    })().catch(console.error)
+  }, [monthArr, filterSubject])
 
   const lineOptions = {
     responsive: true,
@@ -132,7 +132,7 @@ function AverageChart2({
         },
       },
     },
-  };
+  }
 
   const chartData2 = {
     labels: label, // 각 월이 나와야 함
@@ -142,7 +142,7 @@ function AverageChart2({
         borderColor: getColor(filterClass),
       },
     ],
-  };
+  }
 
   return (
     <>
@@ -150,7 +150,7 @@ function AverageChart2({
         <Line options={lineOptions} data={chartData2} />
       </Cont>
     </>
-  );
+  )
 }
 
-export default AverageChart2;
+export default AverageChart2

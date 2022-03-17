@@ -36,34 +36,33 @@ const SubjectData = styled.div`
   color: #696969;
 `;
 
-const TOTAL_URL =
-  "https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php";
-const SUBJECT_URL = `https://kimcodi.kr/external_api/dashboard/avgOfSubjectByMonth.php`;
+const TOTAL_URL = 'https://kimcodi.kr/external_api/dashboard/avgOfSeriesByMonth.php'
+const SUBJECT_URL = `https://kimcodi.kr/external_api/dashboard/avgOfSubjectByMonth.php`
 const subjects = {
-  경찰: ["경찰학", "형사법", "헌법"],
-  행정: ["행정학", "국어", "한국사", "행정법", "영어"],
-  소방: ["소방학개론", "소방한국사", "소방영어", "소방관계법규", "소방행정법"],
-};
+  경찰: ['경찰학', '형사법', '헌법'],
+  행정: ['행정학', '국어', '한국사', '행정법', '영어'],
+  소방: ['소방학개론', '소방한국사', '소방영어', '소방관계법규', '소방행정법'],
+}
 
-ChartJS.register(BarElement);
+ChartJS.register(BarElement)
 
 // 전달, 전년도 구하기
 function getPrevMonthAndYear() {
-  let prevMonth = String(new Date().getMonth() - 2).padStart(2, "0");
-  let prevYear = new Date().getFullYear();
-  if ((prevMonth = "00")) {
-    prevMonth = "12";
-    prevYear -= 1;
-  } else if ((prevMonth = "0-1")) {
-    prevMonth = "11";
-    prevYear -= 1;
+  let prevMonth = String(new Date().getMonth() - 2).padStart(2, '0')
+  let prevYear = new Date().getFullYear()
+  if ((prevMonth = '00')) {
+    prevMonth = '12'
+    prevYear -= 1
+  } else if ((prevMonth = '0-1')) {
+    prevMonth = '11'
+    prevYear -= 1
   }
-  return { prevMonth, prevYear };
+  return { prevMonth, prevYear }
 }
 
 // 이번 달, 이번 년도 구하기
-const year = new Date().getFullYear(); // 현재 년도
-const month = String(new Date().getMonth() - 1).padStart(2, "0"); // 현재 월
+const year = new Date().getFullYear() // 현재 년도
+const month = String(new Date().getMonth() - 1).padStart(2, '0') // 현재 월
 
 function AverageChart({ compareStartDate, compareEndDate, total, setTotal }) {
   const [currentTotalData, setCurrentTotalData] = useState([]);
@@ -81,19 +80,13 @@ function AverageChart({ compareStartDate, compareEndDate, total, setTotal }) {
   const YearMonth = [
     {
       year: (compareStartDate ?? new Date()).getFullYear(),
-      month: String((compareStartDate ?? new Date()).getMonth() + 1).padStart(
-        2,
-        "0"
-      ),
+      month: String((compareStartDate ?? new Date()).getMonth() + 1).padStart(2, '0'),
     },
     {
       year: (compareEndDate ?? new Date()).getFullYear(),
-      month: String((compareEndDate ?? new Date()).getMonth() + 1).padStart(
-        2,
-        "0"
-      ),
+      month: String((compareEndDate ?? new Date()).getMonth() + 1).padStart(2, '0'),
     },
-  ];
+  ]
 
   // 이번달 총점 평균
   useEffect(() => {
@@ -115,7 +108,7 @@ function AverageChart({ compareStartDate, compareEndDate, total, setTotal }) {
 
   // 이번달 과목별 평균
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const currentSubject = await Promise.all(
         subject.map(async (i) => {
           const res = await fetch(
@@ -151,7 +144,7 @@ function AverageChart({ compareStartDate, compareEndDate, total, setTotal }) {
 
   // 전달 과목별 평균
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const prevSubject = await Promise.all(
         subject.map(async (i) => {
           const res = await fetch(
@@ -160,13 +153,13 @@ function AverageChart({ compareStartDate, compareEndDate, total, setTotal }) {
               mm: YearMonth[1].month,
               subject: i,
             })}`
-          );
-          return Math.round((await res.json()).result[0].AVG);
+          )
+          return Math.round((await res.json()).result[0].AVG)
         })
-      );
-      setPrevSubjectData(prevSubject);
-    })().catch(console.error);
-  }, [subject, compareStartDate, compareEndDate]);
+      )
+      setPrevSubjectData(prevSubject)
+    })().catch(console.error)
+  }, [subject, compareStartDate, compareEndDate])
 
   compareTotal = currentTotalData[0] - prevTotalData[0];
   setTotal(compareTotal);

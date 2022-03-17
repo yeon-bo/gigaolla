@@ -1,8 +1,11 @@
 import React, { useMemo } from 'react'
 import { useTable, useSortBy, useFilters } from 'react-table'
 import styled from 'styled-components'
-import Search from '../../image/Search.svg'
+import search from '../../image/Search.svg'
+import searchDark from '../../image/search_gray.svg'
 import { TiArrowUnsorted, TiArrowSortedUp, TiArrowSortedDown } from 'react-icons/ti'
+import { useRecoilValue } from 'recoil'
+import { isDarkAtom } from '../../utils/atoms'
 
 const Tr = styled.tr`
   cursor: pointer;
@@ -24,6 +27,8 @@ const Input = styled.input`
   padding-left: 12px;
   box-sizing: border-box;
   font-size: 16px;
+  background: ${(props) => props.theme.chartBackgroundColor};
+  color: ${(props) => props.theme.chartTitleColor};
 `
 const Img = styled.img`
   position: absolute;
@@ -34,35 +39,6 @@ const Img = styled.img`
 const Arrow = styled.span`
   margin-left: 3px;
 `
-
-function SelectColumnFilter({ column: { filterValue, setFilter, preFilteredRows, id } }) {
-  // Calculate the options for filtering
-  // using the preFilteredRows
-  const options = React.useMemo(() => {
-    const options = new Set()
-    preFilteredRows.forEach((row) => {
-      options.add(row.values[id])
-    })
-    return [...options.values()]
-  }, [id, preFilteredRows])
-
-  // Render a multi-select box
-  return (
-    <select
-      value={filterValue}
-      onChange={(e) => {
-        setFilter(e.target.value || undefined)
-      }}
-    >
-      <option value="">All</option>
-      {options.map((option, i) => (
-        <option key={i} value={option}>
-          {option}
-        </option>
-      ))}
-    </select>
-  )
-}
 
 // Table Title Row
 const COLUMNS = [
@@ -90,6 +66,7 @@ const COLUMNS = [
 ]
 
 const StudentListTable = ({ getStudentDetailInfo, mockData, setCanBringData }) => {
+  const isDark = useRecoilValue(isDarkAtom)
   const columns = useMemo(() => COLUMNS, [])
   const data = useMemo(() => mockData, [mockData])
 
@@ -111,7 +88,7 @@ const StudentListTable = ({ getStudentDetailInfo, mockData, setCanBringData }) =
           placeholder="이름을 입력하세요"
           onChange={(e) => setFilter('회원명', e.target.value)}
         />
-        <Img src={Search} alt="Search" />
+        {isDark ? <Img src={searchDark} alt="searchDark" /> : <Img src={search} alt="search" />}
       </SearchBox>
       <table {...getTableProps()}>
         <thead>
