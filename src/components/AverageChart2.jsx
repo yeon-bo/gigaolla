@@ -5,17 +5,18 @@ import { Line } from "react-chartjs-2";
 import { useParams } from "react-router-dom";
 import qs from "qs";
 
+const subjects = {
+  경찰: ["경찰학", "형사법", "헌법"],
+  행정: ["행정학", "국어", "한국사", "행정법", "영어"],
+  소방: ["소방학개론", "소방한국사", "소방영어", "소방관계법규", "소방행정법"],
+};
+
 const Cont = styled.div`
   width: 800px;
   margin-top: 64px;
 `;
 
 const SUBJECT_URL = `https://kimcodi.kr/external_api/dashboard/avgOfSubjectByMonth.php`;
-const subjects = {
-  경찰: ["경찰학", "형사법", "헌법"],
-  행정: ["행정학", "국어", "한국사", "행정법", "영어"],
-  소방: ["소방학개론", "소방한국사", "소방영어", "소방관계법규", "소방행정법"],
-};
 
 ChartJS.register(LineElement);
 
@@ -43,11 +44,42 @@ const getMonth = () => {
 };
 getMonth();
 
-function AverageChart2({ filterSubject, compareStartDate, compareEndDate }) {
-  const [currentSubjectdata, setCurrentSubjectData] = useState([]);
+function AverageChart2({
+  filterSubject,
+  compareStartDate,
+  compareEndDate,
+  setFilterClass,
+  filterClass,
+}) {
   const params = useParams();
   const SUBJECT = params.subject;
   const subject = subjects[SUBJECT];
+  const [currentSubjectdata, setCurrentSubjectData] = useState([]);
+  const subjectWithColor = [];
+  const borderColor = ["#FBA869", "#42C366", "#70A6E8", "#FFDB5C", "#A293FF"];
+
+  function subjectAddColor(subjectName, subjectColor) {
+    let willReturn = {
+      subjectName: subjectName,
+      subjectColor: subjectColor,
+    };
+    return willReturn;
+  }
+
+  function runSubjectAddColor() {
+    for (let i = 0; i < subject.length; i++) {
+      subjectWithColor.push(subjectAddColor(subject[i], borderColor[i]));
+    }
+  }
+
+  function getColor(filterClass) {
+    runSubjectAddColor();
+    for (let i = 0; i < subject.length; i++) {
+      if (filterClass === subjectWithColor[i].subjectName) {
+        return subjectWithColor[i].subjectColor;
+      }
+    }
+  }
 
   const getCompareYearMonth = () => {
     const YearMonth = [
@@ -75,14 +107,13 @@ function AverageChart2({ filterSubject, compareStartDate, compareEndDate }) {
               subject: filterSubject,
             })}`
           );
-
           return Math.round((await res.json()).result[0].AVG);
         })
       );
-      console.log("여기", filterSubject);
+      runSubjectAddColor();
       setCurrentSubjectData(subjectData);
     })().catch(console.error);
-  }, [monthArr]);
+  }, [monthArr, filterSubject]);
 
   const lineOptions = {
     responsive: true,
@@ -108,7 +139,7 @@ function AverageChart2({ filterSubject, compareStartDate, compareEndDate }) {
     datasets: [
       {
         data: currentSubjectdata, // 각 월에 맞는 데이터
-        borderColor: "#5D5FEF",
+        borderColor: getColor(filterClass),
       },
     ],
   };

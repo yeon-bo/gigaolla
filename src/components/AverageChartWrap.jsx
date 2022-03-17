@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import CardTemplate from "./CardTemplate";
 import AverageChart from "./AverageChart";
@@ -12,10 +13,20 @@ const Cont = styled.div`
   position: relative;
 `;
 
+const subjects = {
+  경찰: ["경찰학", "형사법", "헌법"],
+  행정: ["행정학", "국어", "한국사", "행정법", "영어"],
+  소방: ["소방학개론", "소방한국사", "소방영어", "소방관계법규", "소방행정법"],
+};
+
 const AverageChartWrap = () => {
+  const params = useParams();
+  const SUBJECT = params.subject;
+  const subject = subjects[SUBJECT];
+
   let date = new Date();
   date.setMonth(date.getMonth() - 5);
-  const [filterSubject, setFilterSubject] = useState("총점");
+  const [filterSubject, setFilterSubject] = useState(subject[0]);
   const [chartView, setChartView] = useState("bar");
   const [startDate, setStartDate] = useState(date); // 10월
   const [endDate, setEndDate] = useState(new Date()); // 3월
@@ -23,6 +34,7 @@ const AverageChartWrap = () => {
   const [compareStartDate, setCompareStartDate] = useState(new Date()); // 일단 현재 날짜
   const [compareEndDate, setCompareEndDate] = useState(new Date()); // 일단 현재 날짜
   const [info, setInfo] = useState(" 전달 대비 응시율");
+  const [filterClass, setFilterClass] = useState(subject[0]);
 
   useEffect(() => {
     if (!compareStartDate || !compareEndDate) return;
@@ -73,6 +85,8 @@ const AverageChartWrap = () => {
           <Button2
             filterSubject={filterSubject}
             setFilterSubject={setFilterSubject}
+            filterClass={filterClass}
+            setFilterClass={setFilterClass}
           />
           <CardTemplate
             Element={AverageChart2}
@@ -81,6 +95,8 @@ const AverageChartWrap = () => {
             endDate={endDate}
             compareStartDate={compareStartDate}
             compareEndDate={compareEndDate}
+            filterClass={filterClass}
+            setFilterClass={setFilterClass}
             Name={"평균추이"}
             Count={"+ 2.1%"}
             Info={" 전달 대비 평균 총점"}

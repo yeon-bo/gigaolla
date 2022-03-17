@@ -76,16 +76,20 @@ function AverageChart({ compareStartDate, compareEndDate }) {
 
   const YearMonth = [
     {
-      year: compareStartDate.getFullYear(),
-      month: compareStartDate.getMonth() + 1,
+      year: (compareStartDate ?? new Date()).getFullYear(),
+      month: String((compareStartDate ?? new Date()).getMonth() + 1).padStart(
+        2,
+        "0"
+      ),
     },
     {
-      year: compareEndDate.getFullYear(),
-      month: compareEndDate.getMonth() + 1,
+      year: (compareEndDate ?? new Date()).getFullYear(),
+      month: String((compareEndDate ?? new Date()).getMonth() + 1).padStart(
+        2,
+        "0"
+      ),
     },
   ];
-
-  console.log(YearMonth);
 
   // 이번달 총점 평균
   useEffect(() => {
@@ -98,12 +102,14 @@ function AverageChart({ compareStartDate, compareEndDate }) {
           series: SUBJECT,
         })}`
       );
+      console.log(YearMonth);
+      console.log(SUBJECT);
       // console.log(await res.json());
       currentTotal.push(Math.round((await res.json()).result[0].AVG));
       setCurrentTotalData(currentTotal);
       setLabels(["총점", ...subject]);
     })().catch(console.error);
-  }, [subject]);
+  }, [subject, compareStartDate, compareEndDate]);
 
   // 이번달 과목별 평균
   useEffect(() => {
@@ -122,7 +128,7 @@ function AverageChart({ compareStartDate, compareEndDate }) {
       );
       setCurrentSubjectData(currentSubject);
     })().catch(console.error);
-  }, [subject]);
+  }, [subject, compareStartDate, compareEndDate]);
 
   // 전달 총점 평균
   useEffect(() => {
@@ -138,7 +144,7 @@ function AverageChart({ compareStartDate, compareEndDate }) {
       prevTotal.push(Math.round((await res.json()).result[0].AVG));
       setPrevTotalData(prevTotal);
     })().catch(console.error);
-  }, [subject]);
+  }, [subject, compareStartDate, compareEndDate]);
 
   // 전달 과목별 평균
   useEffect(() => {
@@ -157,7 +163,7 @@ function AverageChart({ compareStartDate, compareEndDate }) {
       );
       setPrevSubjectData(prevSubject);
     })().catch(console.error);
-  }, [subject]);
+  }, [subject, compareStartDate, compareEndDate]);
 
   const barOptions = {
     indexAxis: "y",
@@ -165,7 +171,6 @@ function AverageChart({ compareStartDate, compareEndDate }) {
     plugins: {
       legend: {
         display: true,
-        // reserver: true,
         maxWidth: "200px",
         position: "bottom",
         align: "end",
@@ -173,6 +178,9 @@ function AverageChart({ compareStartDate, compareEndDate }) {
           padding: 20,
           usePointStyle: true,
           pointStyle: "circle",
+          font: {
+            size: 20,
+          },
         },
       },
     },

@@ -58,7 +58,12 @@ const subjects = {
   소방: ["소방학개론", "소방한국사", "소방영어", "소방관계법규", "소방행정법"],
 };
 
-const Button2 = ({ filterSubject, setFilterSubject }) => {
+const Button2 = ({
+  filterSubject,
+  setFilterSubject,
+  setFilterClass,
+  filterClass,
+}) => {
   const params = useParams();
   const SUBJECT = params.subject;
   const subject = subjects[SUBJECT];
@@ -66,22 +71,14 @@ const Button2 = ({ filterSubject, setFilterSubject }) => {
   const menu = (
     <Menu>
       <MenuBox>
-        {/* <MenuItem
-          key="0"
-          onClick={() => {
-            setFilterSubject("total");
-            console.log(filterSubject);
-          }}
-        >
-          총점
-        </MenuItem> */}
         {subject.map((i) => {
           let datas = (
             <MenuItem
               key={i}
               onClick={() => {
                 setFilterSubject(i);
-                console.log(filterSubject);
+                setFilterClass(i);
+                console.log(filterClass);
               }}
             >
               {i}
