@@ -78,7 +78,6 @@ const Button2 = ({
               onClick={() => {
                 setFilterSubject(i);
                 setFilterClass(i);
-                console.log(filterClass);
               }}
             >
               {i}

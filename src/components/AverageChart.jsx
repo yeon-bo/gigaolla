@@ -6,8 +6,8 @@ import { useParams } from "react-router-dom";
 import qs from "qs";
 
 const Cont = styled.div`
-  width: 800px;
-  margin-top: 64px;
+  width: 850px;
+  margin-top: 100px;
 `;
 const CurrentTotalData = styled.div`
   width: 81px;
@@ -102,9 +102,6 @@ function AverageChart({ compareStartDate, compareEndDate }) {
           series: SUBJECT,
         })}`
       );
-      console.log(YearMonth);
-      console.log(SUBJECT);
-      // console.log(await res.json());
       currentTotal.push(Math.round((await res.json()).result[0].AVG));
       setCurrentTotalData(currentTotal);
       setLabels(["총점", ...subject]);
