@@ -63,7 +63,7 @@ function getPrevMonthAndYear() {
 const year = new Date().getFullYear(); // 현재 년도
 const month = String(new Date().getMonth() - 1).padStart(2, "0"); // 현재 월
 
-function AverageChart() {
+function AverageChart({ compareStartDate, compareEndDate }) {
   const [currentTotalData, setCurrentTotalData] = useState([]);
   const [currentSubjectdata, setCurrentSubjectData] = useState([]);
   const [prevTotalData, setPrevTotalData] = useState([]);
@@ -74,17 +74,31 @@ function AverageChart() {
   const SUBJECT = params.subject;
   const subject = subjects[SUBJECT];
 
+  const YearMonth = [
+    {
+      year: compareStartDate.getFullYear(),
+      month: compareStartDate.getMonth() + 1,
+    },
+    {
+      year: compareEndDate.getFullYear(),
+      month: compareEndDate.getMonth() + 1,
+    },
+  ];
+
+  console.log(YearMonth);
+
   // 이번달 총점 평균
   useEffect(() => {
     const currentTotal = [];
     (async () => {
       const res = await fetch(
         `${TOTAL_URL}?${qs.stringify({
-          yyyy: year,
-          mm: month,
+          yyyy: YearMonth[0].year,
+          mm: YearMonth[0].month,
           series: SUBJECT,
         })}`
       );
+      // console.log(await res.json());
       currentTotal.push(Math.round((await res.json()).result[0].AVG));
       setCurrentTotalData(currentTotal);
       setLabels(["총점", ...subject]);
@@ -98,8 +112,8 @@ function AverageChart() {
         subject.map(async (i) => {
           const res = await fetch(
             `${SUBJECT_URL}?${qs.stringify({
-              yyyy: year,
-              mm: month,
+              yyyy: YearMonth[0].year,
+              mm: YearMonth[0].month,
               subject: i,
             })}`
           );
@@ -116,8 +130,8 @@ function AverageChart() {
     (async () => {
       const res = await fetch(
         `${TOTAL_URL}?${qs.stringify({
-          yyyy: getPrevMonthAndYear().prevYear,
-          mm: getPrevMonthAndYear().prevMonth,
+          yyyy: YearMonth[1].year,
+          mm: YearMonth[1].month,
           series: SUBJECT,
         })}`
       );
@@ -133,8 +147,8 @@ function AverageChart() {
         subject.map(async (i) => {
           const res = await fetch(
             `${SUBJECT_URL}?${qs.stringify({
-              yyyy: getPrevMonthAndYear().prevYear,
-              mm: getPrevMonthAndYear().prevMonth,
+              yyyy: YearMonth[1].year,
+              mm: YearMonth[1].month,
               subject: i,
             })}`
           );

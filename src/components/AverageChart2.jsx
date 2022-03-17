@@ -43,11 +43,25 @@ const getMonth = () => {
 };
 getMonth();
 
-function AverageChart2() {
+function AverageChart2({ filterSubject, compareStartDate, compareEndDate }) {
   const [currentSubjectdata, setCurrentSubjectData] = useState([]);
   const params = useParams();
   const SUBJECT = params.subject;
   const subject = subjects[SUBJECT];
+
+  const getCompareYearMonth = () => {
+    const YearMonth = [
+      {
+        year: compareStartDate.getFullYear(),
+        month: compareStartDate.getMonth() + 1,
+      },
+      {
+        year: compareEndDate.getFullYear(),
+        month: compareEndDate.getMonth() + 1,
+      },
+    ];
+    return { YearMonth };
+  };
 
   // 과목별 평균
   useEffect(() => {
@@ -58,13 +72,14 @@ function AverageChart2() {
             `${SUBJECT_URL}?${qs.stringify({
               yyyy: i.year,
               mm: i.month,
-              subject: "행정학",
+              subject: filterSubject,
             })}`
           );
+
           return Math.round((await res.json()).result[0].AVG);
         })
       );
-      // console.log(subjectData);
+      console.log("여기", filterSubject);
       setCurrentSubjectData(subjectData);
     })().catch(console.error);
   }, [monthArr]);
