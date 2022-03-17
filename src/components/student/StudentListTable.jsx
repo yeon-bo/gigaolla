@@ -1,6 +1,12 @@
 import React, { useMemo } from "react";
 import { useTable, useSortBy, useFilters } from "react-table";
 import styled from "styled-components";
+import Search from "../../image/Search.svg";
+import {
+  TiArrowUnsorted,
+  TiArrowSortedUp,
+  TiArrowSortedDown,
+} from "react-icons/ti";
 
 const Tr = styled.tr`
   cursor: pointer;
@@ -13,6 +19,9 @@ const Tr = styled.tr`
       #ffffff;
   }
 `;
+const SearchBox = styled.div`
+  position: relative;
+`;
 const Input = styled.input`
   display: block;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.1);
@@ -23,6 +32,16 @@ const Input = styled.input`
   height: 48px;
   padding-left: 12px;
   box-sizing: border-box;
+  font-size: 16px;
+`;
+const Img = styled.img`
+  position: absolute;
+  right: 35px;
+  top: 50%;
+  transform: translateY(-50%);
+`;
+const Arrow = styled.span`
+  margin-left: 3px;
 `;
 
 function SelectColumnFilter({
@@ -59,7 +78,7 @@ function SelectColumnFilter({
 // Table Title Row
 const COLUMNS = [
   {
-    Header: "과목",
+    Header: "응시여부",
     accessor: "과목",
   },
   {
@@ -109,10 +128,13 @@ const StudentListTable = ({
 
   return (
     <>
-      <Input
-        placeholder="이름을 입력하세요"
-        onChange={(e) => setFilter("회원명", e.target.value)}
-      />
+      <SearchBox>
+        <Input
+          placeholder="이름을 입력하세요"
+          onChange={(e) => setFilter("회원명", e.target.value)}
+        />
+        <Img src={Search} alt="Search" />
+      </SearchBox>
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => {
@@ -124,7 +146,17 @@ const StudentListTable = ({
                       {...column.getHeaderProps(column.getSortByToggleProps())}
                     >
                       {column.render("Header")}
-                      {/* <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽 ' : ' 🔼 ') : ''}</span> */}
+                      <Arrow>
+                        {column.isSorted ? (
+                          column.isSortedDesc ? (
+                            <TiArrowSortedDown />
+                          ) : (
+                            <TiArrowSortedUp />
+                          )
+                        ) : (
+                          <TiArrowUnsorted />
+                        )}
+                      </Arrow>
                     </th>
                   );
                 })}
