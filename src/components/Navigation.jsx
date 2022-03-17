@@ -1,80 +1,80 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
-import NavigationPolicemenu from '../components/NavigationPolicemenu'
-import NavigationFiremenu from '../components/NavigationFiremenu'
-import NavigationAdminmenu from '../components/NavigationAdminmenu'
-import NavigationStudentAdmin from '../components/NavigationStudentAdmin'
+import React, { useState } from "react";
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
+import NavigationPolicemenu from "../components/NavigationPolicemenu";
+import NavigationFiremenu from "../components/NavigationFiremenu";
+import NavigationAdminmenu from "../components/NavigationAdminmenu";
+import NavigationStudentAdmin from "../components/NavigationStudentAdmin";
 // icon link
-import logo from '../image/ollalogo.svg'
-import menu from '../image/menu_gray.svg'
-import menuColor from '../image/menu_color.svg'
-import textLogo from '../image/text_logo.svg'
-import clsx from 'clsx'
+import logo from "../image/ollalogo.svg";
+import menu from "../image/menu_gray.svg";
+import menuColor from "../image/menu_color.svg";
+import textLogo from "../image/text_logo.svg";
+import clsx from "clsx";
 
 function Navigation() {
   // 서브 네비게이션 (다른 직렬을 선택하면 열려있는 직렬서브 네비 닫힘)
   //직렬별 lnb menu className = "hidden" (display="none")
   // clsx classnames
-  const [openedSection, setOpenedSetion] = useState('')
+  const [openedSection, setOpenedSetion] = useState("");
   const onClickSection = (job) => {
-    setOpenedSetion(job)
-  }
-  if (openedSection === 'police') {
-  } else if (openedSection === 'fire') {
-  } else if (openedSection === 'admin') {
+    setOpenedSetion(job);
+  };
+  if (openedSection === "police") {
+  } else if (openedSection === "fire") {
+  } else if (openedSection === "admin") {
   }
 
   // 클릭시 gnb background css 고정 className = "activeBg" 추가
   //  fixBackground === "직렬" 선택시 아이콘 color 변경 고정
-  const [fixBackground, setFixBackground] = useState('')
-  const [fixTextColor, setFixTextColor] = useState('')
+  const [fixBackground, setFixBackground] = useState("");
+  const [fixTextColor, setFixTextColor] = useState("");
   const onClickShowFix = (kategorie) => {
-    setFixBackground(kategorie)
-    setFixTextColor(kategorie)
-  }
-  if (fixBackground === 'allmenu') {
-  } else if (fixBackground === 'policemenu') {
-  } else if (fixBackground === 'firemenu') {
-  } else if (fixBackground === 'adminmenu') {
-  } else if (fixTextColor === 'studentAdminmenu') {
+    setFixBackground(kategorie);
+    setFixTextColor(kategorie);
+  };
+  if (fixBackground === "allmenu") {
+  } else if (fixBackground === "policemenu") {
+  } else if (fixBackground === "firemenu") {
+  } else if (fixBackground === "adminmenu") {
+  } else if (fixTextColor === "studentAdminmenu") {
   }
 
   // icon color hover
-  const [hoveredIcon, sethoveredIcon] = useState('')
+  const [hoveredIcon, sethoveredIcon] = useState("");
   const onMouseOver = (coloricon) => {
-    sethoveredIcon(coloricon)
-  }
+    sethoveredIcon(coloricon);
+  };
   const onMouseOut = (coloricon) => {
-    sethoveredIcon(!coloricon)
-  }
-  if (hoveredIcon === 'allmenucolor') {
-  } else if (hoveredIcon === 'policemenucolor') {
-  } else if (hoveredIcon === 'firemenucolor') {
-  } else if (hoveredIcon === 'adminmenucolor') {
-  } else if (hoveredIcon === 'studentAdminmenucolor') {
+    sethoveredIcon(!coloricon);
+  };
+  if (hoveredIcon === "allmenucolor") {
+  } else if (hoveredIcon === "policemenucolor") {
+  } else if (hoveredIcon === "firemenucolor") {
+  } else if (hoveredIcon === "adminmenucolor") {
+  } else if (hoveredIcon === "studentAdminmenucolor") {
   }
 
   // lnb menu click시 text color 변경
-  const [clickTextColor, setClickTextColor] = useState('')
+  const [clickTextColor, setClickTextColor] = useState("");
   const onClicklnb = (classtext) => {
-    setClickTextColor(classtext)
+    setClickTextColor(classtext);
+  };
+  if (clickTextColor === "Pclass0") {
+  } else if (clickTextColor === "Pclass1") {
+  } else if (clickTextColor === "Pclass2") {
+  } else if (clickTextColor === "Pclass3") {
+  } else if (clickTextColor === "Pclass5") {
   }
-  if (clickTextColor === 'Pclass0') {
-  } else if (clickTextColor === 'Pclass1') {
-  } else if (clickTextColor === 'Pclass2') {
-  } else if (clickTextColor === 'Pclass3') {
-  } else if (clickTextColor === 'Pclass5') {
+  if (clickTextColor === "Fclass0") {
+  } else if (clickTextColor === "Fclass1") {
+  } else if (clickTextColor === "Fclass2") {
+  } else if (clickTextColor === "Fclass3") {
   }
-  if (clickTextColor === 'Fclass0') {
-  } else if (clickTextColor === 'Fclass1') {
-  } else if (clickTextColor === 'Fclass2') {
-  } else if (clickTextColor === 'Fclass3') {
-  }
-  if (clickTextColor === 'Aclass0') {
-  } else if (clickTextColor === 'Aclass1') {
-  } else if (clickTextColor === 'Aclass2') {
-  } else if (clickTextColor === 'Aclass3') {
+  if (clickTextColor === "Aclass0") {
+  } else if (clickTextColor === "Aclass1") {
+  } else if (clickTextColor === "Aclass2") {
+  } else if (clickTextColor === "Aclass3") {
   }
 
   return (
@@ -90,28 +90,29 @@ function Navigation() {
               <li className="gnb">
                 <NavLink
                   to="/"
-                  className={clsx('link allmenu', {
-                    activeBg: fixBackground === 'allmenu',
+                  className={clsx("link allmenu", {
+                    activeBg: fixBackground === "allmenu",
                   })}
                   onClick={() => {
-                    onClickShowFix('allmenu')
+                    onClickShowFix("allmenu");
                   }}
                   onMouseOver={() => {
-                    onMouseOver('allmenucolor')
+                    onMouseOver("allmenucolor");
                   }}
                   onMouseOut={() => {
-                    onMouseOut('allmenucolor')
+                    onMouseOut("allmenucolor");
                   }}
                 >
                   <img
                     src={
-                      fixBackground === 'allmenu' || hoveredIcon === 'allmenucolor'
+                      fixBackground === "allmenu" ||
+                      hoveredIcon === "allmenucolor"
                         ? menuColor
                         : menu
                     }
                     alt="menu"
-                    className={clsx('navicon', {
-                      allmenuicon: hoveredIcon === 'allmenucolor',
+                    className={clsx("navicon", {
+                      allmenuicon: hoveredIcon === "allmenucolor",
                     })}
                   />
                   <span className="menutext">전체개요</span>
@@ -176,9 +177,9 @@ function Navigation() {
         </div>
       </StyledNavigation>
     </div>
-  )
+  );
 }
-export default Navigation
+export default Navigation;
 
 const StyledNavigation = styled.div`
   *,
@@ -186,7 +187,7 @@ const StyledNavigation = styled.div`
   *::after {
     box-sizing: content-box;
   }
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
   /* min-height: 100vh; */
   overflow-x: hidden;
 
@@ -244,7 +245,7 @@ const StyledNavigation = styled.div`
             }
           }
           &:hover span::before {
-            content: '';
+            content: "";
             position: absolute;
             right: -85px;
             top: -50px;
@@ -252,10 +253,11 @@ const StyledNavigation = styled.div`
             height: 50px;
             background: transparent;
             border-radius: 50%;
-            box-shadow: 35px 35px 0 10px ${(props) => props.theme.navactivebackgroundColor};
+            box-shadow: 35px 35px 0 10px
+              ${(props) => props.theme.navactivebackgroundColor};
           }
           &:hover span::after {
-            content: '';
+            content: "";
             position: absolute;
             left: 155px;
             bottom: -52px;
@@ -293,7 +295,7 @@ const StyledNavigation = styled.div`
           border-top-left-radius: 30px;
           border-bottom-left-radius: 30px;
           span::before {
-            content: '';
+            content: "";
             position: absolute;
             right: -85px;
             top: -50px;
@@ -301,10 +303,11 @@ const StyledNavigation = styled.div`
             height: 50px;
             background: transparent;
             border-radius: 50%;
-            box-shadow: 35px 35px 0 10px ${(props) => props.theme.navactivebackgroundColor};
+            box-shadow: 35px 35px 0 10px
+              ${(props) => props.theme.navactivebackgroundColor};
           }
           span::after {
-            content: '';
+            content: "";
             position: absolute;
             left: 155px;
             bottom: -50px;
@@ -409,7 +412,7 @@ const StyledNavigation = styled.div`
       }
     }
   }
-`
+`;
 
 // 네비게이션 중앙 라인
 const MidLine = styled.div`
@@ -417,4 +420,4 @@ const MidLine = styled.div`
   height: 1px;
   margin: 10px 47px 10px 18px;
   border-top: 1px solid #c4c4c4;
-`
+`;
