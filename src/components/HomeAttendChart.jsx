@@ -14,6 +14,13 @@ import { Line } from "react-chartjs-2";
 import { logDOM } from "@testing-library/react";
 
 const HomeAttendChart = () => {
+  const [tatalpolice, setTatalpolice] = useState("");
+  const [tatalfire, setTatalfire] = useState("");
+  const [tataladmin, setTataladmin] = useState("");
+  const [testpolice, setTestpolice] = useState("");
+  const [testfire, setTestfire] = useState("");
+  const [testadmin, setTestadmin] = useState("");
+
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -80,19 +87,13 @@ const HomeAttendChart = () => {
     }
     return { nowYear, nowMonth, YearMonth };
   };
+
   const fetchData = async (
     year = getYearMonth().nowYear,
     month = getYearMonth().nowMonth
   ) => {
     month = month < 10 ? `0${month}` : month;
     const URL = "https://kimcodi.kr/external_api/dashboard/";
-    let tatalpolice = 0;
-    let tatalfire = 0;
-    let tataladmin = 0;
-    let testpolice = 0;
-    let testfire = 0;
-    let testadmin = 0;
-
     const tatalPoliceUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=경찰`;
     const tatalFireUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=소방`;
     const tatalAdminUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=행정`;
@@ -103,42 +104,42 @@ const HomeAttendChart = () => {
     await Promise.all([
       axios.get(tatalPoliceUrl).then((res) => {
         if (res.data.code === "001") {
-          tatalpolice = res.data.result[0].STUDENT_COUNT;
+          setTatalpolice(res.data.result[0].STUDENT_COUNT);
         } else {
           return;
         }
       }),
       axios.get(tatalFireUrl).then((res) => {
         if (res.data.code === "001") {
-          tatalfire = res.data.result[0].STUDENT_COUNT;
+          setTatalfire(res.data.result[0].STUDENT_COUNT);
         } else {
           return;
         }
       }),
       axios.get(tatalAdminUrl).then((res) => {
         if (res.data.code === "001") {
-          tataladmin = res.data.result[0].STUDENT_COUNT;
+          setTataladmin(res.data.result[0].STUDENT_COUNT);
         } else {
           return;
         }
       }),
       axios.get(testPoliceUrl).then((res) => {
         if (res.data.code === "001") {
-          testpolice = res.data.result[0].STUDENT_COUNT;
+          setTestpolice(res.data.result[0].STUDENT_COUNT);
         } else {
           return;
         }
       }),
       axios.get(testFireUrl).then((res) => {
         if (res.data.code === "001") {
-          testfire = res.data.result[0].STUDENT_COUNT;
+          setTestfire(res.data.result[0].STUDENT_COUNT);
         } else {
           return;
         }
       }),
       axios.get(testAdminUrl).then((res) => {
         if (res.data.code === "001") {
-          testadmin = res.data.result[0].STUDENT_COUNT;
+          setTestadmin(res.data.result[0].STUDENT_COUNT);
         } else {
           return;
         }
@@ -158,7 +159,7 @@ const HomeAttendChart = () => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData()]);
+  }, []);
 
   const ym = getYearMonth().YearMonth;
   const labels = ym.map((label) =>
@@ -183,6 +184,7 @@ const HomeAttendChart = () => {
       adminData.push(res.attendAdmin)
     )
   );
+
   const chartData = {
     labels,
     datasets: [

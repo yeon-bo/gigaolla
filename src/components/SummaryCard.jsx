@@ -220,18 +220,20 @@ const SummaryCard = ({ Title, Subject, Number }) => {
         <TextCountCont>
           <TextCount>
             <TextNumber>{Title !== "응시율" ? count : TestRate}</TextNumber>
-            {Title !== "응시율" ? "명" : "%"}
+            {Title !== "반등수" ? (Title !== "응시율" ? "명" : "%") : null}
           </TextCount>
           <TextIncrease>
-            {Title !== "응시율"
-              ? CountMinusLast !== 0
-                ? CountMinusLast > 0
-                  ? `+${CountMinusLast}명`
-                  : `${CountMinusLast}명`
-                : "-"
-              : TestRateMinusLast > 0
-              ? `+${TestRateMinusLast}%`
-              : `${TestRateMinusLast}%`}
+            {Title !== "반등수"
+              ? Title !== "응시율"
+                ? CountMinusLast !== 0
+                  ? CountMinusLast > 0
+                    ? `+${CountMinusLast}명`
+                    : `${CountMinusLast}명`
+                  : "-"
+                : TestRateMinusLast > 0
+                ? `+${TestRateMinusLast}%`
+                : `${TestRateMinusLast}%`
+              : null}
           </TextIncrease>
         </TextCountCont>
       </TextCont>
