@@ -78,6 +78,7 @@ const Home = () => {
       padding-bottom: 31.82%;
       background: #fff;
       border-radius: 25px;
+      overflow: hidden;
       box-shadow: 0px 17px 26px rgba(0, 0, 0, 0.06),
         0px 2px 6.5px rgba(0, 0, 0, 0.04), 0px 0px 1.09208px rgba(0, 0, 0, 0.04);
       @media screen and (max-width: 1712px) {
