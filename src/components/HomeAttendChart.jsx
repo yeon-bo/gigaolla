@@ -13,6 +13,10 @@ import {
 import { Line } from "react-chartjs-2";
 
 const HomeAttendChart = () => {
+  const [policeData, setPoliceData] = useState([]);
+  const [fireData, setFireData] = useState([]);
+  const [adminData, setAdminData] = useState([]);
+
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -78,18 +82,23 @@ const HomeAttendChart = () => {
     return { nowYear, nowMonth, YearMonth };
   };
 
+  let tatalpolice = 0;
+  let tatalfire = 0;
+  let tataladmin = 0;
+  let testpolice = 0;
+  let testfire = 0;
+  let testadmin = 0;
+
+  const ym = getYearMonth().YearMonth;
+  const labels = ym.map((label) =>
+    label.month < 10 ? `0${label.month}` : label.month
+  );
   const fetchData = async (
     year = getYearMonth().nowYear,
     month = getYearMonth().nowMonth
   ) => {
     month = month < 10 ? `0${month}` : month;
     const URL = "https://kimcodi.kr/external_api/dashboard/";
-    let tatalpolice = 0;
-    let tatalfire = 0;
-    let tataladmin = 0;
-    let testpolice = 0;
-    let testfire = 0;
-    let testadmin = 0;
 
     const tatalPoliceUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=경찰`;
     const tatalFireUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=소방`;
@@ -153,30 +162,22 @@ const HomeAttendChart = () => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData()]);
-
-  const ym = getYearMonth().YearMonth;
-  const labels = ym.map((label) =>
-    label.month < 10 ? `0${label.month}` : label.month
-  );
-  let policeData = [];
-  let fireData = [];
-  let adminData = [];
-  ym.map((data) =>
-    fetchData(data.year, data.month).then((res) =>
-      policeData.push(res.attendPolice)
-    )
-  );
-  ym.map((data) =>
-    fetchData(data.year, data.month).then((res) =>
-      fireData.push(res.attendFire)
-    )
-  );
-  ym.map((data) =>
-    fetchData(data.year, data.month).then((res) =>
-      adminData.push(res.attendAdmin)
-    )
-  );
+    ym.map((data) =>
+      fetchData(data.year, data.month).then((res) =>
+        setPoliceData((data) => [...data, res.attendPolice])
+      )
+    );
+    ym.map((data) =>
+      fetchData(data.year, data.month).then((res) =>
+        setFireData((data) => [...data, res.attendFire])
+      )
+    );
+    ym.map((data) =>
+      fetchData(data.year, data.month).then((res) =>
+        setAdminData((data) => [...data, res.attendAdmin])
+      )
+    );
+  }, [policeData, fireData, adminData]);
 
   const chartData = {
     labels,
@@ -204,6 +205,6 @@ const HomeAttendChart = () => {
       },
     ],
   };
-  return <Line data={chartData} options={options} />;
+  return <>{adminData ? <Line data={chartData} options={options} /> : null}</>;
 };
 export default HomeAttendChart;

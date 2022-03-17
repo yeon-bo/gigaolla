@@ -108,48 +108,48 @@ const AttendChart = ({
     return { totalStudent, testedStudent, attendPercent };
   };
 
+  const fetchData = async () => {
+    const { YearMonth } =
+      chartView !== "compareBar" ? getYearMonth() : getCompareYearMonth();
+
+    const {
+      totalStudentData,
+      testedStudentData,
+      attendPercentData,
+      chartLabelData,
+    } = await YearMonth.reduce(
+      async (_acc, cur) => {
+        const { totalStudent, testedStudent, attendPercent } =
+          await getStudentData(subject, number, cur.year, cur.month);
+        const acc = await _acc;
+        const monthLabel = cur.month < 10 ? `0${cur.month}` : cur.month;
+        const attendPercentLabel = attendPercent + "%";
+        acc["totalStudentData"].push(totalStudent);
+        acc["testedStudentData"].push(testedStudent);
+        acc["attendPercentData"].push(attendPercent);
+        acc["chartLabelData"].push([monthLabel, attendPercentLabel]);
+        return acc;
+      },
+      {
+        totalStudentData: [],
+        testedStudentData: [],
+        attendPercentData: [],
+        chartLabelData: [],
+      }
+    );
+    const arrIndex = attendPercentData.length;
+    let compareAttend =
+      attendPercentData[arrIndex - 1] - attendPercentData[arrIndex - 2];
+    compareAttend = compareAttend >= 0 ? `+ ${compareAttend}` : compareAttend;
+    setCompareAttendPercent(compareAttend);
+    setTotalStudentArr(totalStudentData);
+    setTestedStudentArr(testedStudentData);
+    setLabels(chartLabelData);
+    setBarPercentage(chartView === "compareBar" ? 0.2 : 0.5);
+    return;
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const { YearMonth } =
-        chartView !== "compareBar" ? getYearMonth() : getCompareYearMonth();
-
-      const {
-        totalStudentData,
-        testedStudentData,
-        attendPercentData,
-        chartLabelData,
-      } = await YearMonth.reduce(
-        async (_acc, cur) => {
-          const { totalStudent, testedStudent, attendPercent } =
-            await getStudentData(subject, number, cur.year, cur.month);
-          const acc = await _acc;
-          const monthLabel = cur.month < 10 ? `0${cur.month}` : cur.month;
-          const attendPercentLabel = attendPercent + "%";
-          acc["totalStudentData"].push(totalStudent);
-          acc["testedStudentData"].push(testedStudent);
-          acc["attendPercentData"].push(attendPercent);
-          acc["chartLabelData"].push([monthLabel, attendPercentLabel]);
-          return acc;
-        },
-        {
-          totalStudentData: [],
-          testedStudentData: [],
-          attendPercentData: [],
-          chartLabelData: [],
-        }
-      );
-      const arrIndex = attendPercentData.length;
-      let compareAttend =
-        attendPercentData[arrIndex - 1] - attendPercentData[arrIndex - 2];
-      compareAttend = compareAttend >= 0 ? `+ ${compareAttend}` : compareAttend;
-      setCompareAttendPercent(compareAttend);
-      setTotalStudentArr(totalStudentData);
-      setTestedStudentArr(testedStudentData);
-      setLabels(chartLabelData);
-      setBarPercentage(chartView === "compareBar" ? 0.2 : 0.5);
-      return;
-    };
-
     fetchData();
   }, [subject, number, chartView]);
 
