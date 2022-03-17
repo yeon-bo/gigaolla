@@ -35,7 +35,7 @@ function Checklist({ fixTextColor, onMouseOver, onMouseOut, hoveredIcon }) {
             : "checklistText"
         }
       >
-        일정관리
+        학생관리
       </span>
     </NavLink>
   );

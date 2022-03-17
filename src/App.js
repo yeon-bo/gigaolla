@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Reset } from 'styled-reset'
 import { Routes, Route } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
@@ -64,6 +64,13 @@ const LogoutBtn = styled.button`
     padding-right: 10px;
   }
 `
+const HiddenNavigation = styled.div`
+  &.hidden {
+    display: none;
+  }
+  
+`
+
 
 function App() {
   // RECOIL : 다크모드
@@ -79,12 +86,15 @@ function App() {
     window.location.reload()
   }
 
+
   return (
     <div className="App">
       <ThemeProvider theme={isDark ? darkTheme : defaultTheme}>
         <Reset />
         <GlobalStyle />
-        <Navigation />
+        <HiddenNavigation className={isLogged ? "" : "hidden"} >
+          <Navigation />
+        </HiddenNavigation>
         <Routes>
           <Route exact path="/" element={<PrivateRoute />}>
             <Route path="/" element={<Home />} />

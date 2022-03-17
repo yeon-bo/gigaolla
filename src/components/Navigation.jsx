@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import NavigationCalender from "../components/NavigationCalendar";
+// import NavigationCalender from "../components/NavigationCalendar";
 import NavigationPolicemenu from "../components/NavigationPolicemenu";
 import NavigationFiremenu from "../components/NavigationFiremenu";
 import NavigationAdminmenu from "../components/NavigationAdminmenu";
-import NavigationChecklist from "../components/NavigationChecklist";
+import NavigationStudentAdmin from "../components/NavigationStudentAdmin";
 // icon link
 import logo from "../image/ollalogo.svg";
 import menu from "../image/menu_gray.svg";
@@ -163,15 +163,14 @@ function Navigation() {
               </li>
               <MidLine />
             </ul>
-            {/* 일정관리 */}
+            {/* 학생관리 */}
             <div className="checklistContainer">
-              <NavigationChecklist
+              <NavigationStudentAdmin
                 fixTextColor={fixTextColor}
                 onMouseOver={onMouseOver}
                 onMouseOut={onMouseOut}
                 hoveredIcon={hoveredIcon}
               />
-              <NavigationCalender />
             </div>
           </div>
         </div>
@@ -372,7 +371,7 @@ const StyledNavigation = styled.div`
       width: 285px;
       height: 80px;
       font-weight: 500;
-      font-size: 20px;
+      font-size: 22px;
       .link {
         position: relative;
         width: 100%;
