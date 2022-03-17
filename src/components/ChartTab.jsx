@@ -16,7 +16,8 @@ const Button = styled.button`
   cursor: pointer;
   padding: 10px 20px;
   margin-left: 10px;
-  background: #f4f4f4;
+  background: ${(props) => props.theme.backgroundColor};
+  color: ${(props) => props.theme.textColor};
   border-radius: 8px;
   border: none;
   &.active {
@@ -50,10 +51,11 @@ const CalendarContainer = styled.div`
 `;
 const DatePickerWrap = styled.div`
   display: flex;
-  background: #f4f4f4;
   padding: 11px 15px 10px 48px;
   box-sizing: border-box;
   border-radius: 8px;
+  background: ${(props) => props.theme.backgroundColor};
+  color: ${(props) => props.theme.textColor};
   .custom-input {
     font-family: "Noto Sans";
     font-size: 14px;

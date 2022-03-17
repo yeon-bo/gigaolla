@@ -8,57 +8,58 @@ import MaxScoreWrap from "../components/MaxScoreWrap";
 import AverageChartWrap from "../components/AverageChartWrap";
 import DistributionChartWarp from "../components/DistributionChartWarp";
 
+const Background = styled.div`
+  width: 100%;
+`;
+const Cont = styled.div`
+  margin-bottom: 7.63em;
+  margin-left: 19.69em;
+  padding: 0 2.5em;
+`;
+const MessageCont = styled.div`
+  width: 82.81em;
+  height: 5em;
+  margin: 7.5em auto 0;
+  background: #257e0e;
+  border-radius: 16px;
+`;
+const Message = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const MessageText = styled.span`
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: bold;
+  font-size: 2em;
+  color: #fff;
+  line-height: 2.75rem;
+`;
+const SummaryCardCont = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3.75em;
+`;
+const ChartCont = styled.div`
+  position: relative;
+  max-width: 82.5em;
+  margin: 0 auto;
+  padding-top: 5em;
+`;
+const ChartName = styled.div`
+  font-weight: bold;
+  font-size: 1.63em;
+  line-height: 2.19rem;
+  margin-bottom: 3.13rem;
+`;
+const Chart2 = styled.div`
+  display: flex;
+`;
+
 const Administration = () => {
-  const Background = styled.div`
-    width: 100%;
-  `;
-  const Cont = styled.div`
-    margin-bottom: 7.63em;
-    margin-left: 19.69em;
-    padding: 0 2.5em;
-  `;
-  const MessageCont = styled.div`
-    width: 82.81em;
-    height: 5em;
-    margin: 7.5em auto 0;
-    background: #257e0e;
-    border-radius: 16px;
-  `;
-  const Message = styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `;
-  const MessageText = styled.span`
-    font-family: "Noto Sans KR", sans-serif;
-    font-weight: bold;
-    font-size: 2em;
-    color: #fff;
-    line-height: 2.75rem;
-  `;
-  const SummaryCardCont = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 3.75em;
-  `;
-  const ChartCont = styled.div`
-    position: relative;
-    max-width: 82.5em;
-    margin: 0 auto;
-    padding-top: 5em;
-  `;
-  const ChartName = styled.div`
-    font-weight: bold;
-    font-size: 1.63em;
-    line-height: 2.19rem;
-    margin-bottom: 3.13rem;
-  `;
-  const Chart2 = styled.div`
-    display: flex;
-  `;
   return (
     <Background>
       <Navigation />
