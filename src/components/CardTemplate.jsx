@@ -23,11 +23,13 @@ const Title = styled.span`
   font-weight: bold;
   font-size: 1.5em;
   line-height: 3.44rem;
+  margin-bottom: 1.2em;
   color: ${(props) => props.theme.chartTitleColor};
 `;
 // Chart Detail Wrap
 const DetailCont = styled.div`
   position: absolute;
+  top: 3em;
 `;
 // Chart Datail 증감율
 const DetailCount = styled.span`
