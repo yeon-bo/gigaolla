@@ -2,37 +2,42 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 
-import checklist from "../image/checklist_gray.svg";
-import checklistColor from "../image/checklist_white.svg";
+import studentAdminlist from "../image/studentAdminlist_gray.svg";
+import studentAdminlistColor from "../image/studentAdminlist_white.svg";
 
-function Checklist({ fixTextColor, onMouseOver, onMouseOut, hoveredIcon }) {
+function NavigationStudentAdmin({
+  fixTextColor,
+  onMouseOver,
+  onMouseOut,
+  hoveredIcon,
+}) {
   return (
     <NavLink
-      to="/"
+      to="/경찰/students"
       className="link"
-      onClick={clsx("link checklist", {
-        listtextcolor: fixTextColor === "checklistmenu",
+      onClick={clsx("link studentAdminlist", {
+        studentAdminmenu: fixTextColor === "studentAdminmenu",
       })} // <NavigationCalendar navicon={navicon} />
-      onMouseOver={() => onMouseOver("checklistmenucolor")}
-      onMouseOut={() => onMouseOut("checklistmenucolor")}
+      onMouseOver={() => onMouseOver("studentAdminmenucolor")}
+      onMouseOut={() => onMouseOut("studentAdminmenucolor")}
     >
       <img
         src={
-          fixTextColor === "checklistmenu" ||
-          hoveredIcon === "checklistmenucolor"
-            ? checklistColor
-            : checklist
+          fixTextColor === "studentAdminmenu" ||
+          hoveredIcon === "studentAdminmenucolor"
+            ? studentAdminlistColor
+            : studentAdminlist
         }
-        alt="checklist"
+        alt="studentAdminlist"
         className={clsx("navicon", {
-          checklisticon: hoveredIcon === "checklistmenucolor",
+          studentAdminlisticon: hoveredIcon === "studentAdminmenucolor",
         })}
       />
       <span
         className={
-          fixTextColor === "checklistmenu"
-            ? "checklistText white"
-            : "checklistText"
+          fixTextColor === "studentAdminmenu"
+            ? "studentAdminlistText white"
+            : "studentAdminlistText"
         }
       >
         학생관리
@@ -41,4 +46,4 @@ function Checklist({ fixTextColor, onMouseOver, onMouseOut, hoveredIcon }) {
   );
 }
 
-export default Checklist;
+export default NavigationStudentAdmin;

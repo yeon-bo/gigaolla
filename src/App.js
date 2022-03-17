@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Reset } from 'styled-reset'
 import { Routes, Route } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
@@ -12,7 +12,6 @@ import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { isDarkAtom, isLoggedIn } from './utils/atoms'
 import Navigation from './components/Navigation'
 import PrivateRoute from './lib/PrivateRoute'
-import Schedule from './pages/Schedule'
 import Students from './pages/Students'
 import StudentDetail from './components/student/StudentDetail'
 import logout from './image/logout.svg'
@@ -114,8 +113,8 @@ function App() {
               <Route path=":name" element={<StudentDetail />} />
             </Route>
           </Route>
-          <Route path="/schedule" element={<PrivateRoute />}>
-            <Route path="/schedule" element={<Schedule />} />
+          <Route path="/:subject/students" element={<PrivateRoute />}>
+            <Route path="/:subject/students" element={<Students />} />
           </Route>
         </Routes>
         {/* 다크모드버튼 */}

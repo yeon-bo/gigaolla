@@ -29,7 +29,7 @@ export const darkTheme = {
   adminColor: '#257e0e',
 
   navbackgroundColor: '#333333',
-  navactivebackgroundColor: '#000',
+  navactivebackgroundColor: '#111',
   navtextColor: '#c7c7c7',
   navGnbToptext: '#c7c7c7',
   navGnbTopActivetext: '#fff',
