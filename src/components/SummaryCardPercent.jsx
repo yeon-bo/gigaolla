@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import styled from 'styled-components'
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import styled from "styled-components";
 
 // 전체 페이지 Wrap
 const Cont = styled.div`
@@ -8,7 +8,7 @@ const Cont = styled.div`
   box-sizing: border-box;
   width: 19.31em;
   height: 7.5em;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
@@ -18,19 +18,19 @@ const Cont = styled.div`
   + div {
     margin-left: 1.88em;
   }
-`
+`;
 // 정렬 Wrap
 const TextCont = styled.div`
   + div {
     margin-left: 3em;
   }
-`
+`;
 //'상위 10%', '하위 100%' Text
 const TextName = styled.span`
   font-size: 1.25em;
   line-height: 1.69rem;
   color: #8898aa;
-`
+`;
 // '00점' Wrap
 const TextCountCont = styled.div`
   display: flex;
@@ -39,7 +39,7 @@ const TextCountCont = styled.div`
   font-size: 1em;
   line-height: 1.38rem;
   color: #999999;
-`
+`;
 // '00점'의 숫자 Text
 const TextNumber = styled.span`
   font-weight: bold;
@@ -47,41 +47,44 @@ const TextNumber = styled.span`
   line-height: 2.75rem;
   color: #050505;
   margin-right: 0.2em;
-`
+`;
 
 //Class page 재학생, 응시생, 응시율... 카드
 const SummaryCardPercent = ({ Subject }) => {
-  const [topScore, setTopScore] = useState('')
-  const [lowScore, setLowScore] = useState('')
+  const [topScore, setTopScore] = useState("");
+  const [lowScore, setLowScore] = useState("");
 
   const fetchData = async () => {
-    const URL = 'https://kimcodi.kr/external_api/dashboard/'
-    let today = new Date()
-    let year = today.getFullYear()
-    let month = today.getMonth() + 1 <= 9 ? '0' + (today.getMonth() + 1) : today.getMonth() + 1
+    const URL = "https://kimcodi.kr/external_api/dashboard/";
+    let today = new Date();
+    let year = today.getFullYear();
+    let month =
+      today.getMonth() + 1 <= 9
+        ? "0" + (today.getMonth() + 1)
+        : today.getMonth() + 1;
 
-    const topScoreUrl = `${URL}avgOfSeriesTopLowPerByMonth.php?yyyy=${year}&mm=${month}&toplow=top&per=10&series=${Subject}`
-    const lowScoreUrl = `${URL}avgOfSeriesTopLowPerByMonth.php?yyyy=${year}&mm=${month}&toplow=low&per=10&series=${Subject}`
+    const topScoreUrl = `${URL}avgOfSeriesTopLowPerByMonth.php?yyyy=${year}&mm=${month}&toplow=top&per=10&series=${Subject}`;
+    const lowScoreUrl = `${URL}avgOfSeriesTopLowPerByMonth.php?yyyy=${year}&mm=${month}&toplow=low&per=10&series=${Subject}`;
 
     await axios.get(topScoreUrl).then((res) => {
-      if (res.data.code === '001') {
-        setTopScore(res.data.result[0].STUDENT_COUNT)
+      if (res.data.code === "001") {
+        setTopScore(res.data.result[0].STUDENT_COUNT);
       } else {
-        return
+        return;
       }
-    })
+    });
     await axios.get(lowScoreUrl).then((res) => {
-      if (res.data.code === '001') {
-        setLowScore(res.data.result[0].STUDENT_COUNT)
+      if (res.data.code === "001") {
+        setLowScore(res.data.result[0].STUDENT_COUNT);
       } else {
-        return
+        return;
       }
-    })
-  }
+    });
+  };
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   return (
     <Cont>
@@ -98,7 +101,7 @@ const SummaryCardPercent = ({ Subject }) => {
         </TextCountCont>
       </TextCont>
     </Cont>
-  )
-}
+  );
+};
 
-export default SummaryCardPercent
+export default SummaryCardPercent;
