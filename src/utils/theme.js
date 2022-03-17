@@ -1,5 +1,4 @@
 export const defaultTheme = {
-  mainBackground: '#fff',
   backgroundColor: '#fff',
   chartBackgroundColor: '#fff',
   textColor: '#000',
@@ -11,9 +10,8 @@ export const defaultTheme = {
 }
 
 export const darkTheme = {
-  mainBackground: '#222',
-  backgroundColor: '#333',
-  chartBackgroundColor: '#444',
+  backgroundColor: '#000',
+  chartBackgroundColor: '#222',
   textColor: '#fff',
   sidebarColor: '#e5e5e5',
 

@@ -53,9 +53,9 @@ const ListAreaLoading = styled.div`
   }
   & > * {
     position: absolute;
-    top: 50%;
+    top: 12em;
     left: 50%;
-    transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%);
   }
 `
 
@@ -86,12 +86,12 @@ const ListArea = styled.div`
 `
 const loadingAnimation = keyframes`
   0%{
-    opacity: .5;
+    opacity: 1;
     transform: scale(0);
   }
   100%{
     opacity: 0;
-    transform: scale(5);
+    transform: scale(3);
   }
 `
 const Skeleton = styled.div`
@@ -100,9 +100,9 @@ const Skeleton = styled.div`
   width: 6em;
   height: 6em;
   background-color: #bdc3c7;
-  /* margin-top: 15em; */
-  border-radius: 50%;
-  animation: ${loadingAnimation} 5s cubic-bezier(0.11, 0.93, 0.83, 1.25);
+  margin-top: 15em;
+  border-radius: 15px;
+  animation: ${loadingAnimation} 2s cubic-bezier(0.11, 0.93, 0.83, 1.25);
 `
 
 //컴포.
@@ -150,7 +150,7 @@ const Students = () => {
           </ListAreaLoading>
           <ListAreaLoading>
             <Box sx={{ display: 'flex' }}>
-              <CircularProgress color="success" />
+              <CircularProgress />
             </Box>
           </ListAreaLoading>
         </UserListContainerLoading>
