@@ -1,3 +1,4 @@
+import { red } from '@mui/material/colors'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -25,11 +26,12 @@ const options = {
       position: 'top',
       align: 'end',
       labels: {
-        padding: 10,
+        padding: 5,
         usePointStyle: true,
         font: {
-          size: 15,
+          size: 20,
           padding: 10,
+          // color: 'red',
         },
       },
     },
@@ -39,6 +41,9 @@ const options = {
   },
   scales: {
     x: {
+      ticks: {
+        color: 'grey',
+      },
       scaleLabel: {
         display: true,
       },
@@ -48,6 +53,9 @@ const options = {
       },
     },
     y: {
+      ticks: {
+        color: 'grey',
+      },
       grid: {
         display: false,
         drawBorder: false,
@@ -185,13 +193,6 @@ const DistributionChart = ({ distributionTotal }) => {
     <Line
       data={{
         labels,
-        // datasets: data.map((i) => ({
-        //   label: subjects.forEach((item) => item),
-        //   data: i.map((item) => item.COUNT),
-        //   borderColor: COLOR.slice(0, data.length + 1).map((item) => item),
-        //   backgroundColor: COLOR.slice(0, data.length + 1).map((item) => item),
-        //   pointBorderWidth: 4,
-        // })),
 
         datasets: [
           {
