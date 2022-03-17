@@ -1,3 +1,19 @@
+<<<<<<< HEAD
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+
+// import Navigation from '../components/Navigation'
+import SummaryCard from "../components/SummaryCard";
+import AttendChartWrap from "../components/AttendChartWrap";
+import MaxScoreWrap from "../components/MaxScoreWrap";
+import AverageChartWrap from "../components/AverageChartWrap";
+import DistributionChartWrap from "../components/distribution_chart/DistributionChartWrap";
+import DistributionChartTab from "../components/distribution_chart/DistributionChartTap";
+import SortBySubjectWrap from "../components/distribution_chart/SortBySubjectWrap";
+import { useParams, Link } from "react-router-dom";
+import SummaryCardPercent from "../components/SummaryCardPercent";
+import { getLastMonth } from "../utils/getLastMonth";
+=======
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
@@ -11,6 +27,7 @@ import DistributionChartTab from '../components/distribution_chart/DistributionC
 import SortBySubjectWrap from '../components/distribution_chart/SortBySubjectWrap'
 import { useParams, Link } from 'react-router-dom'
 import SummaryCardPercent from '../components/SummaryCardPercent'
+>>>>>>> 87a8443776bd5979df7c758f5a01a4887940b97b
 
 // 전체 페이지 Wrap
 const Background = styled.div`
@@ -92,8 +109,73 @@ const Chart2 = styled.div`
 
 const Class = () => {
   // 점수대별 인원 전체 / 과목별 버튼
+<<<<<<< HEAD
+  const [distributionTotal, setDistributionTotal] = useState(true);
+  const [achieveStudent, setAchieveStudent] = useState(0);
+  const [achieveCompareStudent, setAchieveCompareStudent] = useState(0);
+  const [achieveIncrement, setAchieveIncrement] = useState(0);
+  const { subject, number } = useParams();
+  const { thisYear, lastMonth } = getLastMonth();
+
+  useEffect(() => {
+    let compareMonth = Number(lastMonth) === 1 ? 12 : Number(lastMonth) - 1;
+    compareMonth = compareMonth < 10 ? `0${compareMonth}` : compareMonth;
+    let compareYear = compareMonth === 12 ? thisYear - 1 : thisYear;
+    const URL = `https://kimcodi.kr/external_api/dashboard/studentInfoOfClassByMonth.php?yyyy=${thisYear}&mm=${lastMonth}&class=${subject}`;
+    const COMPARE_URL = `https://kimcodi.kr/external_api/dashboard/studentInfoOfClassByMonth.php?yyyy=${compareYear}&mm=${compareMonth}&class=${subject}`;
+    let fetchUrl = "";
+    let fetchCompareUrl = "";
+    if (!number) {
+      fetchUrl = URL;
+      fetchCompareUrl = COMPARE_URL;
+    } else {
+      fetchUrl = `${URL}&classn=${number}`;
+      fetchCompareUrl = `${COMPARE_URL}&classn=${number}`;
+    }
+    const fetchData = async () => {
+      const response = await fetch(fetchUrl);
+      const { result } = await response.json();
+      const achieveCount = [];
+      result.map((student) => {
+        let achieve = Number(student.달성도.split("%")[0]);
+        if (achieve >= 90) {
+          achieveCount.push(achieve);
+        }
+      });
+      setAchieveStudent(achieveCount.length);
+      return;
+    };
+    const fetchCompareData = async () => {
+      const response = await fetch(fetchCompareUrl);
+      const { result } = await response.json();
+      const achieveCount = [];
+      result.map((student) => {
+        let achieve = Number(student.달성도.split("%")[0]);
+        if (achieve >= 90) {
+          achieveCount.push(achieve);
+        }
+      });
+      setAchieveCompareStudent(achieveCount.length);
+      const increment = await (achieveStudent - achieveCompareStudent);
+      setAchieveIncrement(increment);
+      return;
+    };
+
+    fetchData();
+    fetchCompareData();
+  }, [
+    subject,
+    number,
+    lastMonth,
+    thisYear,
+    achieveStudent,
+    achieveCompareStudent,
+    achieveIncrement,
+  ]);
+=======
   const [distributionTotal, setDistributionTotal] = useState(true)
   const { subject, number } = useParams()
+>>>>>>> 87a8443776bd5979df7c758f5a01a4887940b97b
 
   let subjectColor
   switch (subject) {
@@ -129,8 +211,14 @@ const Class = () => {
           {/* <MessageCont> */}
           <Message>
             <MessageText>
+<<<<<<< HEAD
+              {subject}직 {number ? `${number}반` : ""}, 목표 점수 달성도가
+              90%가 넘은 학생은 {achieveStudent}명이며 저번 시험 대비{" "}
+              {achieveIncrement}명 올랐습니다.
+=======
               {subject}직 {number ? `${number}반` : ''}, 목표 점수 달성도가 90%가 넘은 학생은
               N명이며 저번 시험 대비 N% 올랐습니다.
+>>>>>>> 87a8443776bd5979df7c758f5a01a4887940b97b
             </MessageText>
           </Message>
         </MessageCont>

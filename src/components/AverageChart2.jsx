@@ -12,7 +12,7 @@ const subjects = {
 }
 
 const Cont = styled.div`
-  width: 800px;
+  width: 100%;
   margin-top: 64px;
 `
 
