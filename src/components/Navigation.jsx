@@ -76,6 +76,7 @@ function Navigation() {
   } else if (clickTextColor === "Aclass2") {
   } else if (clickTextColor === "Aclass3") {
   }
+
   return (
     <div>
       <StyledNavigation>
