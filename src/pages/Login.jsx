@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import { useSetRecoilState } from "recoil";
 import { isLoggedIn } from "../utils/atoms";
-import logo from "../image/ollalogoLogin.svg";
+import logo from "../image/ollaedu_logo.svg";
+import footerLogo from "../image/eduhash_logo.svg";
 import idIcon from "../image/Username.svg";
 import passwordIcon from "../image/Password.svg";
 import { signIn } from "../utils/auth";
@@ -42,6 +43,7 @@ const Inner = styled.div`
 const LogoImg = styled.img`
   max-width: 18.75em;
   margin-bottom: 60px;
+  width: 100%;
 `;
 // Login Wrap
 const LoginCont = styled.div`
@@ -105,6 +107,9 @@ const Powered = styled.div`
   line-height: 22px;
   font-weight: bold;
   font-family: "Noto Sans";
+  p {
+    margin-bottom: 10px;
+  }
 `;
 
 const Login = () => {
@@ -157,7 +162,7 @@ const Login = () => {
           </LoginCont>
           <Powered>
             <p>Powered by</p>
-            <p>img</p>
+            <img src={footerLogo} alt="footerLogo" />
           </Powered>
         </Inner>
       </Cont>
