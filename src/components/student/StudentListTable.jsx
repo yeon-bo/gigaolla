@@ -1,11 +1,9 @@
 import React, { useMemo } from "react";
-import StudentListItem from "./StudentListItem";
 import { useTable, useSortBy, useFilters } from "react-table";
 import styled from "styled-components";
 
 const Tr = styled.tr`
   cursor: pointer;
-
   &:hover {
     background: linear-gradient(
         0deg,
