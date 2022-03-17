@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 // import Navigation from '../components/Navigation'
 import SummaryCard from "../components/SummaryCard";
+import SummaryCardPercent from "../components/SummaryCardPercent";
 import AttendChartWrap from "../components/AttendChartWrap";
 import MaxScoreWrap from "../components/MaxScoreWrap";
 import AverageChartWrap from "../components/AverageChartWrap";
@@ -124,27 +125,27 @@ const Class = () => {
           {/* <MessageCont> */}
           <Message>
             <MessageText>
-              경찰직, 목표 점수 달성도가 90%가 넘은 학생은 N명이며 저번 시험
-              대비 N% 올랐습니다.
+              {subject}직, 목표 점수 달성도가 90%가 넘은 학생은 N명이며 저번
+              시험 대비 N% 올랐습니다.
             </MessageText>
           </Message>
         </MessageCont>
         {number ? (
           <Link to={`/${subject}/${number}/students`}>
             <SummaryCardCont>
-              <SummaryCard Title={"재학생"} />
-              <SummaryCard Title={"응시생"} />
-              <SummaryCard Title={"응시율"} />
-              <SummaryCard Title={"10%"} />
+              <SummaryCard Title={"재학생"} Subject={subject} Number={number} />
+              <SummaryCard Title={"응시생"} Subject={subject} Number={number} />
+              <SummaryCard Title={"응시율"} Subject={subject} Number={number} />
+              <SummaryCard Title={"반등수"} Subject={subject} Number={number} />
             </SummaryCardCont>
           </Link>
         ) : (
           <Link to={`/${subject}/students`}>
             <SummaryCardCont>
-              <SummaryCard Title={"재학생"} />
-              <SummaryCard Title={"응시생"} />
-              <SummaryCard Title={"응시율"} />
-              <SummaryCard Title={"10%"} />
+              <SummaryCard Title={"재학생"} Subject={subject} />
+              <SummaryCard Title={"응시생"} Subject={subject} />
+              <SummaryCard Title={"응시율"} Subject={subject} />
+              <SummaryCardPercent Subject={subject} />
             </SummaryCardCont>
           </Link>
         )}
