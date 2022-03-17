@@ -12,6 +12,7 @@ export const defaultTheme = {
   navbackgroundColor: '#5d5fef',
   navactivebackgroundColor: '#fff',
   navGnbToptext: '#c7c7c7',
+  navGnbTopActivetext: '#5d5fef',
   navtextColor: '#c7c7c7',
   navchangetextColor: '#fff'
 }
@@ -30,6 +31,7 @@ export const darkTheme = {
   navbackgroundColor: '#333333',
   navactivebackgroundColor: '#000',
   navtextColor: '#c7c7c7',
-  navGnbToptext: '#fff',
+  navGnbToptext: '#c7c7c7',
+  navGnbTopActivetext: '#fff',
   navchangetextColor: '#fff'
 }

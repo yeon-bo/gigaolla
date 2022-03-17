@@ -220,7 +220,7 @@ const StyledNavigation = styled.div`
             border-bottom-left-radius: 30px;
             .menutext {
               &:hover {
-                color: ${(props) => !props.theme.navGnbToptext};
+                color: ${(props) => props.theme.navGnbTopActivetext};
               }
             }
             .policetext {
@@ -313,7 +313,7 @@ const StyledNavigation = styled.div`
             box-shadow: 35px -35px 0 10px ${(props) => props.theme.navactivebackgroundColor};
           }
           .menutext {
-            color: ${(props) => props.theme.navGnbToptext};
+            color: ${(props) => props.theme.navGnbTopActivetext};
           }
           .policetext {
             color: ${(props) => props.theme.policeColor};
