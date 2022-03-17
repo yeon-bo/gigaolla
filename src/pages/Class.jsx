@@ -140,9 +140,9 @@ const Class = () => {
       setAchieveCompareStudent(achieveCount.length)
       const increment = await (achieveStudent - achieveCompareStudent)
       setAchieveIncrement(increment)
+
       return
     }
-
     fetchData()
     fetchCompareData()
   }, [
