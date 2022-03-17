@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import StudentListItem from './StudentListItem'
 import { useTable, useSortBy } from 'react-table'
 import styled from 'styled-components'
 
