@@ -13,7 +13,7 @@ const ListArea = styled.div`
   /* height: 90%; */
   margin-top: 30px;
   margin-left: 5em;
-  padding: 30px 0;
+  padding: 6px 0;
   color: ${(props) => props.theme.textColor};
   background-color: ${(props) => props.theme.backgroundColor};
 `

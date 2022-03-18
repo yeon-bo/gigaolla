@@ -53,9 +53,10 @@ const ListAreaLoading = styled.div`
   }
   & > * {
     position: absolute;
-    top: 12em;
+    top: 50%;
     left: 50%;
     transform: translateX(-50%);
+    transform: translateY(-50%);
   }
 `
 

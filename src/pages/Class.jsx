@@ -230,7 +230,10 @@ const Class = () => {
         <ChartCont>
           <DistributionChartName>
             <span>점수대별 인원수</span>
-            <DistributionChartTab setDistributionTotal={setDistributionTotal} />
+            <DistributionChartTab
+              setDistributionTotal={setDistributionTotal}
+              distributionTotal={distributionTotal}
+            />
           </DistributionChartName>
           {distributionTotal ? <DistributionChartWrap /> : <SortBySubjectWrap />}
         </ChartCont>
