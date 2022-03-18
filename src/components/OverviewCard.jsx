@@ -253,7 +253,7 @@ const OverviewCard = ({ Class, Color }) => {
       content: "";
       width: 4em;
       height: 4em;
-      background: #fff;
+      background: ${(props) => props.theme.chartBackgroundColor};
       border-radius: 3em;
     }
   `;
