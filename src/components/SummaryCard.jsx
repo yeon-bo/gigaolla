@@ -8,9 +8,11 @@ const SummaryCard = ({ Title, Subject, Number }) => {
   const [lastCount, setLastCount] = useState("");
   const [attendLastCount, setAttendLastCount] = useState("");
   const [lastAttendLastCount, setLastAttendLastCount] = useState("");
+  // const [countList, setCountList] = useState([]);
 
   const fetchData = async () => {
     const URL = "https://kimcodi.kr/external_api/dashboard/";
+    const SCOREURL = `${URL}avgOfSeriesByMonth.php?%20yyyy=${year}&mm=${month}`;
     let today = new Date();
     let year = today.getFullYear();
     let lastMonth =
@@ -24,13 +26,13 @@ const SummaryCard = ({ Title, Subject, Number }) => {
         ? "0" + (today.getMonth() + 1)
         : today.getMonth() + 1;
 
-    let Url;
+    let NowUrl;
     let LastUrl;
     let AttendLastUrl;
     let LastAttendLastUrl;
     switch (Title) {
       case "재학생":
-        Url =
+        NowUrl =
           Number === undefined
             ? `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${Subject}`
             : `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${Subject}&classn=${Number}`;
@@ -44,7 +46,7 @@ const SummaryCard = ({ Title, Subject, Number }) => {
               }&mm=${lastMonth}&class=${Subject}&classn=${Number}`;
         break;
       case "응시생":
-        Url =
+        NowUrl =
           Number === undefined
             ? `${URL}numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${Subject}`
             : `${URL}numberOfTestedStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${Subject}&classn=${Number}`;
@@ -58,7 +60,7 @@ const SummaryCard = ({ Title, Subject, Number }) => {
               }&mm=${lastMonth}&class=${Subject}&classn=${Number}`;
         break;
       case "응시율":
-        Url =
+        NowUrl =
           Number === undefined
             ? `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${Subject}`
             : `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${Subject}&classn=${Number}`;
@@ -84,10 +86,26 @@ const SummaryCard = ({ Title, Subject, Number }) => {
               }&mm=${lastMonth}&class=${Subject}&classn=${Number}`;
         break;
       default:
-        Url = "#5d5fef";
+      // 반등수 작업의 흔적...
+      // switch (Subject) {
+      //   case "경찰":
+      //     setCount(5);
+      //     for(let i = 1; i < count; i++){
+      //       await axios.get(`${SCOREURL}&classn=${Number}`).then((res) => {
+      //         if (res.data.code === "001") {
+      //           setCount(res.data.result[0].STUDENT_COUNT);
+      //         } else {
+      //           return;
+      //         }
+      //       });
+      //     }
+      //     break;
+      //   default:
+      //     setCount(3);
+      // }
     }
 
-    await axios.get(Url).then((res) => {
+    await axios.get(NowUrl).then((res) => {
       if (res.data.code === "001") {
         setCount(res.data.result[0].STUDENT_COUNT);
       } else {
@@ -142,7 +160,7 @@ const SummaryCard = ({ Title, Subject, Number }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [Subject, Number]);
 
   // 전체 페이지 Wrap
   const Cont = styled.div`
@@ -195,7 +213,7 @@ const SummaryCard = ({ Title, Subject, Number }) => {
     font-weight: bold;
     font-size: 2em;
     line-height: 2.75rem;
-    color: #050505;
+    color: ${(props) => props.theme.textColor};
     margin-right: 0.2em;
   `;
   // '+3명' Text
@@ -219,7 +237,13 @@ const SummaryCard = ({ Title, Subject, Number }) => {
         <TextName>{Title}</TextName>
         <TextCountCont>
           <TextCount>
-            <TextNumber>{Title !== "응시율" ? count : TestRate}</TextNumber>
+            <TextNumber>
+              {Title !== "반등수"
+                ? Title !== "응시율"
+                  ? count
+                  : TestRate
+                : null}
+            </TextNumber>
             {Title !== "반등수" ? (Title !== "응시율" ? "명" : "%") : null}
           </TextCount>
           <TextIncrease>

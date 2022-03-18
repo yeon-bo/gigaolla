@@ -45,7 +45,7 @@ const TextNumber = styled.span`
   font-weight: bold;
   font-size: 2em;
   line-height: 2.75rem;
-  color: #050505;
+  color: ${(props) => props.theme.textColor};
   margin-right: 0.2em;
 `;
 
