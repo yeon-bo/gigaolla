@@ -14,11 +14,14 @@ export const defaultTheme = {
   adminColor: '#257e0e',
 
   navbackgroundColor: '#5d5fef',
+  navbackgroundColor2: '#5d5fef',
   navactivebackgroundColor: '#fff',
   navGnbToptext: '#c7c7c7',
   navGnbTopActivetext: '#5d5fef',
   navtextColor: '#c7c7c7',
   navchangetextColor: '#fff',
+  tabBackground: '#e5e5e5',
+  tabColor: '#fff',
 }
 
 export const darkTheme = {
@@ -41,9 +44,12 @@ export const darkTheme = {
   adminColor: '#257e0e',
 
   navbackgroundColor: '#333333',
+  navbackgroundColor2: '#5d5fef',
   navactivebackgroundColor: '#111',
   navtextColor: '#c7c7c7',
   navGnbToptext: '#c7c7c7',
   navGnbTopActivetext: '#fff',
   navchangetextColor: '#fff',
+  tabBackground: '#545454',
+  tabColor: '#fff',
 }

@@ -10,10 +10,11 @@ const Button = styled.button`
   padding: 4px 20px;
   margin-left: 10px;
   font-size: 16px;
-  background: ${(props) => props.theme.btnBackgroundColor};
+  /* background: ${(props) => props.theme.btnBackgroundColor}; */
   background: ${(props) =>
-    props.distributionTotal === true ? props.theme.navGnbTopActivetext : ''};
-  color: ${(props) => (props.distributionTotal === true ? 'white' : '')};
+    props.distributionTotal === true ? props.theme.navbackgroundColor2 : props.theme.tabBackground};
+
+  color: ${(props) => (props.distributionTotal === true ? props.theme.mainBackground : '#000')};
   border-radius: 8px;
   border: none;
   &:active {
@@ -26,10 +27,13 @@ const Button2 = styled.button`
   padding: 4px 20px;
   margin-left: 10px;
   font-size: 16px;
-  background: ${(props) => props.theme.btnBackgroundColor};
+  /* background: ${(props) => props.theme.btnBackgroundColor}; */
   background: ${(props) =>
-    props.distributionTotal === false ? props.theme.navGnbTopActivetext : ''};
-  color: ${(props) => (props.distributionTotal === false ? 'white' : '')};
+    props.distributionTotal === false
+      ? props.theme.navbackgroundColor2
+      : props.theme.tabBackground};
+
+  color: ${(props) => (props.distributionTotal === false ? props.theme.mainBackground : '#000')};
   border-radius: 8px;
   border: none;
   &:active {
