@@ -12,19 +12,21 @@ const SummaryCard = ({ Title, Subject, Number }) => {
 
   const fetchData = async () => {
     const URL = "https://kimcodi.kr/external_api/dashboard/";
-    const SCOREURL = `${URL}avgOfSeriesByMonth.php?%20yyyy=${year}&mm=${month}`;
+    // const SCOREURL = `${URL}avgOfSeriesByMonth.php?%20yyyy=${year}&mm=${month}`;
     let today = new Date();
     let year = today.getFullYear();
-    let lastMonth =
-      today.getMonth() + 1 !== 0
-        ? today.getMonth() <= 9
-          ? "0" + today.getMonth()
-          : today.getMonth()
-        : 12;
-    let month =
-      today.getMonth() + 1 <= 9
-        ? "0" + (today.getMonth() + 1)
-        : today.getMonth() + 1;
+    // let lastMonth =
+    //   today.getMonth() + 1 !== 0
+    //     ? today.getMonth() <= 9
+    //       ? "0" + today.getMonth()
+    //       : today.getMonth()
+    //     : 12;
+    // let month =
+    //   today.getMonth() + 1 <= 9
+    //     ? "0" + (today.getMonth() + 1)
+    //     : today.getMonth() + 1;
+    let lastMonth = "01";
+    let month = "02";
 
     let NowUrl;
     let LastUrl;
@@ -237,13 +239,7 @@ const SummaryCard = ({ Title, Subject, Number }) => {
         <TextName>{Title}</TextName>
         <TextCountCont>
           <TextCount>
-            <TextNumber>
-              {Title !== "반등수"
-                ? Title !== "응시율"
-                  ? count
-                  : TestRate
-                : null}
-            </TextNumber>
+            <TextNumber>{Title !== "응시율" ? count : TestRate}</TextNumber>
             {Title !== "반등수" ? (Title !== "응시율" ? "명" : "%") : null}
           </TextCount>
           <TextIncrease>

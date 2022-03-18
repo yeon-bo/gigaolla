@@ -21,16 +21,18 @@ const OverviewCard = ({ Class, Color }) => {
     const URL = "https://kimcodi.kr/external_api/dashboard/";
     let today = new Date();
     let year = today.getFullYear();
-    let lastMonth =
-      today.getMonth() + 1 !== 0
-        ? today.getMonth() <= 9
-          ? "0" + today.getMonth()
-          : today.getMonth()
-        : 12;
-    let month =
-      today.getMonth() + 1 <= 9
-        ? "0" + (today.getMonth() + 1)
-        : today.getMonth() + 1;
+    // let lastMonth =
+    //   today.getMonth() + 1 !== 0
+    //     ? today.getMonth() <= 9
+    //       ? "0" + today.getMonth()
+    //       : today.getMonth()
+    //     : 12;
+    // let month =
+    //   today.getMonth() + 1 <= 9
+    //     ? "0" + (today.getMonth() + 1)
+    //     : today.getMonth() + 1;
+    let lastMonth = "01";
+    let month = "02";
 
     const totalUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${year}&mm=${month}&class=${Class}`;
     const LastTotalUrl = `${URL}numberOfTotalStudentsByMonth.php?yyyy=${
