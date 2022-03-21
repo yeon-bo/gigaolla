@@ -15,18 +15,16 @@ const SummaryCard = ({ Title, Subject, Number }) => {
     // const SCOREURL = `${URL}avgOfSeriesByMonth.php?%20yyyy=${year}&mm=${month}`;
     let today = new Date();
     let year = today.getFullYear();
-    // let lastMonth =
-    //   today.getMonth() + 1 !== 0
-    //     ? today.getMonth() <= 9
-    //       ? "0" + today.getMonth()
-    //       : today.getMonth()
-    //     : 12;
-    // let month =
-    //   today.getMonth() + 1 <= 9
-    //     ? "0" + (today.getMonth() + 1)
-    //     : today.getMonth() + 1;
-    let lastMonth = "01";
-    let month = "02";
+    let lastMonth =
+      today.getMonth() + 1 !== 0
+        ? today.getMonth() <= 9
+          ? "0" + today.getMonth()
+          : today.getMonth()
+        : 12;
+    let month =
+      today.getMonth() + 1 <= 9
+        ? "0" + (today.getMonth() + 1)
+        : today.getMonth() + 1;
 
     let NowUrl;
     let LastUrl;
